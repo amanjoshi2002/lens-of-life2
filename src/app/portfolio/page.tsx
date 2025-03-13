@@ -6,10 +6,9 @@ import Navbar from "../../../components/Navbar";
 import { motion } from "framer-motion";
 import { useSearchParams } from 'next/navigation';
 
-interface Subcategory {
+interface Category {
   _id: string;
   name: string;
-  categoryId: string;
 }
 
 interface Portfolio {
@@ -19,43 +18,42 @@ interface Portfolio {
     _id: string;
     name: string;
   };
-  subcategory: {
-    _id: string;
-    name: string;
-  };
   photos: string[];
 }
 
 function PortfolioContent() {
   const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
-  const [activeSubcategory, setActiveSubcategory] = useState<string | null>(null);
+  const [categories, setCategories] = useState<Category[]>([]);
   const searchParams = useSearchParams();
   const categoryId = searchParams?.get('category') || '';
 
   useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch("/api/categories");
+        const data: Category[] = await res.json();
+        setCategories(data);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
     const fetchPortfolios = async () => {
       try {
         const res = await fetch(`/api/portfolios?categoryId=${categoryId}`);
         const data = await res.json();
         setPortfolios(data);
-        if (data.length > 0) {
-          setActiveSubcategory(data[0].subcategory._id);
-        }
       } catch (error) {
         console.error("Error fetching portfolios:", error);
       }
     };
 
-    if (categoryId) {
-      fetchPortfolios();
-    }
+    fetchCategories(); // Fetch categories
+    fetchPortfolios(); // Fetch portfolios based on selected category
   }, [categoryId]);
 
-  const filteredPortfolios = activeSubcategory
-    ? portfolios.filter(portfolio => portfolio.subcategory._id === activeSubcategory)
-    : portfolios;
-
-  const selectedCategory = portfolios.find(portfolio => portfolio.category._id === categoryId);
+  // Filter portfolios based on the selected category
+  const filteredPortfolios = portfolios.filter(portfolio => portfolio.category._id === categoryId);
 
   return (
     <>
@@ -72,26 +70,20 @@ function PortfolioContent() {
             <div className="w-24 h-1 bg-primary mx-auto"></div>
           </div>
 
-          {/* Selected Category Display */}
-          {selectedCategory && (
-            <div className="text-center mb-12">
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4">{selectedCategory.category.name}</h2>
-            </div>
-          )}
-
-          {/* Subcategories */}
-          <div className="flex justify-center gap-8 mb-16 overflow-x-auto pb-4">
-            {portfolios.map((portfolio) => (
+          {/* Category Selection */}
+          <div className="flex justify-center gap-8 mb-16">
+            {categories.map((category) => (
               <button
-                key={portfolio.subcategory._id}
-                onClick={() => setActiveSubcategory(portfolio.subcategory._id)}
+                key={category._id}
+                onClick={() => {
+                  // Navigate to the portfolio page with the selected category
+                  window.location.href = `/portfolio?category=${category._id}`;
+                }}
                 className={`px-4 py-2 rounded-full transition-all duration-300 ${
-                  activeSubcategory === portfolio.subcategory._id
-                  ? 'bg-black text-white shadow-md'
-                  : 'bg-white text-black hover:bg-black hover:text-white'
+                  category._id === categoryId ? 'bg-black text-white' : 'bg-white text-black hover:bg-gray-800'
                 }`}
               >
-                {portfolio.subcategory.name}
+                {category.name}
               </button>
             ))}
           </div>
@@ -102,33 +94,37 @@ function PortfolioContent() {
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-[200px] gap-4 md:gap-6"
               layout
             >
-              {filteredPortfolios.map((portfolio) => (
-                portfolio.photos.map((photo, index) => (
-                  <motion.div 
-                    key={index}
-                    layout
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="relative overflow-hidden rounded-xl shadow-lg group"
-                  >
-                    <img 
-                      src={photo} 
-                      alt={portfolio.title} 
-                      className="w-full h-full object-cover transition-all duration-700 
-                               filter grayscale group-hover:grayscale-0 group-hover:scale-105"
-                    />
-                    
-                    {/* Image Overlay with Gradient */}
-                    <div 
-                      className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent
-                        transition-opacity duration-500 opacity-0 group-hover:opacity-100"
+              {filteredPortfolios.length > 0 ? (
+                filteredPortfolios.map((portfolio) => (
+                  portfolio.photos.map((photo, index) => (
+                    <motion.div 
+                      key={index}
+                      layout
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.5 }}
+                      className="relative overflow-hidden rounded-xl shadow-lg group"
                     >
-                    </div>
-                  </motion.div>
+                      <img 
+                        src={photo} 
+                        alt={portfolio.title} 
+                        className="w-full h-full object-cover transition-all duration-700 
+                                 filter grayscale group-hover:grayscale-0 group-hover:scale-105"
+                      />
+                      
+                      {/* Image Overlay with Gradient */}
+                      <div 
+                        className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent
+                          transition-opacity duration-500 opacity-0 group-hover:opacity-100"
+                      >
+                      </div>
+                    </motion.div>
+                  ))
                 ))
-              ))}
+              ) : (
+                <p className="text-center text-gray-600">No portfolios available for this category.</p>
+              )}
             </motion.div>
           </div>
 

@@ -12,20 +12,11 @@ interface Category {
   name: string;
 }
 
-interface Subcategory {
-  _id: string;
-  name: string;
-  categoryId: string; // Assuming subcategories have a reference to their parent category
-}
-
 const Navbar = () => {
   const [isServicesOpen, setIsServicesOpen] = useState(false);
-  const [isPortfolioOpen, setIsPortfolioOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [subcategories, setSubcategories] = useState<Subcategory[]>([]);
-  const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   const router = useRouter();
   const pathname = usePathname();
@@ -41,18 +32,7 @@ const Navbar = () => {
       }
     };
 
-    const fetchSubcategories = async () => {
-      try {
-        const res = await fetch("/api/subcategories");
-        const data: Subcategory[] = await res.json();
-        setSubcategories(data);
-      } catch (error) {
-        console.error("Error fetching subcategories:", error);
-      }
-    };
-
     fetchCategories();
-    fetchSubcategories();
   }, []);
 
   useEffect(() => {
@@ -71,24 +51,6 @@ const Navbar = () => {
       y: 0,
       transition: { 
         duration: 0.6,
-        ease: "easeOut"
-      }
-    }
-  };
-
-  const dropdownVariants = {
-    hidden: { 
-      opacity: 0,
-      y: -5,
-      transition: {
-        duration: 0.5
-      }
-    },
-    visible: { 
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
         ease: "easeOut"
       }
     }
@@ -125,39 +87,12 @@ const Navbar = () => {
             >
               HOME
             </Link>
-            <div 
-              className="relative group"
-              onMouseEnter={() => setIsPortfolioOpen(true)}
-              onMouseLeave={() => setIsPortfolioOpen(false)}
+            <Link 
+              href="/portfolio" // Direct link to the portfolio page
+              className="text-white hover:text-pink-400 transition-colors duration-300 text-sm tracking-wider"
             >
-              <button 
-                className="flex items-center space-x-1 text-white hover:text-pink-400 transition-colors duration-300 text-sm tracking-wider"
-              >
-                <span>PORTFOLIO</span>
-                <ChevronDown className="w-4 h-4 transition-transform duration-300 group-hover:rotate-180" />
-              </button>
-              <AnimatePresence>
-                {isPortfolioOpen && (
-                  <motion.div
-                    initial="hidden"
-                    animate="visible"
-                    exit="hidden"
-                    variants={dropdownVariants}
-                    className="absolute top-full left-0 mt-2 w-56 bg-black/95 backdrop-blur-sm rounded-md overflow-hidden"
-                  >
-                    {categories.map((category) => (
-                      <Link
-                        key={category._id}
-                        href={`/portfolio?category=${category._id}`}
-                        className="block px-6 py-3 text-white hover:bg-pink-400/20 transition-colors duration-300 text-sm tracking-wide"
-                      >
-                        {category.name}
-                      </Link>
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+              PORTFOLIO
+            </Link>
             <div 
               className="relative group"
               onMouseEnter={() => setIsServicesOpen(true)}
@@ -175,12 +110,15 @@ const Navbar = () => {
                     initial="hidden"
                     animate="visible"
                     exit="hidden"
-                    variants={dropdownVariants}
+                    variants={{
+                      hidden: { opacity: 0, y: -5 },
+                      visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+                    }}
                     className="absolute top-full left-0 mt-2 w-56 bg-black/95 backdrop-blur-sm rounded-md overflow-hidden"
                   >
-                    {categories.map((category, index) => (
+                    {categories.map((category) => (
                       <Link
-                        key={index}
+                        key={category._id}
                         href={`/blog?category=${category.name.toLowerCase().replace(/\s+/g, '-')}`}
                         className="block px-6 py-3 text-white hover:bg-pink-400/20 transition-colors duration-300 text-sm tracking-wide"
                       >
@@ -263,35 +201,12 @@ const Navbar = () => {
                 >
                   HOME
                 </Link>
-                <div className="space-y-2">
-                  <button 
-                    onClick={() => setIsPortfolioOpen(!isPortfolioOpen)}
-                    className="text-white hover:text-pink-400 transition-colors duration-300 text-sm tracking-wider flex items-center"
-                  >
-                    PORTFOLIO
-                    <ChevronDown className={`w-4 h-4 ml-1 transition-transform duration-300 ${isPortfolioOpen ? 'rotate-180' : ''}`} />
-                  </button>
-                  <AnimatePresence>
-                    {isPortfolioOpen && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="pl-4 space-y-2"
-                      >
-                        {categories.map((category) => (
-                          <Link
-                            key={category._id}
-                            href={`/portfolio?category=${category._id}`}
-                            className="block text-white hover:text-pink-400 transition-colors duration-300 text-sm tracking-wider"
-                          >
-                            {category.name}
-                          </Link>
-                        ))}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
+                <Link 
+                  href="/portfolio" // Direct link to the portfolio page
+                  className="text-white hover:text-pink-400 transition-colors duration-300 text-sm tracking-wider"
+                >
+                  PORTFOLIO
+                </Link>
                 <div className="space-y-2">
                   <button 
                     onClick={() => setIsServicesOpen(!isServicesOpen)}
@@ -308,9 +223,9 @@ const Navbar = () => {
                         exit={{ opacity: 0, height: 0 }}
                         className="pl-4 space-y-2"
                       >
-                        {categories.map((category, index) => (
+                        {categories.map((category) => (
                           <Link
-                            key={index}
+                            key={category._id}
                             href={`/blog?category=${category.name.toLowerCase().replace(/\s+/g, '-')}`}
                             className="block text-white hover:text-pink-400 transition-colors duration-300 text-sm tracking-wider"
                           >
