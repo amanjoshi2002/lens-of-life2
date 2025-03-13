@@ -7,8 +7,13 @@ const blogSchema = new Schema({
   title: { type: String, required: true },
   headPhotoLink: { type: String, required: true },
   date: { type: Date, default: Date.now },
-  paragraphs: [{ type: String }],
-  subPhotos: [{ type: String }]
+  paragraphs: [{ 
+    heading: { type: String },
+    content: { type: String }
+  }],
+  subPhotos: [{ type: String }],
+  photos: [{ type: String }],
+  videos: [{ type: String }]
 });
 
 export default mongoose.models.Blog || mongoose.model('Blog', blogSchema);

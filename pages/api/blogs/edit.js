@@ -5,12 +5,12 @@ export default async function handler(req, res) {
   await dbConnect();
 
   if (req.method === 'PUT') {
-    const { _id, category, title, headPhotoLink, paragraphs, subPhotos } = req.body;
+    const { _id, category, title, headPhotoLink, paragraphs, subPhotos, photos, videos } = req.body;
     try {
       const blog = await Blog.findByIdAndUpdate(
         _id,
-        { category, title, headPhotoLink, paragraphs, subPhotos },
-        { new: true }
+        { category, title, headPhotoLink, paragraphs, subPhotos, photos, videos },
+        { new: true, runValidators: true }
       );
       if (!blog) {
         return res.status(404).json({ success: false, message: 'Blog not found' });

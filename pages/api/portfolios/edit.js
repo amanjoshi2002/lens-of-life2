@@ -5,11 +5,11 @@ export default async function handler(req, res) {
   await dbConnect();
 
   if (req.method === 'PUT') {
-    const { _id, title, category, subcategory, photos } = req.body;
+    const { _id, title, category, photos } = req.body;
     try {
       const portfolio = await Portfolio.findByIdAndUpdate(
         _id,
-        { title, category, subcategory, photos },
+        { title, category, photos },
         { new: true }
       );
       if (!portfolio) {

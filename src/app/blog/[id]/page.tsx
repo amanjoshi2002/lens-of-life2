@@ -11,8 +11,10 @@ interface BlogPost {
   title: string;
   category: string;
   headPhotoLink: string;
-  paragraphs: string[];
+  paragraphs: { heading: string; content: string }[];
   subPhotos: string[];
+  photos: string[];
+  videos: string[];
 }
 
 export default function BlogPost() {
@@ -93,22 +95,22 @@ export default function BlogPost() {
           </div>
 
           <div className="mb-12">
-          <div className="w-full aspect-[4/3] md:aspect-[16/9] relative overflow-hidden rounded-xl">
-  <Image
-    src={blog.headPhotoLink}
-    alt={blog.title}
-    fill
-    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
-    priority
-    className="object-cover object-center shadow-lg grayscale hover:grayscale-0 transition-all duration-500"
-    id={`${componentId}-head-image`}
-    suppressHydrationWarning
-    onError={(e) => {
-      const target = e.target as HTMLImageElement;
-      target.src = "/fallback-image.jpg";
-    }}
-  />
-</div>
+            <div className="w-full aspect-[4/3] md:aspect-[16/9] relative overflow-hidden rounded-xl">
+              <Image
+                src={blog.headPhotoLink}
+                alt={blog.title}
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+                priority
+                className="object-cover object-center shadow-lg grayscale hover:grayscale-0 transition-all duration-500"
+                id={`${componentId}-head-image`}
+                suppressHydrationWarning
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = "/fallback-image.jpg";
+                }}
+              />
+            </div>
           </div>
 
           {blog.paragraphs.map((paragraph, index) => (
@@ -117,29 +119,61 @@ export default function BlogPost() {
               className={`flex flex-col ${index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"} gap-8 mb-16 items-center`}
             >
               <div className="md:w-1/2">
+                <h2 className="text-2xl font-semibold text-gray-800 mb-2">{paragraph.heading}</h2>
                 <p className="text-gray-700 text-lg leading-relaxed font-sans">
-                  {paragraph}
+                  {paragraph.content}
                 </p>
               </div>
               {blog.subPhotos[index] && (
-  <div className="md:w-1/2">
-    <div className="w-full aspect-square md:aspect-[4/3] relative overflow-hidden rounded-xl">
-      <Image
-        src={blog.subPhotos[index]}
-        alt={`Image ${index + 1}`}
-        fill
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
-        className="object-cover object-center shadow-lg grayscale hover:grayscale-0 transition-all duration-500"
-        id={`${componentId}-sub-image-${index}`}
-        suppressHydrationWarning
-        onError={(e) => {
-          const target = e.target as HTMLImageElement;
-          target.src = "/fallback-image.jpg";
-        }}
-      />
-    </div>
-  </div>
-)}
+                <div className="md:w-1/2">
+                  <div className="w-full aspect-square md:aspect-[4/3] relative overflow-hidden rounded-xl">
+                    <Image
+                      src={blog.subPhotos[index]}
+                      alt={`Sub Photo ${index + 1}`}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+                      className="object-cover object-center shadow-lg grayscale hover:grayscale-0 transition-all duration-500"
+                      id={`${componentId}-sub-image-${index}`}
+                      suppressHydrationWarning
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = "/fallback-image.jpg";
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+
+          {/* Display photos at the end */}
+          {blog.photos.map((photo, index) => (
+            <div key={index} className="mb-12">
+              <div className="w-full aspect-square md:aspect-[4/3] relative overflow-hidden rounded-xl">
+                <Image
+                  src={photo}
+                  alt={`Photo ${index + 1}`}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+                  className="object-cover object-center shadow-lg grayscale hover:grayscale-0 transition-all duration-500"
+                  id={`${componentId}-photo-${index}`}
+                  suppressHydrationWarning
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = "/fallback-image.jpg";
+                  }}
+                />
+              </div>
+            </div>
+          ))}
+
+          {/* Display videos at the end */}
+          {blog.videos.map((video, index) => (
+            <div key={index} className="mb-12">
+              <video controls className="w-full rounded-lg shadow-lg">
+                <source src={video} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
             </div>
           ))}
         </div>

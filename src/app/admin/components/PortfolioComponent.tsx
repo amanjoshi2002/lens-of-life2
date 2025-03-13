@@ -5,27 +5,19 @@ interface Category {
   name: string;
 }
 
-interface Subcategory {
-  _id: string;
-  name: string;
-}
-
 interface Portfolio {
   _id: string;
   title: string;
   category: Category;
-  subcategory: Subcategory;
   photos: string[];
 }
 
 const PortfolioComponent = () => {
   const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [subcategories, setSubcategories] = useState<Subcategory[]>([]);
-  const [form, setForm] = useState({ title: "", category: "", subcategory: "", photos: [""] });
+  const [form, setForm] = useState({ title: "", category: "", photos: [""] });
   const [editingPortfolioId, setEditingPortfolioId] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const [selectedSubcategory, setSelectedSubcategory] = useState<string>("");
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -38,18 +30,7 @@ const PortfolioComponent = () => {
       }
     };
 
-    const fetchSubcategories = async () => {
-      try {
-        const res = await fetch("/api/subcategories");
-        const data = await res.json();
-        setSubcategories(data);
-      } catch (error) {
-        console.error("Error fetching subcategories:", error);
-      }
-    };
-
     fetchCategories();
-    fetchSubcategories();
     fetchPortfolios();
   }, []);
 
@@ -92,7 +73,7 @@ const PortfolioComponent = () => {
       body: JSON.stringify(form),
     });
     if (res.ok) {
-      setForm({ title: "", category: "", subcategory: "", photos: [""] });
+      setForm({ title: "", category: "", photos: [""] });
       fetchPortfolios();
     }
   };
@@ -102,7 +83,6 @@ const PortfolioComponent = () => {
     setForm({
       title: portfolio.title,
       category: portfolio.category._id,
-      subcategory: portfolio.subcategory._id,
       photos: portfolio.photos,
     });
   };
@@ -136,10 +116,7 @@ const PortfolioComponent = () => {
   };
 
   const filteredPortfolios = portfolios.filter((portfolio) => {
-    return (
-      (selectedCategory === "" || portfolio.category._id === selectedCategory) &&
-      (selectedSubcategory === "" || portfolio.subcategory._id === selectedSubcategory)
-    );
+    return selectedCategory === "" || portfolio.category._id === selectedCategory;
   });
 
   return (
@@ -164,19 +141,6 @@ const PortfolioComponent = () => {
           {categories.map((category) => (
             <option key={category._id} value={category._id}>
               {category.name}
-            </option>
-          ))}
-        </select>
-        <select
-          name="subcategory"
-          value={form.subcategory}
-          onChange={handleInputChange}
-          className="border border-gray-300 p-2 rounded text-black"
-        >
-          <option value="">Select Subcategory</option>
-          {subcategories.map((subcategory) => (
-            <option key={subcategory._id} value={subcategory._id}>
-              {subcategory.name}
             </option>
           ))}
         </select>
@@ -226,24 +190,12 @@ const PortfolioComponent = () => {
               </option>
             ))}
           </select>
-          <select
-            value={selectedSubcategory}
-            onChange={(e) => setSelectedSubcategory(e.target.value)}
-            className="border border-gray-300 p-2 rounded text-black"
-          >
-            <option value="">All Subcategories</option>
-            {subcategories.map((subcategory) => (
-              <option key={subcategory._id} value={subcategory._id}>
-                {subcategory.name}
-              </option>
-            ))}
-          </select>
         </div>
         {filteredPortfolios.length > 0 ? (
           filteredPortfolios.map((portfolio) => (
             <div key={portfolio._id} className="border-b border-gray-200 py-4">
               <h3 className="text-xl font-medium">{portfolio.title}</h3>
-              <p className="text-gray-600">{portfolio.category.name} / {portfolio.subcategory.name}</p>
+              <p className="text-gray-600">{portfolio.category.name}</p>
               <div className="flex gap-2 mt-2">
                 <button
                   onClick={() => handleEditPortfolio(portfolio)}

@@ -11,11 +11,6 @@ const portfolioSchema = new mongoose.Schema({
     ref: 'Category',
     required: true,
   },
-  subcategory: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Subcategory',
-    required: true,
-  },
   photos: {
     type: [String], // Array of photo URLs
     required: true,

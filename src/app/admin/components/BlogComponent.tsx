@@ -5,16 +5,20 @@ interface Blog {
   category: string;
   title: string;
   headPhotoLink: string;
-  paragraphs: string[];
+  paragraphs: { heading: string; content: string }[];
   subPhotos: string[];
+  photos: string[];
+  videos: string[];
 }
 
 interface FormState {
   category: string;
   title: string;
   headPhotoLink: string;
-  paragraphs: string[];
+  paragraphs: { heading: string; content: string }[];
   subPhotos: string[];
+  photos: string[];
+  videos: string[];
 }
 
 interface BlogComponentProps {
@@ -29,8 +33,10 @@ const BlogComponent = ({ blogs, fetchBlogs, handleDeleteBlog }: BlogComponentPro
     category: "",
     title: "",
     headPhotoLink: "",
-    paragraphs: [""],
+    paragraphs: [{ heading: "", content: "" }],
     subPhotos: [""],
+    photos: [""],
+    videos: [""],
   });
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedCategory, setSelectedCategory] = useState<string>("");
@@ -57,12 +63,24 @@ const BlogComponent = ({ blogs, fetchBlogs, handleDeleteBlog }: BlogComponentPro
     const { value } = e.target;
     if (type === "paragraphs") {
       const newParagraphs = [...form.paragraphs];
-      newParagraphs[index] = value;
+      if (e.target.name === "heading") {
+        newParagraphs[index] = { ...newParagraphs[index], heading: value };
+      } else {
+        newParagraphs[index] = { ...newParagraphs[index], content: value };
+      }
       setForm({ ...form, paragraphs: newParagraphs });
     } else if (type === "subPhotos") {
       const newSubPhotos = [...form.subPhotos];
       newSubPhotos[index] = value;
       setForm({ ...form, subPhotos: newSubPhotos });
+    } else if (type === "photos") {
+      const newPhotos = [...form.photos];
+      newPhotos[index] = value;
+      setForm({ ...form, photos: newPhotos });
+    } else if (type === "videos") {
+      const newVideos = [...form.videos];
+      newVideos[index] = value;
+      setForm({ ...form, videos: newVideos });
     } else {
       setForm({ ...form, [type]: value });
     }
@@ -71,15 +89,29 @@ const BlogComponent = ({ blogs, fetchBlogs, handleDeleteBlog }: BlogComponentPro
   const handleAddField = () => {
     setForm({
       ...form,
-      paragraphs: [...form.paragraphs, ""],
+      paragraphs: [...form.paragraphs, { heading: "", content: "" }],
       subPhotos: [...form.subPhotos, ""],
+      photos: [...form.photos, ""],
+      videos: [...form.videos, ""]
     });
   };
 
   const handleRemoveField = (index: number) => {
     const newParagraphs = form.paragraphs.filter((_, i) => i !== index);
     const newSubPhotos = form.subPhotos.filter((_, i) => i !== index);
-    setForm({ ...form, paragraphs: newParagraphs, subPhotos: newSubPhotos });
+    const newPhotos = form.photos.filter((_, i) => i !== index);
+    const newVideos = form.videos.filter((_, i) => i !== index);
+    setForm({ ...form, paragraphs: newParagraphs, subPhotos: newSubPhotos, photos: newPhotos, videos: newVideos });
+  };
+
+  const handleRemovePhoto = (index: number) => {
+    const newPhotos = form.photos.filter((_, i) => i !== index);
+    setForm({ ...form, photos: newPhotos });
+  };
+
+  const handleRemoveVideo = (index: number) => {
+    const newVideos = form.videos.filter((_, i) => i !== index);
+    setForm({ ...form, videos: newVideos });
   };
 
   const handleAddBlog = async () => {
@@ -103,6 +135,8 @@ const BlogComponent = ({ blogs, fetchBlogs, handleDeleteBlog }: BlogComponentPro
       headPhotoLink: blog.headPhotoLink,
       paragraphs: blog.paragraphs,
       subPhotos: blog.subPhotos,
+      photos: blog.photos,
+      videos: blog.videos,
     });
   };
 
@@ -167,15 +201,23 @@ const BlogComponent = ({ blogs, fetchBlogs, handleDeleteBlog }: BlogComponentPro
           <div key={index} className="flex gap-2 mb-2">
             <input
               type="text"
-              placeholder={`Paragraph ${index + 1}`}
-              value={paragraph}
+              name="heading"
+              placeholder={`Heading ${index + 1}`}
+              value={paragraph.heading || ""}
+              onChange={(e) => handleInputChange(e, index, "paragraphs")}
+              className="border border-gray-300 p-2 rounded flex-grow text-black"
+            />
+            <input
+              type="text"
+              placeholder={`Content ${index + 1}`}
+              value={paragraph.content || ""}
               onChange={(e) => handleInputChange(e, index, "paragraphs")}
               className="border border-gray-300 p-2 rounded flex-grow text-black"
             />
             <input
               type="text"
               placeholder={`Sub Photo ${index + 1}`}
-              value={form.subPhotos[index]}
+              value={form.subPhotos[index] || ""}
               onChange={(e) => handleInputChange(e, index, "subPhotos")}
               className="border border-gray-300 p-2 rounded flex-grow text-black"
             />
@@ -193,6 +235,55 @@ const BlogComponent = ({ blogs, fetchBlogs, handleDeleteBlog }: BlogComponentPro
         >
           Add Paragraph & Sub Photo
         </button>
+
+        {form.photos.map((photo, index) => (
+          <div key={index} className="flex gap-2 mb-2">
+            <input
+              type="text"
+              placeholder={`Photo ${index + 1}`}
+              value={photo || ""}
+              onChange={(e) => handleInputChange(e, index, "photos")}
+              className="border border-gray-300 p-2 rounded mb-2 w-full"
+            />
+            <button
+              onClick={() => handleRemovePhoto(index)}
+              className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+            >
+              Remove Photo
+            </button>
+          </div>
+        ))}
+        <button
+          onClick={() => setForm({ ...form, photos: [...form.photos, ""] })}
+          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+        >
+          Add Photo
+        </button>
+
+        {form.videos.map((video, index) => (
+          <div key={index} className="flex gap-2 mb-2">
+            <input
+              type="text"
+              placeholder={`Video ${index + 1}`}
+              value={video || ""}
+              onChange={(e) => handleInputChange(e, index, "videos")}
+              className="border border-gray-300 p-2 rounded mb-2 w-full"
+            />
+            <button
+              onClick={() => handleRemoveVideo(index)}
+              className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+            >
+              Remove Video
+            </button>
+          </div>
+        ))}
+        <button
+          onClick={() => setForm({ ...form, videos: [...form.videos, ""] })}
+          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+        >
+          Add Video
+        </button>
+
         <button
           onClick={editingBlogId ? handleSaveChanges : handleAddBlog}
           className={`${
@@ -265,15 +356,23 @@ const BlogComponent = ({ blogs, fetchBlogs, handleDeleteBlog }: BlogComponentPro
                     <div key={index} className="flex gap-2 mb-2">
                       <input
                         type="text"
-                        placeholder={`Paragraph ${index + 1}`}
-                        value={paragraph}
+                        name="heading"
+                        placeholder={`Heading ${index + 1}`}
+                        value={paragraph.heading || ""}
+                        onChange={(e) => handleInputChange(e, index, "paragraphs")}
+                        className="border border-gray-300 p-2 rounded flex-grow text-black"
+                      />
+                      <input
+                        type="text"
+                        placeholder={`Content ${index + 1}`}
+                        value={paragraph.content || ""}
                         onChange={(e) => handleInputChange(e, index, "paragraphs")}
                         className="border border-gray-300 p-2 rounded flex-grow text-black"
                       />
                       <input
                         type="text"
                         placeholder={`Sub Photo ${index + 1}`}
-                        value={form.subPhotos[index]}
+                        value={form.subPhotos[index] || ""}
                         onChange={(e) => handleInputChange(e, index, "subPhotos")}
                         className="border border-gray-300 p-2 rounded flex-grow text-black"
                       />
@@ -291,7 +390,6 @@ const BlogComponent = ({ blogs, fetchBlogs, handleDeleteBlog }: BlogComponentPro
                   <h3 className="text-xl font-medium">{blog.title}</h3>
                   <p className="text-gray-600">{blog.category}</p>
                   <img src={blog.headPhotoLink} alt="Head Photo" className="mb-4" />
-                  
                   <div className="flex gap-2 mt-2">
                     <button
                       onClick={() => handleEditBlog(blog)}
