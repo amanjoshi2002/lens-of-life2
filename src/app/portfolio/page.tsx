@@ -3,7 +3,6 @@ import { Suspense, useState, useEffect } from "react";
 import Hero from "../../../components/Hero1";
 import Footer from "../../../components/Footer";
 import Navbar from "../../../components/Navbar";
-import { motion } from "framer-motion";
 import { useSearchParams } from 'next/navigation';
 
 interface Category {
@@ -88,44 +87,27 @@ function PortfolioContent() {
             ))}
           </div>
 
-          {/* Portfolio Grid */}
-          <div className="max-w-7xl mx-auto mb-20">
-            <motion.div 
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-[200px] gap-4 md:gap-6"
-              layout
-            >
+          {/* Portfolio Grid with Merged Photos */}
+          <div className="container mx-auto px-5 py-2 lg:px-32 lg:pt-24">
+            <div className="-m-1 flex flex-wrap md:-m-2">
               {filteredPortfolios.length > 0 ? (
                 filteredPortfolios.map((portfolio) => (
-                  portfolio.photos.map((photo, index) => (
-                    <motion.div 
-                      key={index}
-                      layout
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.5 }}
-                      className="relative overflow-hidden rounded-xl shadow-lg group"
-                    >
-                      <img 
-                        src={photo} 
-                        alt={portfolio.title} 
-                        className="w-full h-full object-cover transition-all duration-700 
-                                 filter grayscale group-hover:grayscale-0 group-hover:scale-105"
-                      />
-                      
-                      {/* Image Overlay with Gradient */}
-                      <div 
-                        className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent
-                          transition-opacity duration-500 opacity-0 group-hover:opacity-100"
-                      >
+                  <div key={portfolio._id} className="flex w-full flex-wrap">
+                    {portfolio.photos.map((photo, index) => (
+                      <div key={index} className="w-1/2 p-1 md:p-2">
+                        <img
+                          alt={portfolio.title}
+                          className="block h-full w-full rounded-lg object-cover object-center"
+                          src={photo}
+                        />
                       </div>
-                    </motion.div>
-                  ))
+                    ))}
+                  </div>
                 ))
               ) : (
                 <p className="text-center text-gray-600">No portfolios available for this category.</p>
               )}
-            </motion.div>
+            </div>
           </div>
 
           {/* Contact CTA */}

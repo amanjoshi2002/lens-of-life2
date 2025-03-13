@@ -24,24 +24,30 @@ const Services = () => {
       image: "/images/services/prewedding.webp",
     },
     {
-      title: "LIVE EVENTS AND CONFERENCCE",
+      title: "LIVE EVENTS AND CONFERENCES",
       description:
         "Capture the energy and essence of your live events and conferences with professional photography. From keynote speeches to candid interactions, we document every moment with precision and creativity, ensuring your event is remembered for years to come.",
       image: "/images/services/live-event.jpg",
     },
   ];
 
+  // Define an array of background colors
+  const backgroundColors = [
+    "bg-yellow-100", // Light warm color for the first service
+    "bg-orange-100", // Light warm color for the second service
+    "bg-pink-100",   // Light warm color for the third service
+    "bg-red-100",    // Light warm color for the fourth service
+  ];
+
   return (
     <section className="py-10 sm:py-20">
-      <div className="container mx-auto px-4">
-        {services.map((service, index) => (
+      {services.map((service, index) => (
+        <div key={service.title} className={`w-full ${backgroundColors[index]} p-4`}>
           <motion.div
-            key={service.title}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className={`flex flex-col ${index % 2 === 1 ? "md:flex-row-reverse" : "md:flex-row"
-              } items-center gap-8 md:gap-12 mb-16 md:mb-20`}
+            className={`flex flex-col ${index % 2 === 1 ? "md:flex-row-reverse" : "md:flex-row"} items-center gap-8 md:gap-12 mb-16 md:mb-20`}
           >
             {/* Text Content */}
             <div className="flex-1 text-center md:text-left">
@@ -67,8 +73,8 @@ const Services = () => {
               />
             </div>
           </motion.div>
-        ))}
-      </div>
+        </div>
+      ))}
     </section>
   );
 };
