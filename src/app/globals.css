@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* Add this to your global CSS file */
+.grayscale {
+    filter: grayscale(100%);
+  }
+  
+  .grayscale-0 {
+    filter: grayscale(0%);
+  }
+  
+  .transition-all {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 500ms;
+  }
