@@ -1,8 +1,8 @@
-
 "use client";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Mail, MapPin, Phone, Send, Instagram } from "lucide-react";
+import Navbar from "../../../components/Navbar";
 
 const Contact = () => {
   const [formState, setFormState] = useState({
@@ -74,7 +74,9 @@ const Contact = () => {
   };
 
   return (
-    <section className="py-16 px-6 md:px-0 w-full max-w-7xl mx-auto">
+    <>
+    <Navbar></Navbar>
+    <section className="py-16 px-6 md:px-0 w-full max-w-7xl mx-auto pt-20">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -322,6 +324,7 @@ const Contact = () => {
         </motion.div>
       </div>
     </section>
+    </>
   );
 };
 
