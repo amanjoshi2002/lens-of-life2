@@ -33,10 +33,10 @@ const Services = () => {
 
   // Define an array of background colors
   const backgroundColors = [
-    "bg-yellow-100", // Light warm color for the first service
-    "bg-orange-100", // Light warm color for the second service
-    "bg-pink-100",   // Light warm color for the third service
-    "bg-red-100",    // Light warm color for the fourth service
+    "bg-lime-100", // Light warm color for the first service
+    "bg-orange-50", // Light warm color for the second service
+    "bg-pink-50",   // Light warm color for the third service
+    "bg-red-50",    // Light warm color for the fourth service
   ];
 
   return (

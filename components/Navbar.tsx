@@ -55,19 +55,10 @@ const Navbar = () => {
       }
     }
   };
-
   const handleContactClick = () => {
-    if (pathname !== '/') {
-      // Navigate to the home page first
-      router.push('/#contact');
-    } else {
-      // If already on the home page, just scroll to the contact section
-      const contactSection = document.getElementById('contact');
-      if (contactSection) {
-        contactSection.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
+    router.push('/contact');
   };
+  
 
   return (
     <motion.div
