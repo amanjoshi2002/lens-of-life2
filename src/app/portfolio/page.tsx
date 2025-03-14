@@ -61,13 +61,7 @@ function PortfolioContent() {
       
       <div className="py-20 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto mb-20">
-            <h1 className="text-4xl font-playfair text-gray-900 mb-6">Our Photography Portfolio</h1>
-            <p className="text-lg text-gray-600 leading-relaxed mb-6">
-              We value everything that our clients stand for, and we take pride in the fact that we are trusted by our clients time and again for their Wedding Photography.
-            </p>
-            <div className="w-24 h-1 bg-primary mx-auto"></div>
-          </div>
+          <div className="w-24 h-1 bg-primary mx-auto mb-20"></div>
 
           {/* Category Selection */}
           <div className="flex justify-center gap-8 mb-16">
