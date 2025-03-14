@@ -121,36 +121,30 @@ export default function CategorySlider() {
               className="flex overflow-hidden scrollbar-hide snap-x snap-mandatory space-x-4"
             >
               {category.posts.map((post) => (
-                <div key={post._id} className="bg-white rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-[1.02] min-w-full sm:min-w-[calc(100%/2-1rem)] md:min-w-[calc(100%/3-1rem)] snap-start">
-                  <div className="relative h-64">
+                <div key={post._id} className="bg-white rounded-2xl overflow-hidden shadow-lg transition-transform hover:scale-[1.05] min-w-full sm:min-w-[calc(100%/3-1rem)] md:min-w-[calc(100%/3-1rem)] snap-start relative group">
+                  <Link href={`/blog/${post._id}`} className="block relative h-[35rem]">
                     <img
                       src={post.headPhotoLink}
                       alt={post.title}
                       className="object-cover w-full h-full"
                     />
-                  </div>
-                  <div className="p-4">
-                    {post.date && (
-                      <div className="flex items-center text-sm text-gray-500 mb-4">
-                        <Calendar className="w-4 h-4 mr-2" />
-                        {new Date(post.date).toLocaleDateString('en-US', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric',
-                        })}
-                      </div>
-                    )}
-                    <h3 className="text-xl font-semibold mb-3">{post.title}</h3>
-                    <Link href={`/blog/${post._id}`}>
-                      <button 
-                        className="w-full rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-500"
-                        suppressHydrationWarning
-                        id={`${buttonId}-read-${post._id}`}
-                      >
+                    <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-end p-4 rounded-2xl">
+                      <h3 className="text-white text-xl font-bold mb-2">{category.name}</h3>
+                      <p className="text-white text-lg mb-2">{post.title}</p>
+                      {post.date && (
+                        <div className="text-white text-sm mb-2">
+                          {new Date(post.date).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                          })}
+                        </div>
+                      )}
+                      <button className="bg-white text-black font-semibold py-2 px-4 rounded opacity-0 group-hover:opacity-100 transition-opacity">
                         Read More
                       </button>
-                    </Link>
-                  </div>
+                    </div>
+                  </Link>
                 </div>
               ))}
             </div>
