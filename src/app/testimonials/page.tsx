@@ -1,6 +1,9 @@
 "use client";
 import { QuoteIcon, Star } from "lucide-react";
 import Link from "next/link";
+import Navbar from "../../../components/Navbar";
+import Breadcrumb1 from "../../../components/breadcrum1";
+import Footer from "../../../components/Footer";
 
 const testimonials = [
   {
@@ -32,12 +35,15 @@ const getInitials = (name: string) => {
     .toUpperCase();
 };
 
-const TestimonialSection = () => {
+const TestimonialsPage = () => {
   return (
-    <section className="bg-gray-100 py-12">
+    <>
+ <Navbar/>
+
+    <section className="bg-gray-100 py-20 min-h-screen">
       <div className="max-w-6xl mx-auto text-center">
-        <h2 className="text-3xl font-bold text-gray-800">What our clients say</h2>
-        <p className="text-gray-500 mt-2">Google Reviews</p>
+        <h1 className="text-4xl font-bold text-gray-800">Client Testimonials</h1>
+        <p className="text-gray-500 mt-2">See what our clients say about us.</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-4 sm:px-8 mt-8">
@@ -70,16 +76,18 @@ const TestimonialSection = () => {
         ))}
       </div>
 
-      {/* Know More Button */}
+      {/* Back Button */}
       <div className="text-center mt-8">
-        <Link href="/testimonials">
-          <button className="bg-gray-800 text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-700 transition">
-            Know More
-          </button>
+        <Link href="/">
+          <span className="bg-gray-800 text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-700 transition cursor-pointer inline-block">
+            Back to Home
+          </span>
         </Link>
       </div>
     </section>
+    <Footer/>
+    </>
   );
 };
 
-export default TestimonialSection;
+export default TestimonialsPage;
