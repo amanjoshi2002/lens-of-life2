@@ -12,6 +12,14 @@ function BlogContent() {
   const searchParams = useSearchParams();
   const category = searchParams?.get('category') ?? '';
 
+  const heroSlides = [
+    {
+      image: '/images/hero/pre wed.jpg',
+      title: 'Blog',
+      subtitle: 'Stories, Tips, and Photography Insights'
+    }
+  ];
+
   useEffect(() => {
     if (category) {
       const element = document.getElementById(category);
@@ -24,7 +32,7 @@ function BlogContent() {
   return (
     <>
       <Navbar />
-      <Hero title="Blog" subtitle="Stories, Tips, and Photography Insights"/>
+      <Hero pageTitle="" slides={heroSlides} />
       <CategorySlider />
       <Footer />
     </>

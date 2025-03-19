@@ -38,44 +38,52 @@ export default function FAQ() {
     faq.question.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  return (
-    <>
-      <Navbar />
-      <Hero title="FAQ" subtitle="Your Questions Answered" />
-      <div className="pt-24 pb-48 bg-gray-50">
-        <div className="container mx-auto px-4 md:px-8 lg:px-16">
-          
-          {/* Search Bar */}
-          <div className="mt-12 mb-8">
-            <input
-              type="text"
-              placeholder="Search FAQs..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm mb-12"
-            />
-          </div>
-
-          {/* Single Column FAQ Items */}
-          <div className="flex flex-col gap-8">
-            {filteredFaqs.map((faq, index) => (
-              <div key={faq._id} className="bg-white p-6 rounded-lg shadow-md transition-transform duration-300 hover:scale-105">
-                <button
-                  onClick={() => toggleFAQ(index)}
-                  className="flex justify-between items-center w-full text-left"
-                >
-                  <h2 className="text-lg font-semibold text-gray-800">{faq.question}</h2>
-                  <span className="text-2xl text-gray-600">{openIndex === index ? '-' : '+'}</span>
-                </button>
-                {openIndex === index && (
-                  <p className="mt-4 text-gray-700 text-sm">{faq.answer}</p>
-                )}
-              </div>
-            ))}
+  const heroSlides = [
+      {
+        image: '/images/hero/pre wed.jpg',
+        title: '',
+        subtitle: 'Your Questions Answered'
+      }
+    ];
+  
+    return (
+      <>
+        <Navbar />
+        <Hero pageTitle="FAQ" slides={heroSlides} />
+        <div className="pt-24 pb-48 bg-gray-50">
+          <div className="container mx-auto px-4 md:px-8 lg:px-16">
+            
+            {/* Search Bar */}
+            <div className="mt-12 mb-8">
+              <input
+                type="text"
+                placeholder="Search FAQs..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm mb-12"
+              />
+            </div>
+  
+            {/* Single Column FAQ Items */}
+            <div className="flex flex-col gap-8">
+              {filteredFaqs.map((faq, index) => (
+                <div key={faq._id} className="bg-white p-6 rounded-lg shadow-md transition-transform duration-300 hover:scale-105">
+                  <button
+                    onClick={() => toggleFAQ(index)}
+                    className="flex justify-between items-center w-full text-left"
+                  >
+                    <h2 className="text-lg font-semibold text-gray-800">{faq.question}</h2>
+                    <span className="text-2xl text-gray-600">{openIndex === index ? '-' : '+'}</span>
+                  </button>
+                  {openIndex === index && (
+                    <p className="mt-4 text-gray-700 text-sm">{faq.answer}</p>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
-      <Footer />
-    </>
-  );
+        <Footer />
+      </>
+    );
 }

@@ -53,10 +53,18 @@ function PortfolioContent() {
 
   const filteredPortfolios = portfolios.filter(portfolio => portfolio.category._id === categoryId);
 
+  const heroSlides = [
+    {
+      image: '/images/hero/pre wed.jpg',
+      title: '',
+      subtitle: 'Explore Our Work'
+    }
+  ];
+
   return (
     <>
       <Navbar />
-      <Hero title="Portfolio" subtitle="Explore Our Work" />
+      <Hero pageTitle="Portfolio" slides={heroSlides} />
       
       <div className="py-20 bg-white px-4">
         <div className="container mx-auto">

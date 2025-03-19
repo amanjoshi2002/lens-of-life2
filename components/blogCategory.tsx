@@ -140,6 +140,13 @@ export default function CategorySlider() {
     };
   }, [categories]);
 
+  // Update the ref callback
+  const setSliderRef = (el: HTMLDivElement | null, categoryName: string) => {
+    if (sliderRefs.current) {
+      sliderRefs.current[categoryName] = el;
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-12">
       {categories.map((category) => (
@@ -169,7 +176,7 @@ export default function CategorySlider() {
               </button>
             )}
             <div
-              ref={el => sliderRefs.current[category.name] = el}
+              ref={(el) => setSliderRef(el, category.name)}
               className="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory gap-6 touch-pan-x no-scrollbar"
               style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             >
@@ -272,11 +279,4 @@ export default function CategorySlider() {
       ))}
     </div>
   );
-
-  // Add this CSS to your global styles or add it inline with a style tag
-  const styles = `
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-  `;
 }

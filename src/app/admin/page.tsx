@@ -13,8 +13,10 @@ interface Blog {
   category: string;
   title: string;
   headPhotoLink: string;
-  paragraphs: string[];
+  paragraphs: { heading: string; content: string; }[];  // Updated this property
   subPhotos: string[];
+  photos: string[];
+  videos: string[];
 }
 
 interface Category {
