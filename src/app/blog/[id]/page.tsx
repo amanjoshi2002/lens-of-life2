@@ -52,10 +52,10 @@ export default function BlogPost() {
       <>
         <Navbar />
         <main className="pt-[var(--navbar-height)] min-h-screen">
-          <div className="max-w-4xl mx-auto py-12 px-6">
-            <div className="animate-pulse">
-              <div className="h-8 bg-gray-200 rounded w-3/4 mb-8"></div>
-              <div className="h-64 bg-gray-200 rounded mb-8"></div>
+          <div className="max-w-4xl mx-auto py-12 px-4 md:px-6">
+            <div className="animate-pulse space-y-6">
+              <div className="h-8 bg-gray-200 rounded w-3/4"></div>
+              <div className="h-64 bg-gray-200 rounded"></div>
               <div className="space-y-4">
                 <div className="h-4 bg-gray-200 rounded w-full"></div>
                 <div className="h-4 bg-gray-200 rounded w-5/6"></div>
@@ -74,8 +74,10 @@ export default function BlogPost() {
       <>
         <Navbar />
         <main className="pt-[var(--navbar-height)] min-h-screen">
-          <div className="max-w-4xl mx-auto py-12 px-6 text-center">
-            <h1 className="text-3xl font-semibold text-gray-800">Blog post not found</h1>
+          <div className="max-w-4xl mx-auto py-12 px-4 md:px-6 text-center">
+            <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">
+              Blog post not found
+            </h1>
           </div>
         </main>
         <Footer />
@@ -87,14 +89,14 @@ export default function BlogPost() {
     <>
       <Navbar />
       <main className="pt-[var(--navbar-height)] min-h-screen">
-        <div className="max-w-4xl mx-auto py-20 px-6">
-          <div className="mb-12 text-center ">
-            <h1 className="text-5xl font-bold mb-4 text-gray-900 font-serif">
+        <div className="max-w-4xl mx-auto py-10 px-4 md:px-6">
+          <div className="mb-10 text-center">
+            <h1 className="text-3xl md:text-5xl font-bold mb-4 text-gray-900 font-serif">
               {blog.title}
             </h1>
           </div>
 
-          <div className="mb-12">
+          <div className="mb-10">
             <div className="w-full aspect-[4/3] md:aspect-[16/9] relative overflow-hidden rounded-xl">
               <Image
                 src={blog.headPhotoLink}
@@ -116,16 +118,18 @@ export default function BlogPost() {
           {blog.paragraphs.map((paragraph, index) => (
             <div
               key={index}
-              className={`flex flex-col ${index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"} gap-8 mb-16 items-center`}
+              className={`flex flex-col md:flex-row ${index % 2 === 0 ? "" : "md:flex-row-reverse"} gap-6 md:gap-8 mb-12 md:mb-16 items-center`}
             >
-              <div className="md:w-1/2">
-                <h2 className="text-2xl font-semibold text-gray-800 mb-2">{paragraph.heading}</h2>
-                <p className="text-gray-700 text-lg leading-relaxed font-sans">
+              <div className="w-full md:w-1/2">
+                <h2 className="text-xl md:text-2xl font-semibold text-gray-800 mb-2">
+                  {paragraph.heading}
+                </h2>
+                <p className="text-gray-700 text-base md:text-lg leading-relaxed">
                   {paragraph.content}
                 </p>
               </div>
               {blog.subPhotos[index] && (
-                <div className="md:w-1/2">
+                <div className="w-full md:w-1/2">
                   <div className="w-full aspect-square md:aspect-[4/3] relative overflow-hidden rounded-xl">
                     <Image
                       src={blog.subPhotos[index]}
@@ -146,11 +150,12 @@ export default function BlogPost() {
             </div>
           ))}
 
-          {/* Display photos at the end */}
           {blog.photos.length > 0 && (
-            <div className="mt-20 mb-16">
-              <h2 className="text-3xl font-light text-center mb-12">More Moments</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="mt-10 md:mt-20 mb-10 md:mb-16">
+              <h2 className="text-2xl md:text-3xl font-light text-center mb-8 md:mb-12">
+                More Moments
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {blog.photos.map((photo, index) => (
                   <div key={index} className="group">
                     <div className="aspect-[4/3] relative overflow-hidden rounded-xl">
@@ -174,18 +179,15 @@ export default function BlogPost() {
             </div>
           )}
 
-          {/* Display videos at the end */}
           {blog.videos.length > 0 && (
-            <div className="mt-20 mb-16">
-              <h2 className="text-3xl font-light text-center mb-12">Behind The Scenes</h2>
-              <div className="grid grid-cols-1 gap-8">
+            <div className="mt-10 md:mt-20 mb-10 md:mb-16">
+              <h2 className="text-2xl md:text-3xl font-light text-center mb-8 md:mb-12">
+                Behind The Scenes
+              </h2>
+              <div className="grid grid-cols-1 gap-6">
                 {blog.videos.map((video, index) => (
-                  <div key={index} className="overflow-hidden rounded-xl shadow-lg">
-                    <video 
-                      controls 
-                      className="w-full hover:scale-105 transition-transform duration-500"
-                      poster="/video-placeholder.jpg"
-                    >
+                  <div key={index} className="rounded-xl shadow-lg overflow-hidden">
+                    <video controls className="w-full">
                       <source src={video} type="video/mp4" />
                       Your browser does not support the video tag.
                     </video>
