@@ -24,7 +24,8 @@ function PortfolioContent() {
   const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const searchParams = useSearchParams();
-  const categoryId = searchParams?.get('category') || '';
+  const [defaultCategoryId, setDefaultCategoryId] = useState('');
+  const categoryId = searchParams?.get('category') || defaultCategoryId;
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -32,12 +33,22 @@ function PortfolioContent() {
         const res = await fetch("/api/categories");
         const data: Category[] = await res.json();
         setCategories(data);
+        // Set the first category as default if no category is selected
+        if (data.length > 0 && !searchParams?.get('category')) {
+          setDefaultCategoryId(data[0]._id);
+        }
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
     };
 
+    fetchCategories();
+  }, [searchParams]);
+
+  useEffect(() => {
     const fetchPortfolios = async () => {
+      if (!categoryId) return;
+      
       try {
         const res = await fetch(`/api/portfolios?categoryId=${categoryId}`);
         const data = await res.json();
@@ -47,7 +58,6 @@ function PortfolioContent() {
       }
     };
 
-    fetchCategories();
     fetchPortfolios();
   }, [categoryId]);
 
