@@ -90,7 +90,7 @@ export default function BlogPost() {
       <Navbar />
       <main className="pt-[var(--navbar-height)] min-h-screen">
         <div className="max-w-4xl mx-auto py-10 px-4 md:px-6">
-          <div className="mb-10 text-center">
+          <div className="mb-10 text-center py-10">
             <h1 className="text-3xl md:text-5xl font-bold mb-4 text-gray-900 font-serif">
               {blog.title}
             </h1>
