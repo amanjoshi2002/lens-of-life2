@@ -216,58 +216,67 @@ const AdminPage = () => {
             Testimonials
           </button>
         </div>
-        {activeTab === "blog" && (
-          <BlogComponent
-            blogs={blogs}
-            fetchBlogs={fetchBlogs}
-            handleDeleteBlog={handleDeleteBlog}
-          />
-        )}
-        {activeTab === "faq" && <FAQComponent />}
-        {activeTab === "portfolio" && <PortfolioComponent />}
-        {activeTab === "category" && (
-          <div>
-            <h2 className="text-2xl font-bold mb-4">Categories</h2>
-            <div className="mb-4">
-              <input
-                type="text"
-                value={newCategoryName}
-                onChange={(e) => setNewCategoryName(e.target.value)}
-                placeholder="New category name"
-                className="border p-2 rounded mr-2"
-              />
-              <button
-                onClick={handleAddCategory}
-                className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-              >
-                Add Category
-              </button>
-            </div>
-            <ul>
-              {categories.map((category) => (
-                <li key={category._id} className="flex justify-between items-center mb-2">
-                  <span>{category.name}</span>
-                  <div>
-                    <button
-                      onClick={() => handleEditCategory(category._id, category.name)}
-                      className="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600 mr-2"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDeleteCategory(category._id)}
-                      className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-                    >
-                      Delete
-                    </button>
+
+        {/* Content Area */}
+        <div className="bg-white rounded-lg shadow-sm p-6">
+          {activeTab === "blog" && (
+            <BlogComponent
+              blogs={blogs}
+              fetchBlogs={fetchBlogs}
+              handleDeleteBlog={handleDeleteBlog}
+            />
+          )}
+          {activeTab === "faq" && <FAQComponent />}
+          {activeTab === "portfolio" && <PortfolioComponent />}
+          {activeTab === "category" && (
+            <div className="space-y-6">
+              <div className="flex gap-4 items-center">
+                <input
+                  type="text"
+                  value={newCategoryName}
+                  onChange={(e) => setNewCategoryName(e.target.value)}
+                  placeholder="New Category Name"
+                  className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                />
+                <button
+                  onClick={handleAddCategory}
+                  className="bg-indigo-500 text-white px-6 py-2 rounded-lg hover:bg-indigo-600 transition-colors"
+                >
+                  Add Category
+                </button>
+              </div>
+              <div className="grid gap-4">
+                {categories.map((category) => (
+                  <div
+                    key={category._id}
+                    className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
+                  >
+                    <span className="font-medium text-gray-700">{category.name}</span>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => {
+                          const newName = prompt("Enter new name:", category.name);
+                          if (newName) handleEditCategory(category._id, newName);
+                        }}
+                        className="text-blue-600 hover:text-blue-700"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDeleteCategory(category._id)}
+                        className="text-red-600 hover:text-red-700"
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-        {activeTab === "subcategory" && <SubcategoryComponent />}
-        {activeTab === "testimonials" && <TestimonialComponent />}
+                ))}
+              </div>
+            </div>
+          )}
+          {activeTab === "subcategory" && <SubcategoryComponent />}
+          {activeTab === "testimonials" && <TestimonialComponent />}
+        </div>
       </div>
     </div>
   );

@@ -12,7 +12,12 @@ interface Slide {
   subtitle: string;
 }
 
-const slides: Slide[] = [
+interface HeroProps {
+  pageTitle: string;
+  slides: Slide[];
+}
+
+const defaultSlides: Slide[] = [
   {
     image: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=2070',
     title: 'Capturing Timeless Moments',
@@ -30,18 +35,10 @@ const slides: Slide[] = [
   },
 ];
 
-export default function HeroSlider() {
+export default function HeroSlider({ pageTitle, slides = defaultSlides }: HeroProps) {
   return (
-    <div className="relative w-full">
-      {/* Main Title */}
-      <div className="text-center my-8">
-
-        <div className="mt-2 h-[2px] w-16 bg-gray-700 mx-auto"></div>
-      </div>
-
-      {/* Hero Slider */}
-
-      <div className="relative h-[60vh] w-full">
+    <div className="relative w-full pt-16">
+      <div className="relative h-[80vh] w-full">
         <Swiper
           modules={[Autoplay, EffectFade]}
           effect="fade"
@@ -60,11 +57,11 @@ export default function HeroSlider() {
                   priority
                 />
                 
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-4">
-                <h1 className="text-4xl md:text-5xl font-bold uppercase tracking-wide text-white-800">
-          Our Portfolio
-        </h1>
-                  <h6 className="mb-4 text-3xl md:text-5xl font-serif animate-fadeIn">{slide.title}</h6>
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-4 space-y-4">
+                  <h1 className="text-4xl md:text-5xl font-bold uppercase tracking-wide">
+                    {pageTitle}
+                  </h1>
+                  <h6 className="text-3xl md:text-5xl font-serif animate-fadeIn">{slide.title}</h6>
                   <p className="text-lg md:text-xl max-w-2xl animate-fadeIn">{slide.subtitle}</p>
                 </div>
               </div>

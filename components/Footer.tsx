@@ -5,65 +5,44 @@ import { Facebook, Instagram, Youtube } from 'lucide-react';
 
 export default function Footer() {
   return (
-    <footer className="bg-black text-white py-6 px-4">
-      <div className="max-w-6xl mx-auto text-center">
-        {/* Address Section */}
-        <div className="mb-6 text-sm">
-          <p>9 Pavilion Business Park</p>
-          <p>Royds Hall Road</p>
-          <p>LS12 6AJ Leeds</p>
-        </div>
-
-        {/* Social Media Icons */}
-        <div className="flex justify-center gap-3 mb-3">
-          <a href="https://facebook.com" className="hover:opacity-80 transition">
-            <Facebook size={22} />
-          </a>
-          <a href="https://instagram.com" className="hover:opacity-80 transition">
-            <Instagram size={22} />
-          </a>
-          <a href="https://youtube.com" className="hover:opacity-80 transition">
-            <Youtube size={22} />
-          </a>
-        </div>
-
-        {/* Instagram Handle */}
-        <div className="mb-8">
-          <a href="https://instagram.com/anjaukphotography" className="text-white hover:opacity-80 transition">
-            @anjaukphotography
-          </a>
-        </div>
-
-        {/* Image Section */}
-        <div className="flex justify-center gap-4 mb-8">
-          <img src="/images/sample1.jpg" alt="Sample 1" className="w-24 h-24 object-cover rounded-lg" />
-          <img src="/images/sample2.jpg" alt="Sample 2" className="w-24 h-24 object-cover rounded-lg" />
-          <img src="/images/sample3.jpg" alt="Sample 3" className="w-24 h-24 object-cover rounded-lg" />
+    <footer className="bg-black text-white py-12 px-4">
+      <div className="max-w-6xl mx-auto">
+        {/* Logo */}
+        <div className="text-center mb-8">
+          <h2 className="text-2xl font-light tracking-[0.2em]">Lens Of Life</h2>
+          <p className="text-xs tracking-[0.3em] text-gray-400">Creations</p>
         </div>
 
         {/* Navigation Links */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto mb-8 text-center text-sm">
-          <div className="space-y-1">
-            <Link href="/" className="block hover:opacity-80 transition">HOME</Link>
-            <Link href="/faqs" className="block hover:opacity-80 transition">FAQs</Link>
-            <Link href="/portraits" className="block hover:opacity-80 transition">PORTRAITS</Link>
-            <Link href="/pricing" className="block hover:opacity-80 transition">PRICING</Link>
-            <Link href="/contact" className="block hover:opacity-80 transition">CONTACT</Link>
-            <Link href="/details" className="block hover:opacity-80 transition">DETAILS</Link>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-8 text-center text-sm">
+          <div className="space-y-3">
+            <Link href="/" className="block hover:text-gray-300 transition">HOME</Link>
+            <Link href="/portfolio" className="block hover:text-gray-300 transition">PORTFOLIO</Link>
+            <Link href="/services" className="block hover:text-gray-300 transition">SERVICES</Link>
           </div>
-          <div className="space-y-1">
-            <Link href="/maternity" className="block hover:opacity-80 transition">MATERNITY</Link>
-            <Link href="/motherhood-family" className="block hover:opacity-80 transition">MOTHERHOOD & FAMILY</Link>
-            <Link href="/newborn" className="block hover:opacity-80 transition">NEWBORN</Link>
-            <Link href="/cake-smash" className="block hover:opacity-80 transition">CAKE SMASH</Link>
-            <Link href="/children" className="block hover:opacity-80 transition">CHILDREN</Link>
+          <div className="space-y-3">
+            <Link href="/blog" className="block hover:text-gray-300 transition">BLOG</Link>
+            <Link href="/faq" className="block hover:text-gray-300 transition">FAQs</Link>
+            <Link href="/contact" className="block hover:text-gray-300 transition">CONTACT</Link>
           </div>
         </div>
 
+        {/* Social Media Icons */}
+        <div className="flex justify-center gap-6 mb-8">
+          <a href="https://facebook.com" className="hover:text-gray-300 transition">
+            <Facebook size={24} />
+          </a>
+          <a href="https://instagram.com" className="hover:text-gray-300 transition">
+            <Instagram size={24} />
+          </a>
+          <a href="https://youtube.com" className="hover:text-gray-300 transition">
+            <Youtube size={24} />
+          </a>
+        </div>
+
         {/* Copyright Text */}
-        <div className="text-xs opacity-80 max-w-3xl mx-auto">
-          <p className="mb-2">©2025 Anja UK Photography, Leeds Maternity, Motherhood, Family Portrait Photography Studio. Anja is a celebrated Leeds maternity photographer, specializing in family and baby portraits. Our studio offers timeless pregnancy portraits, artistic motherhood sessions, elegant family photos, sophisticated black & white portraits, and stunning silhouettes. Located in the heart of Leeds, we cater to clients across the UK, celebrating each family's unique story with bespoke photographic art.</p>
-          <p>© 2025 Anja UK Photography</p>
+        <div className="text-center text-sm text-gray-400">
+          <p>© 2025 Lens Of Life Creations. All rights reserved.</p>
         </div>
       </div>
     </footer>

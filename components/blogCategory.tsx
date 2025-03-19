@@ -101,48 +101,104 @@ export default function CategorySlider() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-6">
+    <div className="max-w-7xl mx-auto px-4 py-12">
       {categories.map((category) => (
-        <div key={category.name} id={category.name.toLowerCase().replace(/\s+/g, '-')} className="mb-12">
-          <h2 className="text-3xl font-bold mb-4">{category.name}</h2>
+        <div key={category.name} id={category.name.toLowerCase().replace(/\s+/g, '-')} className="mb-16">
+          <h2 className="text-3xl font-light tracking-wide mb-8 text-center">{category.name}</h2>
           <div className="relative">
             {canScrollLeft && (
               <button
                 onClick={scrollLeft}
-                className="absolute left-0 top-1/2 -translate-y-1/2 bg-gray-300 rounded-full p-2 z-10"
+                className="absolute -left-3 md:-left-6 top-1/2 -translate-y-1/2 bg-white shadow-lg hover:bg-gray-100 rounded-full p-2 md:p-3 z-10 transition-all"
                 suppressHydrationWarning
                 id={`${buttonId}-left-${category.name}`}
               >
-                &lt;
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  width="20" 
+                  height="20" 
+                  viewBox="0 0 24 24" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  strokeWidth="2" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round"
+                >
+                  <path d="m15 18-6-6 6-6"/>
+                </svg>
               </button>
             )}
             <div
               ref={sliderRef}
-              className="flex overflow-hidden scrollbar-hide snap-x snap-mandatory space-x-4"
+              className="flex overflow-hidden scrollbar-hide snap-x snap-mandatory gap-6"
             >
               {category.posts.map((post) => (
-                <div key={post._id} className="bg-white rounded-2xl overflow-hidden shadow-lg transition-transform hover:scale-[1.05] min-w-full sm:min-w-[calc(100%/3-1rem)] md:min-w-[calc(100%/3-1rem)] snap-start relative group">
-                  <Link href={`/blog/${post._id}`} className="block relative h-[35rem]">
-                    <img
-                      src={post.headPhotoLink}
-                      alt={post.title}
-                      className="object-cover w-full h-full"
-                    />
-                    <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-end p-4 rounded-2xl">
-                      <h3 className="text-white text-xl font-bold mb-2">{category.name}</h3>
-                      <p className="text-white text-lg mb-2">{post.title}</p>
-                      {post.date && (
-                        <div className="text-white text-sm mb-2">
-                          {new Date(post.date).toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                          })}
+                <div key={post._id} className="min-w-full md:min-w-[calc(33.333%-1rem)] snap-start">
+                  <Link href={`/blog/${post._id}`} className="block group">
+                    {/* Mobile Layout */}
+                    <div className="block md:hidden">
+                      <div className="bg-black/5 p-4 rounded-lg">
+                        <span className="inline-block px-4 py-1 bg-black text-white text-sm font-medium rounded-full mb-3">
+                          {category.name}
+                        </span>
+                        <h3 className="text-xl font-medium mb-2">
+                          {post.title}
+                        </h3>
+                        {post.date && (
+                          <div className="flex items-center text-gray-600 text-sm mb-4">
+                            <Calendar size={16} className="mr-2" />
+                            {new Date(post.date).toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric',
+                            })}
+                          </div>
+                        )}
+                        <div className="relative h-[300px] overflow-hidden rounded-lg mt-4">
+                          <img
+                            src={post.headPhotoLink}
+                            alt={post.title}
+                            className="object-cover w-full h-full"
+                          />
                         </div>
-                      )}
-                      <button className="bg-white text-black font-semibold py-2 px-4 rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                        Read More
-                      </button>
+                      </div>
+                    </div>
+
+                    {/* Desktop Layout */}
+                    <div className="hidden md:block">
+                      <div className="relative h-[500px] overflow-hidden rounded-lg">
+                        <img
+                          src={post.headPhotoLink}
+                          alt={post.title}
+                          className="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-700"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                          <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                            <span className="inline-block px-4 py-1 bg-white/90 text-black text-sm font-medium rounded-full mb-3">
+                              {category.name}
+                            </span>
+                            <h3 className="text-white text-xl font-medium mb-2 line-clamp-2">
+                              {post.title}
+                            </h3>
+                            {post.date && (
+                              <div className="flex items-center text-white/80 text-sm mb-4">
+                                <Calendar size={16} className="mr-2" />
+                                {new Date(post.date).toLocaleDateString('en-US', {
+                                  year: 'numeric',
+                                  month: 'long',
+                                  day: 'numeric',
+                                })}
+                              </div>
+                            )}
+                            <span className="inline-flex items-center text-white text-sm font-medium">
+                              Read More 
+                              <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                              </svg>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </Link>
                 </div>
@@ -151,11 +207,23 @@ export default function CategorySlider() {
             {canScrollRight && (
               <button
                 onClick={scrollRight}
-                className="absolute right-0 top-1/2 -translate-y-1/2 bg-gray-300 rounded-full p-2 z-10"
+                className="absolute -right-3 md:-right-6 top-1/2 -translate-y-1/2 bg-white shadow-lg hover:bg-gray-100 rounded-full p-2 md:p-3 z-10 transition-all"
                 suppressHydrationWarning
                 id={`${buttonId}-right-${category.name}`}
               >
-                &gt;
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  width="20" 
+                  height="20" 
+                  viewBox="0 0 24 24" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  strokeWidth="2" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round"
+                >
+                  <path d="m9 18 6-6-6-6"/>
+                </svg>
               </button>
             )}
           </div>

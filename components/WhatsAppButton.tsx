@@ -9,7 +9,7 @@ const WhatsAppButton = () => {
         target="_blank"
         rel="noopener noreferrer"
       >
-        <button className="bg-pink-400 text-white p-3 rounded-full shadow-lg hover:bg-pink-500 transition-colors">
+        <button className="bg-black text-white p-3 rounded-full shadow-lg hover:bg-green-500 transition-colors">
           <FaWhatsapp className="w-8 h-8" />
         </button>
       </Link>

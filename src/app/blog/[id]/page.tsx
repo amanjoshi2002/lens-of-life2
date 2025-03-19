@@ -147,35 +147,53 @@ export default function BlogPost() {
           ))}
 
           {/* Display photos at the end */}
-          {blog.photos.map((photo, index) => (
-            <div key={index} className="mb-12">
-              <div className="w-full aspect-square md:aspect-[4/3] relative overflow-hidden rounded-xl">
-                <Image
-                  src={photo}
-                  alt={`Photo ${index + 1}`}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
-                  className="object-cover object-center shadow-lg grayscale hover:grayscale-0 transition-all duration-500"
-                  id={`${componentId}-photo-${index}`}
-                  suppressHydrationWarning
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = "/fallback-image.jpg";
-                  }}
-                />
+          {blog.photos.length > 0 && (
+            <div className="mt-20 mb-16">
+              <h2 className="text-3xl font-light text-center mb-12">More Moments</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {blog.photos.map((photo, index) => (
+                  <div key={index} className="group">
+                    <div className="aspect-[4/3] relative overflow-hidden rounded-xl">
+                      <Image
+                        src={photo}
+                        alt={`Photo ${index + 1}`}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+                        className="object-cover object-center shadow-lg grayscale hover:grayscale-0 transition-all duration-500 transform group-hover:scale-105"
+                        id={`${componentId}-photo-${index}`}
+                        suppressHydrationWarning
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = "/fallback-image.jpg";
+                        }}
+                      />
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          ))}
+          )}
 
           {/* Display videos at the end */}
-          {blog.videos.map((video, index) => (
-            <div key={index} className="mb-12">
-              <video controls className="w-full rounded-lg shadow-lg">
-                <source src={video} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
+          {blog.videos.length > 0 && (
+            <div className="mt-20 mb-16">
+              <h2 className="text-3xl font-light text-center mb-12">Behind The Scenes</h2>
+              <div className="grid grid-cols-1 gap-8">
+                {blog.videos.map((video, index) => (
+                  <div key={index} className="overflow-hidden rounded-xl shadow-lg">
+                    <video 
+                      controls 
+                      className="w-full hover:scale-105 transition-transform duration-500"
+                      poster="/video-placeholder.jpg"
+                    >
+                      <source src={video} type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
+                ))}
+              </div>
             </div>
-          ))}
+          )}
         </div>
       </main>
       <Footer />

@@ -74,13 +74,13 @@ const Navbar = () => {
           <div className="flex items-center space-x-8">
             <Link 
               href="/" 
-              className="text-white hover:text-pink-400 transition-colors duration-300 text-sm tracking-wider"
+              className="text-white hover:text-gray-300 transition-colors duration-300 text-sm tracking-wider"
             >
               HOME
             </Link>
             <Link 
               href="/portfolio" // Direct link to the portfolio page
-              className="text-white hover:text-pink-400 transition-colors duration-300 text-sm tracking-wider"
+              className="text-white hover:text-gray-300 transition-colors duration-300 text-sm tracking-wider"
             >
               PORTFOLIO
             </Link>
@@ -90,7 +90,7 @@ const Navbar = () => {
               onMouseLeave={() => setIsServicesOpen(false)}
             >
               <button 
-                className="flex items-center space-x-1 text-white hover:text-pink-400 transition-colors duration-300 text-sm tracking-wider"
+                className="flex items-center space-x-1 text-white hover:text-gray-300 transition-colors duration-300 text-sm tracking-wider"
               >
                 <span>SERVICES</span>
                 <ChevronDown className="w-4 h-4 transition-transform duration-300 group-hover:rotate-180" />
@@ -111,7 +111,7 @@ const Navbar = () => {
                       <Link
                         key={category._id}
                         href={`/blog?category=${category.name.toLowerCase().replace(/\s+/g, '-')}`}
-                        className="block px-6 py-3 text-white hover:bg-pink-400/20 transition-colors duration-300 text-sm tracking-wide"
+                        className="block px-6 py-3 text-white hover:bg-gray-800 transition-colors duration-300 text-sm tracking-wide"
                       >
                         {category.name}
                       </Link>
@@ -122,7 +122,7 @@ const Navbar = () => {
             </div>
             <Link 
               href="/blog" 
-              className="text-white hover:text-pink-400 transition-colors duration-300 text-sm tracking-wider"
+              className="text-white hover:text-gray-300 transition-colors duration-300 text-sm tracking-wider"
             >
               BLOG
             </Link>
@@ -135,20 +135,20 @@ const Navbar = () => {
               className="flex flex-col items-center"
             >
               <span className="text-2xl font-light tracking-[0.2em] text-white">Lens Of Life</span>
-              <span className="text-xs tracking-[0.3em] text-pink-400">Creations</span>
+              <span className="text-xs tracking-[0.3em] text-gray-400">Creations</span>
             </motion.div>
           </Link>
 
           <div className="flex items-center space-x-8">
             <Link 
               href="/faq" 
-              className="text-white hover:text-pink-400 transition-colors duration-300 text-sm tracking-wider"
+              className="text-white hover:text-gray-300 transition-colors duration-300 text-sm tracking-wider"
             >
               FAQs
             </Link>
             <button
               onClick={handleContactClick}
-              className="px-6 py-2 border border-pink-400 text-pink-400 hover:bg-pink-400 hover:text-black transition-all duration-300 text-sm tracking-wider rounded-full"
+              className="px-6 py-2 border border-white text-white hover:bg-white hover:text-black transition-all duration-300 text-sm tracking-wider rounded-full"
             >
               CONTACT
             </button>
@@ -170,7 +170,7 @@ const Navbar = () => {
 
           <Link href="/" className="text-center">
             <div className="text-xl font-light tracking-widest text-white">Lens Of Life </div>
-            <div className="text-xs tracking-wider text-pink-400">Creations</div>
+            <div className="text-xs tracking-wider text-gray-400">Creations</div>
           </Link>
 
           <div className="w-8"></div>
@@ -188,20 +188,20 @@ const Navbar = () => {
               <div className="flex flex-col space-y-4 py-4">
                 <Link 
                   href="/" 
-                  className="text-white hover:text-pink-400 transition-colors duration-300 text-sm tracking-wider"
+                  className="text-white hover:text-gray-300 transition-colors duration-300 text-sm tracking-wider"
                 >
                   HOME
                 </Link>
                 <Link 
                   href="/portfolio" // Direct link to the portfolio page
-                  className="text-white hover:text-pink-400 transition-colors duration-300 text-sm tracking-wider"
+                  className="text-white hover:text-gray-300 transition-colors duration-300 text-sm tracking-wider"
                 >
                   PORTFOLIO
                 </Link>
                 <div className="space-y-2">
                   <button 
                     onClick={() => setIsServicesOpen(!isServicesOpen)}
-                    className="text-white hover:text-pink-400 transition-colors duration-300 text-sm tracking-wider flex items-center"
+                    className="text-white hover:text-gray-300 transition-colors duration-300 text-sm tracking-wider flex items-center"
                   >
                     SERVICES
                     <ChevronDown className={`w-4 h-4 ml-1 transition-transform duration-300 ${isServicesOpen ? 'rotate-180' : ''}`} />
@@ -218,7 +218,7 @@ const Navbar = () => {
                           <Link
                             key={category._id}
                             href={`/blog?category=${category.name.toLowerCase().replace(/\s+/g, '-')}`}
-                            className="block text-white hover:text-pink-400 transition-colors duration-300 text-sm tracking-wider"
+                            className="block text-white hover:text-gray-300 transition-colors duration-300 text-sm tracking-wider"
                           >
                             {category.name}
                           </Link>
@@ -229,19 +229,19 @@ const Navbar = () => {
                 </div>
                 <Link 
                   href="/blog" 
-                  className="text-white hover:text-pink-400 transition-colors duration-300 text-sm tracking-wider"
+                  className="text-white hover:text-gray-300 transition-colors duration-300 text-sm tracking-wider"
                 >
                   BLOG
                 </Link>
                 <Link 
                   href="/faq" 
-                  className="text-white hover:text-pink-400 transition-colors duration-300 text-sm tracking-wider"
+                  className="text-white hover:text-gray-300 transition-colors duration-300 text-sm tracking-wider"
                 >
                   FAQs
                 </Link>
                 <button
                   onClick={handleContactClick}
-                  className="inline-block px-6 py-2 border border-pink-400 text-pink-400 hover:bg-pink-400 hover:text-black transition-all duration-300 text-sm tracking-wider rounded-full text-center"
+                  className="inline-block px-6 py-2 border border-white text-white hover:bg-white hover:text-black transition-all duration-300 text-sm tracking-wider rounded-full text-center"
                 >
                   CONTACT
                 </button>
