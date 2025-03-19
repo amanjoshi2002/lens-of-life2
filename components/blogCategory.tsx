@@ -88,17 +88,57 @@ export default function CategorySlider() {
     };
   }, []);
 
-  const scrollLeft = () => {
-    if (sliderRef.current) {
-      sliderRef.current.scrollBy({ left: -sliderRef.current.clientWidth, behavior: 'smooth' });
+  // Create a map of refs for each category
+  const sliderRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+
+  // Update scroll functions to use the correct slider ref
+  const scrollLeft = (categoryName: string) => {
+    if (sliderRefs.current[categoryName]) {
+      sliderRefs.current[categoryName]?.scrollBy({ 
+        left: -sliderRefs.current[categoryName]!.clientWidth, 
+        behavior: 'smooth' 
+      });
     }
   };
 
-  const scrollRight = () => {
-    if (sliderRef.current) {
-      sliderRef.current.scrollBy({ left: sliderRef.current.clientWidth, behavior: 'smooth' });
+  const scrollRight = (categoryName: string) => {
+    if (sliderRefs.current[categoryName]) {
+      sliderRefs.current[categoryName]?.scrollBy({ 
+        left: sliderRefs.current[categoryName]!.clientWidth, 
+        behavior: 'smooth' 
+      });
     }
   };
+
+  // Update the scroll button visibility effect
+  useEffect(() => {
+    const updateScrollButtons = (categoryName: string) => {
+      const currentSlider = sliderRefs.current[categoryName];
+      if (currentSlider) {
+        setCanScrollLeft(currentSlider.scrollLeft > 0);
+        setCanScrollRight(
+          currentSlider.scrollLeft + currentSlider.clientWidth < currentSlider.scrollWidth
+        );
+      }
+    };
+
+    // Add scroll listeners to all sliders
+    categories.forEach(category => {
+      const slider = sliderRefs.current[category.name];
+      if (slider) {
+        slider.addEventListener("scroll", () => updateScrollButtons(category.name));
+        updateScrollButtons(category.name);
+      }
+    });
+
+    return () => {
+      categories.forEach(category => {
+        sliderRefs.current[category.name]?.removeEventListener("scroll", 
+          () => updateScrollButtons(category.name)
+        );
+      });
+    };
+  }, [categories]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-12">
@@ -108,7 +148,7 @@ export default function CategorySlider() {
           <div className="relative">
             {canScrollLeft && (
               <button
-                onClick={scrollLeft}
+                onClick={() => scrollLeft(category.name)}
                 className="absolute -left-3 md:-left-6 top-1/2 -translate-y-1/2 bg-white shadow-lg hover:bg-gray-100 rounded-full p-2 md:p-3 z-10 transition-all"
                 suppressHydrationWarning
                 id={`${buttonId}-left-${category.name}`}
@@ -129,8 +169,9 @@ export default function CategorySlider() {
               </button>
             )}
             <div
-              ref={sliderRef}
-              className="flex overflow-hidden scrollbar-hide snap-x snap-mandatory gap-6"
+              ref={el => sliderRefs.current[category.name] = el}
+              className="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory gap-6 touch-pan-x no-scrollbar"
+              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             >
               {category.posts.map((post) => (
                 <div key={post._id} className="min-w-full md:min-w-[calc(33.333%-1rem)] snap-start">
@@ -206,7 +247,7 @@ export default function CategorySlider() {
             </div>
             {canScrollRight && (
               <button
-                onClick={scrollRight}
+                onClick={() => scrollRight(category.name)}
                 className="absolute -right-3 md:-right-6 top-1/2 -translate-y-1/2 bg-white shadow-lg hover:bg-gray-100 rounded-full p-2 md:p-3 z-10 transition-all"
                 suppressHydrationWarning
                 id={`${buttonId}-right-${category.name}`}
@@ -231,4 +272,11 @@ export default function CategorySlider() {
       ))}
     </div>
   );
+
+  // Add this CSS to your global styles or add it inline with a style tag
+  const styles = `
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+  `;
 }
