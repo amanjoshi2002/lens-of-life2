@@ -6,6 +6,7 @@ import BlogComponent from "./components/BlogComponent";
 import FAQComponent from "./components/FAQComponent";
 import PortfolioComponent from "./components/PortfolioComponent";
 import SubcategoryComponent from "./components/SubcategoryComponent";
+import TestimonialComponent from "./components/TestimonialComponent";
 
 interface Blog {
   _id: string;
@@ -208,6 +209,12 @@ const AdminPage = () => {
           >
             Subcategories
           </button>
+          <button
+            className={`px-4 py-2 rounded ${activeTab === "testimonials" ? "bg-blue-500 text-white" : "bg-gray-200 text-black"}`}
+            onClick={() => setActiveTab("testimonials")}
+          >
+            Testimonials
+          </button>
         </div>
         {activeTab === "blog" && (
           <BlogComponent
@@ -260,6 +267,7 @@ const AdminPage = () => {
           </div>
         )}
         {activeTab === "subcategory" && <SubcategoryComponent />}
+        {activeTab === "testimonials" && <TestimonialComponent />}
       </div>
     </div>
   );
