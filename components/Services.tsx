@@ -33,16 +33,16 @@ const Services = () => {
 
   // Define an array of background colors
   const backgroundColors = [
-    "bg-lime-100", // Light warm color for the first service
-    "bg-orange-50", // Light warm color for the second service
-    "bg-pink-50",   // Light warm color for the third service
-    "bg-red-50",    // Light warm color for the fourth service
+    "bg-neutral-900 text-white",  // Dark theme
+    "bg-neutral-200 text-black",  // Light gray for contrast
+    "bg-neutral-800 text-white",  // Slightly lighter dark tone
+    "bg-neutral-100 text-black",  // Light gray background
   ];
 
   return (
     <section className="py-10 sm:py-20">
       {services.map((service, index) => (
-        <div key={service.title} className={`w-full ${backgroundColors[index]} p-4`}>
+        <div key={service.title} className={`w-full ${backgroundColors[index]} p-6 sm:p-10`}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -58,7 +58,7 @@ const Services = () => {
                 {service.description}
               </p>
               <Link href="/blog">
-                <button className="border border-black px-4 sm:px-6 py-2 hover:bg-black hover:text-white transition-colors">
+                <button className="border border-white bg-white text-black px-5 sm:px-7 py-2 font-medium transition-all duration-300 hover:bg-black hover:text-white">
                   LEARN MORE
                 </button>
               </Link>
@@ -69,7 +69,7 @@ const Services = () => {
               <img
                 src={service.image}
                 alt={service.title}
-                className="w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] object-cover rounded-lg"
+                className="w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] object-cover rounded-lg shadow-lg"
               />
             </div>
           </motion.div>
