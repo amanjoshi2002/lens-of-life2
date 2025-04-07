@@ -110,7 +110,7 @@ const Navbar = () => {
                     {categories.map((category) => (
                       <Link
                         key={category._id}
-                        href={`/blog?category=${category.name.toLowerCase().replace(/\s+/g, '-')}`}
+                        href={`/service?category=${category.name.toLowerCase().replace(/\s+/g, '-')}`}
                         className="block px-6 py-3 text-white hover:bg-gray-800 transition-colors duration-300 text-sm tracking-wide"
                       >
                         {category.name}

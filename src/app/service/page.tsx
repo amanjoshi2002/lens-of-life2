@@ -6,7 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import Hero from '../../../components/Hero1';
 import Navbar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
-import CategorySlider from '../../../components/blogCategory';
+import CategorySlider from '../../../components/blogCategory1';
 
 function BlogContent() {
   const searchParams = useSearchParams();
@@ -33,7 +33,7 @@ function BlogContent() {
     <>
       <Navbar />
       <Hero pageTitle="" slides={heroSlides} />
-      <CategorySlider />
+      <CategorySlider selectedCategory={category} />
       <Footer />
     </>
   );

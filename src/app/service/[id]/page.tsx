@@ -32,7 +32,7 @@ export default function BlogPost() {
       }
 
       try {
-        const response = await fetch(`/api/services/${id}`);
+        const response = await fetch(`/api/blogs/${id}`);
         if (response.ok) {
           const data = await response.json();
           setBlog(data);
