@@ -115,7 +115,7 @@ const BlogComponent = ({ blogs, fetchBlogs, handleDeleteBlog }: BlogComponentPro
   };
 
   const handleAddBlog = async () => {
-    const res = await fetch("/api/blogs/add", {
+    const res = await fetch("/api/services/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -142,7 +142,7 @@ const BlogComponent = ({ blogs, fetchBlogs, handleDeleteBlog }: BlogComponentPro
 
   const handleSaveChanges = async () => {
     if (!editingBlogId) return;
-    const res = await fetch(`/api/blogs/edit`, {
+    const res = await fetch(`/api/services/edit`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

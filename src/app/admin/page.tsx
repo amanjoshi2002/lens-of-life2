@@ -7,6 +7,7 @@ import FAQComponent from "./components/FAQComponent";
 import PortfolioComponent from "./components/PortfolioComponent";
 import SubcategoryComponent from "./components/SubcategoryComponent";
 import TestimonialComponent from "./components/TestimonialComponent";
+import BlogNewComponent from "./components/BlogNewComponent";
 
 interface Blog {
   _id: string;
@@ -24,12 +25,21 @@ interface Category {
   name: string;
 }
 
+interface BlogNew {
+  _id: string;
+  photo: string;
+  headline: string;
+  date: string;
+  body: string;
+}
+
 const AdminPage = () => {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("blog");
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [newCategoryName, setNewCategoryName] = useState("");
+  const [blogsNew, setBlogsNew] = useState<BlogNew[]>([]);
 
   useEffect(() => {
     const isLoggedIn = getCookie("isLoggedIn");
@@ -37,13 +47,36 @@ const AdminPage = () => {
       router.push("/admin/login");
     } else {
       fetchBlogs();
+      fetchBlogsNew();
       fetchCategories();
     }
   }, [router]);
 
+  const fetchBlogsNew = async () => {
+    try {
+      const res = await fetch("/api/blognew");
+      if (!res.ok) throw new Error("Failed to fetch new blogs");
+      const data = await res.json();
+      setBlogsNew(data);
+    } catch (error) {
+      console.error("Error fetching new blogs:", error);
+    }
+  };
+
+  const handleDeleteBlogNew = async (id: string) => {
+    try {
+      const res = await fetch(`/api/blognew/${id}`, {
+        method: "DELETE",
+      });
+      if (res.ok) fetchBlogsNew();
+    } catch (error) {
+      console.error("Error deleting blog:", error);
+    }
+  };
+
   const fetchBlogs = async () => {
     try {
-      const res = await fetch("/api/blogs");
+      const res = await fetch("/api/services/");
       if (!res.ok) {
         throw new Error("Failed to fetch blogs");
       }
@@ -77,7 +110,7 @@ const AdminPage = () => {
   };
 
   const handleDeleteBlog = async (id: string) => {
-    const res = await fetch("/api/blogs/delete", {
+    const res = await fetch("/api/services/delete", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -217,6 +250,12 @@ const AdminPage = () => {
           >
             Testimonials
           </button>
+          <button
+            className={`px-4 py-2 rounded ${activeTab === "blognew" ? "bg-blue-500 text-white" : "bg-gray-200 text-black"}`}
+            onClick={() => setActiveTab("blognew")}
+          >
+            New Blog
+          </button>
         </div>
 
         {/* Content Area */}
@@ -230,6 +269,14 @@ const AdminPage = () => {
           )}
           {activeTab === "faq" && <FAQComponent />}
           {activeTab === "portfolio" && <PortfolioComponent />}
+          {/* Add BlogNewComponent here */}
+          {activeTab === "blognew" && (
+            <BlogNewComponent
+              blogs={blogsNew}
+              fetchBlogs={fetchBlogsNew}
+              handleDeleteBlog={handleDeleteBlogNew}
+            />
+          )}
           {activeTab === "category" && (
             <div className="space-y-6">
               <div className="flex gap-4 items-center">
