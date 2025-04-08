@@ -4,28 +4,28 @@ import { motion } from "framer-motion";
 
 const About = () => {
   return (
-    <section className="py-12 sm:py-20 bg-neutral-50">
-      <div className="container mx-auto px-4">
+    <section className="py-16 sm:py-24 bg-neutral-50">
+      <div className="container mx-auto px-4 max-w-7xl">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="grid md:grid-cols-2 gap-8 md:gap-12 items-center"
+          className="grid md:grid-cols-2 gap-12 md:gap-16 items-center"
         >
           {/* Text Content */}
-          <div className="space-y-4 sm:space-y-6">
+          <div className="space-y-6 sm:space-y-8">
             <motion.h2
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="text-3xl sm:text-4xl md:text-5xl font-serif"
+              className="text-4xl sm:text-5xl md:text-6xl font-['Playfair_Display'] tracking-wide text-neutral-800 leading-tight font-style: italic"
             >
-              About
+              About Me
             </motion.h2>
-            <p className="text-base sm:text-lg leading-relaxed">
+            <p className="text-xl sm:text-xl leading-relaxed text-neutral-700 font-['Cormorant_Garamond'] font-normal font-style: italic">
               I'm Anja, a creative soul and a dedicated mother based in Leeds. I'm thrilled to offer a unique portrait experience designed to capture the beauty and emotion of motherhood. Understanding the fleeting nature of life's precious moments, I've tailored a photoshoot process that respects your time and reflects your needs.
             </p>
-            <p className="text-base sm:text-lg leading-relaxed">
+            <p className="text-xl sm:text-xl leading-relaxed text-neutral-700 font-['Cormorant_Garamond'] font-normal font-style: italic">
               Located in the vibrant city of Leeds, my studio is a sanctuary where art meets emotion. Each session is bespoke, crafted to reflect your personal story and style.
             </p>
           </div>

@@ -323,6 +323,40 @@ const Contact = () => {
           )}
         </motion.div>
       </div>
+
+      {/* Add Map Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="mt-16 w-full rounded-2xl overflow-hidden shadow-lg"
+      >
+        <div className="relative w-full h-0 pb-[56.25%] sm:pb-[45%] md:pb-[35%]">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d75424.95960804925!2d-1.6006004776245095!3d53.799806211759126!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48793e4ada64bd99%3A0x51adbafd0213dca9!2sLeeds%2C%20UK!5e0!3m2!1sen!2sus!4v1709489843696!5m2!1sen!2sus"
+            className="absolute top-0 left-0 w-full h-full border-0"
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title="Studio Location"
+          ></iframe>
+        </div>
+      </motion.div>
+
+      {/* Optional: Add location details */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.3, duration: 0.6 }}
+        className="mt-8 text-center"
+      >
+        <h3 className="text-xl font-semibold mb-2">Visit Our Studio</h3>
+        <p className="text-gray-600">
+          Located in the heart of Leeds, our studio is easily accessible by public transport and has ample parking space.
+        </p>
+      </motion.div>
     </section>
     </>
   );

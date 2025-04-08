@@ -46,10 +46,10 @@ const TestimonialSection = () => {
 
   if (isLoading) {
     return (
-      <section className="bg-gray-100 py-12">
+      <section className="bg-black py-12 mt-2 sm:mt-[-80]">
         <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-gray-800">What our clients say</h2>
-          <p className="text-gray-500 mt-2">Loading testimonials...</p>
+          <h2 className="text-3xl font-bold text-white">What our clients say</h2>
+          <p className="text-gray-300 mt-2">Loading testimonials...</p>
         </div>
       </section>
     );
@@ -59,26 +59,26 @@ const TestimonialSection = () => {
   const displayedTestimonials = testimonials.slice(0, 3);
 
   return (
-    <section className="bg-gray-100 py-12">
+    <section className="bg-black py-12 mt-2 sm:mt-[-80]">
       <div className="max-w-6xl mx-auto text-center">
-        <h2 className="text-3xl font-bold text-gray-800">What our clients say</h2>
-        <p className="text-gray-500 mt-2">Client Reviews</p>
+        <h2 className="text-3xl font-bold text-white">What our clients say</h2>
+        <p className="text-gray-300 mt-2">Client Reviews</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-4 sm:px-8 mt-8">
         {displayedTestimonials.map((testimonial) => (
-          <div key={testimonial._id} className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center text-center">
-            <QuoteIcon size={36} className="text-gray-400 mb-4" />
+          <div key={testimonial._id} className="bg-neutral-100 shadow-lg rounded-lg p-6 flex flex-col items-center text-center">
+            <QuoteIcon size={36} className="text-gray-900 mb-4" />
 
-            <p className="text-gray-700 italic">"{testimonial.review}"</p>
+            <p className="text-gray-900 italic">"{testimonial.review}"</p>
 
-            <div className="mt-6 w-14 h-14 bg-gray-800 text-white flex items-center justify-center rounded-full text-lg font-bold">
+            <div className="mt-6 w-14 h-14 bg-black text-white flex items-center justify-center rounded-full text-lg font-bold">
               {getInitials(testimonial.name)}
             </div>
 
             <div className="mt-4">
-              <p className="font-semibold text-gray-800">{testimonial.name}</p>
-              <p className="text-gray-500 text-sm">{testimonial.location}</p>
+              <p className="font-semibold text-black">{testimonial.name}</p>
+              <p className="text-gray-900 text-sm">{testimonial.location}</p>
             </div>
 
             <div className="flex mt-2">
