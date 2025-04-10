@@ -23,6 +23,41 @@ export default function BlogPost() {
   const componentId = useId();
   const [blog, setBlog] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // Add lightbox control functions
+  const openLightbox = (index: number) => {
+    setCurrentImageIndex(index);
+    setLightboxOpen(true);
+  };
+
+  const closeLightbox = () => {
+    setLightboxOpen(false);
+  };
+
+  const nextImage = () => {
+    setCurrentImageIndex((prev) => (prev + 1) % (blog?.photos.length || 1));
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prev) => 
+      (prev - 1 + (blog?.photos.length || 1)) % (blog?.photos.length || 1)
+    );
+  };
+
+  // Add keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!lightboxOpen) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight') nextImage();
+      if (e.key === 'ArrowLeft') prevImage();
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [lightboxOpen]);
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -150,31 +185,62 @@ export default function BlogPost() {
             </div>
           ))}
 
+          {/* More Moments section */}
           {blog.photos.length > 0 && (
             <div className="mt-10 md:mt-20 mb-10 md:mb-16">
               <h2 className="text-2xl md:text-3xl font-light text-center mb-8 md:mb-12">
                 More Moments
               </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {blog.photos.map((photo, index) => (
-                  <div key={index} className="group">
-                    <div className="aspect-[4/3] relative overflow-hidden rounded-xl">
-                      <Image
-                        src={photo}
-                        alt={`Photo ${index + 1}`}
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
-                        className="object-cover object-center shadow-lg grayscale hover:grayscale-0 transition-all duration-500 transform group-hover:scale-105"
-                        id={`${componentId}-photo-${index}`}
-                        suppressHydrationWarning
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.src = "/fallback-image.jpg";
-                        }}
-                      />
-                    </div>
+              <div 
+                className="relative cursor-pointer group"
+                onClick={() => openLightbox(0)}
+              >
+                <div className="grid grid-cols-3 gap-2 aspect-[16/9] relative overflow-hidden rounded-xl">
+                  {/* Main large image */}
+                  <div className="col-span-2 row-span-2 relative">
+                    <Image
+                      src={blog.photos[0]}
+                      alt="Gallery Preview"
+                      fill
+                      className="object-cover rounded-l-xl"
+                      priority
+                    />
                   </div>
-                ))}
+                  {/* Side images */}
+                  <div className="relative">
+                    {blog.photos[1] && (
+                      <Image
+                        src={blog.photos[1]}
+                        alt="Preview 2"
+                        fill
+                        className="object-cover"
+                      />
+                    )}
+                  </div>
+                  <div className="relative">
+                    {blog.photos[2] && (
+                      <Image
+                        src={blog.photos[2]}
+                        alt="Preview 3"
+                        fill
+                        className="object-cover rounded-tr-xl"
+                      />
+                    )}
+                  </div>
+                </div>
+
+                {/* Overlay with count */}
+                <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 
+                              transition-all duration-300 rounded-xl flex items-center justify-center">
+                  <div className="text-center text-white">
+                    <svg className="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
+                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <p className="text-xl font-semibold">{blog.photos.length} Photos</p>
+                    <p className="text-sm">Click to view all</p>
+                  </div>
+                </div>
               </div>
             </div>
           )}
@@ -199,6 +265,47 @@ export default function BlogPost() {
         </div>
       </main>
       <Footer />
+
+      {/* Lightbox Modal */}
+      {lightboxOpen && blog?.photos.length > 0 && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center"
+          onClick={closeLightbox}
+        >
+          <div className="relative w-full h-full max-w-6xl max-h-[90vh] mx-4" onClick={e => e.stopPropagation()}>
+            <button
+              onClick={closeLightbox}
+              className="absolute top-4 right-4 text-white text-4xl hover:text-gray-300 transition-colors z-10"
+            >
+              ×
+            </button>
+            <button
+              onClick={prevImage}
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-white text-4xl hover:text-gray-300 transition-colors z-10"
+            >
+              ‹
+            </button>
+            <button
+              onClick={nextImage}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-white text-4xl hover:text-gray-300 transition-colors z-10"
+            >
+              ›
+            </button>
+            <Image
+              src={blog.photos[currentImageIndex]}
+              alt={`Photo ${currentImageIndex + 1}`}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+              className="object-contain"
+              quality={100}
+              priority
+            />
+            <div className="absolute bottom-4 left-0 right-0 text-center text-white text-sm">
+              {currentImageIndex + 1} / {blog.photos.length}
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

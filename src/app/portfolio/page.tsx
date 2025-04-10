@@ -120,31 +120,34 @@ function PortfolioContent() {
 
           {/* Portfolio Grid */}
           <div className="w-full">
-            <div className="columns-1 sm:columns-2 lg:columns-3 gap-1 [column-fill:_balance] w-full">
-              {(categoryId ? filteredPortfolios : portfolios).flatMap((portfolio) =>
-                portfolio.photos.map((photo, index) => {
-                  const isLarge = index % 5 === 0;
-                  const isWide = index % 7 === 3;
-                  
-                  return (
-                    <div 
-                      key={`${portfolio._id}-${index}`} 
-                      className={`mb-1 break-inside-avoid ${
-                        isLarge ? 'h-[90vh]' : isWide ? 'h-[60vh]' : 'h-[70vh]'
-                      }`}
-                    >
-                      <div className="w-full h-full overflow-hidden">
-                        <img
-                          alt={portfolio.title}
-                          className="w-full h-full object-cover transition-all duration-500 
-                                   filter grayscale hover:grayscale-0 hover:scale-105"
-                          src={photo}
-                        />
+            <div className="columns-1 sm:columns-2 lg:columns-3 gap-0 [column-fill:_balance] w-full">
+              {(categoryId ? filteredPortfolios : portfolios)
+                .slice()
+                .reverse()
+                .flatMap((portfolio) =>
+                  portfolio.photos.map((photo, index) => {
+                    const isLarge = index % 5 === 0;
+                    const isWide = index % 7 === 3;
+                    
+                    return (
+                      <div 
+                        key={`${portfolio._id}-${index}`} 
+                        className={`mb-0 break-inside-avoid ${
+                          isLarge ? 'h-[90vh]' : isWide ? 'h-[60vh]' : 'h-[70vh]'
+                        }`}
+                      >
+                        <div className="w-full h-full">
+                          <img
+                            alt={portfolio.title}
+                            className="w-full h-full object-cover transition-all duration-500 
+                                     filter grayscale hover:grayscale-0 hover:scale-105"
+                            src={photo}
+                          />
+                        </div>
                       </div>
-                    </div>
-                  );
-                })
-              )}
+                    );
+                  })
+                )}
             </div>
           </div>
 
