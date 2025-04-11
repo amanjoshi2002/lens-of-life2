@@ -76,7 +76,7 @@ const AdminPage = () => {
 
   const fetchBlogs = async () => {
     try {
-      const res = await fetch("/api/services/");
+      const res = await fetch("/api/blogs/");
       if (!res.ok) {
         throw new Error("Failed to fetch blogs");
       }
@@ -110,7 +110,7 @@ const AdminPage = () => {
   };
 
   const handleDeleteBlog = async (id: string) => {
-    const res = await fetch("/api/services/delete", {
+    const res = await fetch("/api/blogs/delete", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
