@@ -11,6 +11,7 @@ interface BlogPost {
   title: string;
   category: string;
   headPhotoLink: string;
+  headPhotoLinks: string[];
   paragraphs: { heading: string; content: string }[];
   subPhotos: string[];
   photos: string[];
@@ -23,6 +24,7 @@ export default function BlogPost() {
   const componentId = useId();
   const [blog, setBlog] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
+
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -71,6 +73,13 @@ export default function BlogPost() {
         if (response.ok) {
           const data = await response.json();
           setBlog(data);
+          
+          // Combine headPhotoLink with headPhotoLinks for the slideshow
+          const slides = [data.headPhotoLink];
+          if (data.headPhotoLinks && Array.isArray(data.headPhotoLinks)) {
+            slides.push(...data.headPhotoLinks.filter((link: string) => link && link.trim() !== ""));
+          }
+          setAllSlides(slides);
         }
       } catch (error) {
         console.error("Error fetching blog:", error);
@@ -81,6 +90,27 @@ export default function BlogPost() {
 
     fetchBlog();
   }, [id]);
+
+  // Function to go to the next slide
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev === allSlides.length - 1 ? 0 : prev + 1));
+  };
+
+  // Function to go to the previous slide
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev === 0 ? allSlides.length - 1 : prev - 1));
+  };
+
+  // Auto-advance slides every 5 seconds
+  useEffect(() => {
+    if (allSlides.length <= 1) return;
+    
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 5000);
+    
+    return () => clearInterval(interval);
+  }, [allSlides.length, currentSlide]);
 
   if (loading) {
     return (
@@ -125,29 +155,77 @@ export default function BlogPost() {
       <Navbar />
       <main className="pt-[var(--navbar-height)] min-h-screen">
         <div className="max-w-4xl mx-auto py-10 px-4 md:px-6">
+          {/* Slideshow section */}
+          <div className="mb-10 relative">
+            <div className="w-full aspect-[4/3] md:aspect-[16/9] relative overflow-hidden rounded-xl">
+              {allSlides.map((slide, index) => (
+                <div 
+                  key={index} 
+                  className={`absolute inset-0 transition-opacity duration-1000 ${
+                    index === currentSlide ? "opacity-100" : "opacity-0"
+                  }`}
+                >
+                  <Image
+                    src={slide}
+                    alt={`${blog.title} - Slide ${index + 1}`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+                    priority={index === 0}
+                    className="object-cover object-center shadow-lg grayscale hover:grayscale-0 transition-all duration-500"
+                    id={`${componentId}-slide-${index}`}
+                    suppressHydrationWarning
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = "/fallback-image.jpg";
+                    }}
+                  />
+                </div>
+              ))}
+              
+              {allSlides.length > 1 && (
+                <>
+                  {/* Navigation arrows */}
+                  <button 
+                    onClick={prevSlide}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full z-10"
+                    aria-label="Previous slide"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                    </svg>
+                  </button>
+                  <button 
+                    onClick={nextSlide}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full z-10"
+                    aria-label="Next slide"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                  
+                  {/* Slide indicators */}
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2 z-10">
+                    {allSlides.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentSlide(index)}
+                        className={`w-2 h-2 rounded-full ${
+                          index === currentSlide ? "bg-white" : "bg-white/50"
+                        }`}
+                        aria-label={`Go to slide ${index + 1}`}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+
           <div className="mb-10 text-center py-10">
             <h1 className="text-3xl md:text-5xl font-bold mb-4 text-gray-900 font-serif">
               {blog.title}
             </h1>
-          </div>
-
-          <div className="mb-10">
-            <div className="w-full aspect-[4/3] md:aspect-[16/9] relative overflow-hidden rounded-xl">
-              <Image
-                src={blog.headPhotoLink}
-                alt={blog.title}
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
-                priority
-                className="object-cover object-center shadow-lg grayscale hover:grayscale-0 transition-all duration-500"
-                id={`${componentId}-head-image`}
-                suppressHydrationWarning
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.src = "/fallback-image.jpg";
-                }}
-              />
-            </div>
           </div>
 
           {blog.paragraphs.map((paragraph, index) => (
