@@ -6,6 +6,7 @@ import Image from "next/image";
 import Navbar from "../../../../components/Navbar";
 import Footer from "../../../../components/Footer";
 
+
 interface BlogPost {
   _id: string;
   title: string;
@@ -23,6 +24,10 @@ export default function BlogPost() {
   const componentId = useId();
   const [blog, setBlog] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isVideoGalleryOpen, setIsVideoGalleryOpen] = useState(false);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -97,14 +102,15 @@ export default function BlogPost() {
           </div>
 
           <div className="mb-10">
-            <div className="w-full aspect-[4/3] md:aspect-[16/9] relative overflow-hidden rounded-xl">
+            <div className="w-full aspect-[4/3] md:aspect-[16/9] relative overflow-hidden rounded-xl group">
               <Image
                 src={blog.headPhotoLink}
                 alt={blog.title}
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
                 priority
-                className="object-cover object-center shadow-lg grayscale hover:grayscale-0 transition-all duration-500"
+                className="object-cover object-center shadow-sm grayscale group-hover:grayscale-0 
+                         transition-all duration-500 transform group-hover:scale-[1.03]"
                 id={`${componentId}-head-image`}
                 suppressHydrationWarning
                 onError={(e) => {
@@ -112,6 +118,7 @@ export default function BlogPost() {
                   target.src = "/fallback-image.jpg";
                 }}
               />
+              <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </div>
           </div>
 
@@ -130,13 +137,14 @@ export default function BlogPost() {
               </div>
               {blog.subPhotos[index] && (
                 <div className="w-full md:w-1/2">
-                  <div className="w-full aspect-square md:aspect-[4/3] relative overflow-hidden rounded-xl">
+                  <div className="w-full aspect-square md:aspect-[4/3] relative overflow-hidden rounded-xl group">
                     <Image
                       src={blog.subPhotos[index]}
                       alt={`Sub Photo ${index + 1}`}
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
-                      className="object-cover object-center shadow-lg grayscale hover:grayscale-0 transition-all duration-500"
+                      className="object-cover object-center shadow-sm grayscale group-hover:grayscale-0 
+                               transition-all duration-500 transform group-hover:scale-[1.03]"
                       id={`${componentId}-sub-image-${index}`}
                       suppressHydrationWarning
                       onError={(e) => {
@@ -144,6 +152,7 @@ export default function BlogPost() {
                         target.src = "/fallback-image.jpg";
                       }}
                     />
+                    <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>
                 </div>
               )}
@@ -151,49 +160,284 @@ export default function BlogPost() {
           ))}
 
           {blog.photos.length > 0 && (
-            <div className="mt-10 md:mt-20 mb-10 md:mb-16">
-              <h2 className="text-2xl md:text-3xl font-light text-center mb-8 md:mb-12">
+            <div className="mt-10 md:mt-16 mb-10 md:mb-16">
+              <h2 className="text-2xl md:text-3xl font-light text-center mb-6 md:mb-8">
                 More Moments
               </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {blog.photos.map((photo, index) => (
-                  <div key={index} className="group">
-                    <div className="aspect-[4/3] relative overflow-hidden rounded-xl">
-                      <Image
-                        src={photo}
-                        alt={`Photo ${index + 1}`}
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
-                        className="object-cover object-center shadow-lg grayscale hover:grayscale-0 transition-all duration-500 transform group-hover:scale-105"
-                        id={`${componentId}-photo-${index}`}
-                        suppressHydrationWarning
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.src = "/fallback-image.jpg";
+              <div className="grid grid-cols-4 gap-2 max-w-3xl mx-auto">
+                <div 
+                  onClick={() => {
+                    setCurrentImageIndex(0);
+                    setIsGalleryOpen(true);
+                  }}
+                  className="relative aspect-[3/4] col-span-2 cursor-pointer group overflow-hidden rounded-md"
+                >
+                  <Image
+                    src={blog.photos[0]}
+                    alt="Featured photo"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover shadow-sm grayscale hover:grayscale-0 
+                             transition-all duration-500 transform group-hover:scale-[1.03]"
+                  />
+                  <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </div>
+
+                <div className="col-span-2 grid grid-rows-2 gap-2">
+                  <div 
+                    onClick={() => {
+                      setCurrentImageIndex(1);
+                      setIsGalleryOpen(true);
+                    }}
+                    className="relative aspect-[3/2] cursor-pointer group overflow-hidden rounded-md"
+                  >
+                    <Image
+                      src={blog.photos[1]}
+                      alt="Second photo"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 25vw"
+                      className="object-cover shadow-sm grayscale hover:grayscale-0 
+                               transition-all duration-500 transform group-hover:scale-[1.03]"
+                    />
+                    <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  </div>
+
+                  <div 
+                    onClick={() => {
+                      setCurrentImageIndex(2);
+                      setIsGalleryOpen(true);
+                    }}
+                    className="relative aspect-[3/2] cursor-pointer group overflow-hidden rounded-md"
+                  >
+                    <Image
+                      src={blog.photos[2]}
+                      alt="Third photo"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 25vw"
+                      className="object-cover shadow-sm grayscale hover:grayscale-0 
+                               transition-all duration-500 transform group-hover:scale-[1.03]"
+                    />
+                    {blog.photos.length > 3 && (
+                      <div 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setCurrentImageIndex(3);
+                          setIsGalleryOpen(true);
                         }}
+                        className="absolute inset-0 bg-black/30 flex items-center justify-center 
+                                    cursor-pointer backdrop-blur-[2px] opacity-0 
+                                    group-hover:opacity-100 transition-all duration-300"
+                      >
+                        <div className="text-center">
+                          <span className="text-white text-sm font-light tracking-wider block">
+                            View All
+                          </span>
+                          <span className="text-white/80 text-xs mt-1 block">
+                            +{blog.photos.length - 3} photos
+                          </span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Enhanced Gallery Modal */}
+              {isGalleryOpen && (
+                <div className="fixed inset-0 bg-black/95 z-50 p-4 md:p-8">
+                  <button
+                    onClick={() => setIsGalleryOpen(false)}
+                    className="absolute top-4 right-4 text-white/90 p-2 hover:bg-white/10 rounded-full z-10"
+                  >
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+
+                  <div className="h-full flex items-center justify-center">
+                    <button
+                      onClick={() => setCurrentImageIndex((prev) => (prev === 0 ? blog.photos.length - 1 : prev - 1))}
+                      className="absolute left-4 text-white/90 p-2 hover:bg-white/10 rounded-full z-10"
+                    >
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                      </svg>
+                    </button>
+
+                    <div className="relative h-[85vh] w-full max-w-5xl mx-auto">
+                      <Image
+                        src={blog.photos[currentImageIndex]}
+                        alt={`Gallery photo ${currentImageIndex + 1}`}
+                        fill
+                        className="object-contain"
+                        quality={100}
                       />
                     </div>
+
+                    <button
+                      onClick={() => setCurrentImageIndex((prev) => (prev === blog.photos.length - 1 ? 0 : prev + 1))}
+                      className="absolute right-4 text-white/90 p-2 hover:bg-white/10 rounded-full z-10"
+                    >
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
                   </div>
-                ))}
-              </div>
+
+                  {/* Thumbnail Strip */}
+                  <div className="absolute bottom-4 left-0 right-0 overflow-x-auto py-2">
+                    <div className="flex gap-2 justify-center">
+                      {blog.photos.map((photo, index) => (
+                        <div
+                          key={index}
+                          onClick={() => setCurrentImageIndex(index)}
+                          className={`relative w-16 h-16 cursor-pointer rounded-md overflow-hidden group
+                                    ${currentImageIndex === index ? 'ring-2 ring-white' : 'opacity-50 hover:opacity-100'}`}
+                        >
+                          <Image
+                            src={photo}
+                            alt={`Thumbnail ${index + 1}`}
+                            fill
+                            className="object-cover grayscale group-hover:grayscale-0 transition-all duration-300"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
           {blog.videos.length > 0 && (
-            <div className="mt-10 md:mt-20 mb-10 md:mb-16">
-              <h2 className="text-2xl md:text-3xl font-light text-center mb-8 md:mb-12">
+            <div className="mt-10 md:mt-16 mb-10 md:mb-16">
+              <h2 className="text-2xl md:text-3xl font-light text-center mb-6 md:mb-8">
                 Behind The Scenes
               </h2>
-              <div className="grid grid-cols-1 gap-6">
-                {blog.videos.map((video, index) => (
-                  <div key={index} className="rounded-xl shadow-lg overflow-hidden">
-                    <video controls className="w-full">
-                      <source src={video} type="video/mp4" />
-                      Your browser does not support the video tag.
-                    </video>
+              <div className="grid grid-cols-4 gap-2 max-w-3xl mx-auto">
+                <div 
+                  onClick={() => {
+                    setCurrentVideoIndex(0);
+                    setIsVideoGalleryOpen(true);
+                  }}
+                  className="relative aspect-[3/4] col-span-2 cursor-pointer group overflow-hidden rounded-md"
+                >
+                  <video 
+                    src={blog.videos[0]} 
+                    className="absolute inset-0 w-full h-full object-cover"
+                    muted
+                    playsInline
+                  />
+                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
                   </div>
-                ))}
+                </div>
+
+                <div className="col-span-2 grid grid-rows-2 gap-2">
+                  {blog.videos.slice(1, 3).map((video, index) => (
+                    <div 
+                      key={index}
+                      onClick={() => {
+                        setCurrentVideoIndex(index + 1);
+                        setIsVideoGalleryOpen(true);
+                      }}
+                      className="relative aspect-[3/2] cursor-pointer group overflow-hidden rounded-md"
+                    >
+                      <video 
+                        src={video} 
+                        className="absolute inset-0 w-full h-full object-cover"
+                        muted
+                        playsInline
+                      />
+                      <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </div>
+                      {index === 1 && blog.videos.length > 3 && (
+                        <div className="absolute inset-0 bg-black/30 flex items-center justify-center 
+                                    cursor-pointer backdrop-blur-[2px] opacity-0 
+                                    group-hover:opacity-100 transition-all duration-300">
+                          <div className="text-center">
+                            <span className="text-white text-sm font-light tracking-wider block">
+                              View All
+                            </span>
+                            <span className="text-white/80 text-xs mt-1 block">
+                              +{blog.videos.length - 3} videos
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
+
+              {/* Video Gallery Modal */}
+              {isVideoGalleryOpen && (
+                <div className="fixed inset-0 bg-black/95 z-50 p-4 md:p-8">
+                  <button
+                    onClick={() => setIsVideoGalleryOpen(false)}
+                    className="absolute top-4 right-4 text-white/90 p-2 hover:bg-white/10 rounded-full z-10"
+                  >
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+
+                  <div className="h-full flex items-center justify-center">
+                    <button
+                      onClick={() => setCurrentVideoIndex((prev) => (prev === 0 ? blog.videos.length - 1 : prev - 1))}
+                      className="absolute left-4 text-white/90 p-2 hover:bg-white/10 rounded-full z-10"
+                    >
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                      </svg>
+                    </button>
+
+                    <div className="relative h-[85vh] w-full max-w-5xl mx-auto">
+                      <video
+                        src={blog.videos[currentVideoIndex]}
+                        className="w-full h-full"
+                        controls
+                        autoPlay
+                      />
+                    </div>
+
+                    <button
+                      onClick={() => setCurrentVideoIndex((prev) => (prev === blog.videos.length - 1 ? 0 : prev + 1))}
+                      className="absolute right-4 text-white/90 p-2 hover:bg-white/10 rounded-full z-10"
+                    >
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  {/* Video Thumbnails */}
+                  <div className="absolute bottom-4 left-0 right-0 overflow-x-auto py-2">
+                    <div className="flex gap-2 justify-center">
+                      {blog.videos.map((video, index) => (
+                        <div
+                          key={index}
+                          onClick={() => setCurrentVideoIndex(index)}
+                          className={`relative w-24 h-16 cursor-pointer rounded-md overflow-hidden group
+                                    ${currentVideoIndex === index ? 'ring-2 ring-white' : 'opacity-50 hover:opacity-100'}`}
+                        >
+                          <video
+                            src={video}
+                            className="absolute inset-0 w-full h-full object-cover"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
