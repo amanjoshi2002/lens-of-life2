@@ -6,7 +6,6 @@ import Image from "next/image";
 import Navbar from "../../../../components/Navbar";
 import Footer from "../../../../components/Footer";
 
-
 interface BlogPost {
   _id: string;
   title: string;
@@ -94,20 +93,14 @@ export default function BlogPost() {
     <>
       <Navbar />
       <main className="pt-[var(--navbar-height)] min-h-screen">
-        <div className="max-w-4xl mx-auto py-10 px-4 md:px-6">
-          <div className="mb-10 text-center py-10">
-            <h1 className="text-3xl md:text-5xl font-bold mb-4 text-gray-900 font-serif">
-              {blog.title}
-            </h1>
-          </div>
-
-          <div className="mb-10">
-            <div className="w-full aspect-[4/3] md:aspect-[16/9] relative overflow-hidden rounded-xl group">
+        <div className="w-full">
+          <div className="relative">
+            <div className="w-full aspect-[4/3] md:aspect-[16/9] relative overflow-hidden group">
               <Image
                 src={blog.headPhotoLink}
                 alt={blog.title}
                 fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+                sizes="100vw"
                 priority
                 className="object-cover object-center shadow-sm grayscale group-hover:grayscale-0 
                          transition-all duration-500 transform group-hover:scale-[1.03]"
@@ -118,10 +111,35 @@ export default function BlogPost() {
                   target.src = "/fallback-image.jpg";
                 }}
               />
-              <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              {/* Title Overlay */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/30">
+                <h1 className="text-3xl md:text-5xl font-bold text-white font-serif px-4 text-center mb-12">
+                  {blog.title}
+                </h1>
+                {/* Scroll Down Indicator - moved into title container */}
+                <div className="text-white animate-bounce">
+                  <svg 
+                    className="w-8 h-8"
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round" 
+                      strokeWidth={2} 
+                      d="M19 14l-7 7m0 0l-7-7m7 7V3"
+                    />
+                  </svg>
+                </div>
+              </div>
             </div>
           </div>
+        </div>
 
+        {/* Content container with max-width */}
+        <div className="max-w-4xl mx-auto px-4 md:px-6 mt-20">
+          {/* Remove the original title section since it's now in the image */}
           {blog.paragraphs.map((paragraph, index) => (
             <div
               key={index}
@@ -311,9 +329,7 @@ export default function BlogPost() {
 
           {blog.videos.length > 0 && (
             <div className="mt-10 md:mt-16 mb-10 md:mb-16">
-              <h2 className="text-2xl md:text-3xl font-light text-center mb-6 md:mb-8">
-                Behind The Scenes
-              </h2>
+            
               <div className="grid grid-cols-4 gap-2 max-w-3xl mx-auto">
                 <div 
                   onClick={() => {

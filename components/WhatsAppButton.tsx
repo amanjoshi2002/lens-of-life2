@@ -3,9 +3,9 @@ import { FaWhatsapp } from 'react-icons/fa';
 
 const WhatsAppButton = () => {
   return (
-    <div className="fixed bottom-4 right-4 z-50">
+    <div className="fixed bottom-24 right-4 z-[100]">
       <Link
-        href="https://wa.me/your-whatsapp-number" // Replace with your WhatsApp number
+        href="https://wa.me/your-whatsapp-number"
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -17,4 +17,4 @@ const WhatsAppButton = () => {
   );
 };
 
-export default WhatsAppButton; 
+export default WhatsAppButton;

@@ -5,7 +5,6 @@ import Footer from "../../../components/Footer";
 import Navbar from "../../../components/Navbar";
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
-import router from "next/router";
 
 interface Category {
   _id: string;
@@ -48,16 +47,10 @@ function PortfolioContent() {
     fetchCategories();
   }, [searchParams]);
 
-  // Update handleAllClick inside component
-  const handleAllClick = async () => {
+  // Update handleAllClick to navigate to /portfolio
+  const handleAllClick = () => {
     setDefaultCategoryId('');
-    try {
-      const res = await fetch('/api/portfolios');
-      const data = await res.json();
-      setPortfolios(data);
-    } catch (error) {
-      console.error("Error fetching all portfolios:", error);
-    }
+    router.push('/portfolio'); // Navigate to /portfolio
   };
 
   // Modify the fetchPortfolios effect
@@ -108,7 +101,7 @@ function PortfolioContent() {
             {categories.map((category) => (
               <button
                 key={category._id}
-                onClick={() => (window.location.href = `/portfolio?category=${category._id}`)}
+                onClick={() => router.push(`/portfolio?category=${category._id}`)}
                 className={`px-4 py-2 rounded-full text-sm sm:text-base transition-all duration-300 ${
                   category._id === categoryId ? 'bg-black text-white' : 'bg-gray-200 text-black hover:bg-gray-800 hover:text-white'
                 }`}

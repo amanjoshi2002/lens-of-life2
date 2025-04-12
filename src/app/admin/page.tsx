@@ -14,7 +14,8 @@ interface Blog {
   category: string;
   title: string;
   headPhotoLink: string;
-  paragraphs: { heading: string; content: string; }[];  // Updated this property
+  headPhotoLinks: string[];  // Add this required field
+  paragraphs: { heading: string; content: string; }[];
   subPhotos: string[];
   photos: string[];
   videos: string[];
@@ -81,7 +82,12 @@ const AdminPage = () => {
         throw new Error("Failed to fetch blogs");
       }
       const data: Blog[] = await res.json();
-      setBlogs(data);
+      // Ensure headPhotoLinks is populated
+      const processedData = data.map(blog => ({
+        ...blog,
+        headPhotoLinks: blog.headPhotoLink ? [blog.headPhotoLink] : []
+      }));
+      setBlogs(processedData);
     } catch (error) {
       console.error("Error fetching blogs:", error);
     }
