@@ -152,7 +152,7 @@ function PortfolioContent() {
           </div>
 
           {/* Contact CTA */}
-          <div className="text-center mt-16">
+          <div className="text-center mt-20 p-14">
             <h3 className="text-xl sm:text-2xl font-playfair text-gray-900 mb-4">
               Ready to capture your special moments?
             </h3>

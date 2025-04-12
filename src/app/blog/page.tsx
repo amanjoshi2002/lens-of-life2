@@ -24,7 +24,11 @@ export default function BlogPage() {
       try {
         const res = await fetch('/api/blognew');
         const data = await res.json();
-        setBlogs(data);
+        // Sort blogs by date in descending order (newest first)
+        const sortedBlogs = data.sort((a: BlogNew, b: BlogNew) => {
+          return new Date(b.date).getTime() - new Date(a.date).getTime();
+        });
+        setBlogs(sortedBlogs);
       } catch (error) {
         console.error('Error fetching blogs:', error);
       }
@@ -36,8 +40,19 @@ export default function BlogPage() {
   const heroSlides = [
     {
       image: '/images/hero/pre wed.jpg',
-      title: 'Blog',
-      subtitle: 'Wedding Photography Ideas & Tips'
+      title: '',
+      subtitle: 'Stories, Tips, and Photography Insights'
+    },
+    {
+      image: '/images/hero/destinationwedding.jpg',
+      title: '',
+      subtitle: 'Stories, Tips, and Photography Insights'
+    },
+    {
+      image: "/images/hero/pre wed.jpg",
+    
+      title: '',
+      subtitle: 'Stories, Tips, and Photography Insights'
     }
   ];
 

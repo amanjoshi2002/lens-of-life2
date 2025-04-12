@@ -15,7 +15,18 @@ function BlogContent() {
   const heroSlides = [
     {
       image: '/images/hero/pre wed.jpg',
-      title: 'Blog',
+      title: '',
+      subtitle: 'Stories, Tips, and Photography Insights'
+    },
+    {
+      image: '/images/hero/destinationwedding.jpg',
+      title: '',
+      subtitle: 'Stories, Tips, and Photography Insights'
+    },
+    {
+      image: "/images/hero/pre wed.jpg",
+    
+      title: '',
       subtitle: 'Stories, Tips, and Photography Insights'
     }
   ];
@@ -32,7 +43,7 @@ function BlogContent() {
   return (
     <>
       <Navbar />
-      <Hero pageTitle="" slides={heroSlides} />
+      <Hero pageTitle="Services" slides={heroSlides} />
       <CategorySlider selectedCategory={category} />
       <Footer />
     </>

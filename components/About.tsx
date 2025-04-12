@@ -18,7 +18,7 @@ const About = () => {
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="text-4xl sm:text-5xl md:text-6xl font-['Playfair_Display'] tracking-wide text-neutral-800 leading-tight font-style: italic"
+              className="text-4xl sm:text-5xl md:text-6xl font-script tracking-wide text-neutral-800 leading-tight font-style: italic"
             >
               About Me
             </motion.h2>

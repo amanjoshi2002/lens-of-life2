@@ -22,11 +22,8 @@ interface Props {
 }
 
 export default function CategorySlider({ selectedCategory }: Props) {
-  const sliderRef = useRef<HTMLDivElement>(null);
-  const buttonId = useId();
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
   const [categories, setCategories] = useState<CategoryGroup[]>([]);
+  const [visiblePosts, setVisiblePosts] = useState<{ [key: string]: number }>({});
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -34,28 +31,36 @@ export default function CategorySlider({ selectedCategory }: Props) {
         const response = await fetch('/api/blogs');
         if (response.ok) {
           const blogs: Blog[] = await response.json();
-          
-          // Filter blogs by selected category if provided
           const filteredBlogs = selectedCategory 
             ? blogs.filter(blog => blog.category.toLowerCase().replace(/\s+/g, '-') === selectedCategory)
             : blogs;
 
-          // Group blogs by category
           const groupedBlogs = filteredBlogs.reduce((acc: { [key: string]: Blog[] }, blog) => {
             if (!acc[blog.category]) {
               acc[blog.category] = [];
             }
-            acc[blog.category].push(blog);
+            // Add new posts to the beginning of the array
+            acc[blog.category].unshift(blog);
             return acc;
           }, {});
 
-          // Convert to array format needed for rendering
           const categoriesArray = Object.entries(groupedBlogs).map(([name, posts]) => ({
             name,
-            posts
+            // Ensure posts are in reverse chronological order
+            posts: posts.sort((a, b) => {
+              const dateA = a.date ? new Date(a.date).getTime() : 0;
+              const dateB = b.date ? new Date(b.date).getTime() : 0;
+              return dateB - dateA;
+            })
           }));
 
           setCategories(categoriesArray);
+          // Initialize visible posts for each category
+          const initialVisiblePosts = categoriesArray.reduce((acc, category) => {
+            acc[category.name] = 6; // Show initial 6 posts
+            return acc;
+          }, {} as { [key: string]: number });
+          setVisiblePosts(initialVisiblePosts);
         }
       } catch (error) {
         console.error('Error fetching blogs:', error);
@@ -63,97 +68,13 @@ export default function CategorySlider({ selectedCategory }: Props) {
     };
 
     fetchBlogs();
-  }, [selectedCategory]); // Add selectedCategory to dependency array
+  }, [selectedCategory]);
 
-  useEffect(() => {
-    const updateScrollButtons = () => {
-      if (sliderRef.current) {
-        setCanScrollLeft(sliderRef.current.scrollLeft > 0);
-        setCanScrollRight(
-          sliderRef.current.scrollLeft + sliderRef.current.clientWidth < sliderRef.current.scrollWidth
-        );
-      }
-    };
-    
-    if (sliderRef.current) {
-      sliderRef.current.addEventListener("scroll", updateScrollButtons);
-      updateScrollButtons();
-    }
-
-    const autoScroll = setInterval(() => {
-      if (sliderRef.current) {
-        const maxScrollLeft = sliderRef.current.scrollWidth - sliderRef.current.clientWidth;
-        if (sliderRef.current.scrollLeft >= maxScrollLeft) {
-          sliderRef.current.scrollTo({ left: 0, behavior: 'smooth' });
-        } else {
-          sliderRef.current.scrollBy({ left: sliderRef.current.clientWidth, behavior: 'smooth' });
-        }
-      }
-    }, 3000);
-
-    return () => {
-      sliderRef.current?.removeEventListener("scroll", updateScrollButtons);
-      clearInterval(autoScroll);
-    };
-  }, []);
-
-  // Create a map of refs for each category
-  const sliderRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
-
-  // Update scroll functions to use the correct slider ref
-  const scrollLeft = (categoryName: string) => {
-    if (sliderRefs.current[categoryName]) {
-      sliderRefs.current[categoryName]?.scrollBy({ 
-        left: -sliderRefs.current[categoryName]!.clientWidth, 
-        behavior: 'smooth' 
-      });
-    }
-  };
-
-  const scrollRight = (categoryName: string) => {
-    if (sliderRefs.current[categoryName]) {
-      sliderRefs.current[categoryName]?.scrollBy({ 
-        left: sliderRefs.current[categoryName]!.clientWidth, 
-        behavior: 'smooth' 
-      });
-    }
-  };
-
-  // Update the scroll button visibility effect
-  useEffect(() => {
-    const updateScrollButtons = (categoryName: string) => {
-      const currentSlider = sliderRefs.current[categoryName];
-      if (currentSlider) {
-        setCanScrollLeft(currentSlider.scrollLeft > 0);
-        setCanScrollRight(
-          currentSlider.scrollLeft + currentSlider.clientWidth < currentSlider.scrollWidth
-        );
-      }
-    };
-
-    // Add scroll listeners to all sliders
-    categories.forEach(category => {
-      const slider = sliderRefs.current[category.name];
-      if (slider) {
-        slider.addEventListener("scroll", () => updateScrollButtons(category.name));
-        updateScrollButtons(category.name);
-      }
-    });
-
-    return () => {
-      categories.forEach(category => {
-        sliderRefs.current[category.name]?.removeEventListener("scroll", 
-          () => updateScrollButtons(category.name)
-        );
-      });
-    };
-  }, [categories]);
-
-  // Update the ref callback
-  const setSliderRef = (el: HTMLDivElement | null, categoryName: string) => {
-    if (sliderRefs.current) {
-      sliderRefs.current[categoryName] = el;
-    }
+  const loadMore = (categoryName: string) => {
+    setVisiblePosts(prev => ({
+      ...prev,
+      [categoryName]: prev[categoryName] + 6
+    }));
   };
 
   return (
@@ -161,123 +82,78 @@ export default function CategorySlider({ selectedCategory }: Props) {
       {categories.map((category) => (
         <div key={category.name} id={category.name.toLowerCase().replace(/\s+/g, '-')} className="mb-16">
           <h2 className="text-3xl font-light tracking-wide mb-8 text-center">{category.name}</h2>
-          <div className="relative">
-            {canScrollLeft && (
-              <button
-                onClick={() => scrollLeft(category.name)}
-                className="absolute -left-3 md:-left-6 top-1/2 -translate-y-1/2 bg-white shadow-lg hover:bg-gray-100 rounded-full p-2 md:p-3 z-10 transition-all"
-                suppressHydrationWarning
-                id={`${buttonId}-left-${category.name}`}
-              >
-                <svg 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  width="20" 
-                  height="20" 
-                  viewBox="0 0 24 24" 
-                  fill="none" 
-                  stroke="currentColor" 
-                  strokeWidth="2" 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round"
-                >
-                  <path d="m15 18-6-6 6-6"/>
-                </svg>
-              </button>
-            )}
-            <div
-              ref={(el) => setSliderRef(el, category.name)}
-              className="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory gap-6 touch-pan-x no-scrollbar"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-            >
-              {category.posts.map((post) => (
-                <div key={post._id} className="min-w-full md:min-w-[calc(33.333%-1rem)] snap-start">
-                  <Link href={`/service/${post._id}`} className="block group">
-                    {/* Mobile Layout */}
-                    <div className="block md:hidden">
-                      <div className="bg-black/5 p-4 rounded-lg">
-                        <h3 className="text-xl font-medium mb-2">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {category.posts.slice(0, visiblePosts[category.name]).map((post, index) => (
+              <Link key={post._id} href={`/service/${post._id}`} className="block group">
+                {/* Mobile Layout */}
+                <div className="block md:hidden">
+                  <div className="bg-black/5 p-4 rounded-lg">
+                    <h3 className="text-xl font-medium mb-2">{post.title}</h3>
+                    {post.date && (
+                      <div className="flex items-center text-gray-600 text-sm mb-4">
+                        <Calendar size={16} className="mr-2" />
+                        {new Date(post.date).toLocaleDateString()}
+                      </div>
+                    )}
+                    <div className="relative h-[300px] overflow-hidden rounded-lg">
+                      <img
+                        src={post.headPhotoLink}
+                        alt={post.title}
+                        className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-500"
+                        loading={index < 6 ? "eager" : "lazy"}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Desktop Layout */}
+                <div className="hidden md:block">
+                  <div className="relative aspect-[3/4] overflow-hidden rounded-lg">
+                    <img
+                      src={post.headPhotoLink}
+                      alt={post.title}
+                      className="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-700 grayscale hover:grayscale-0"
+                      loading={index < 6 ? "eager" : "lazy"}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                      <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <h3 className="text-white text-xl font-medium mb-2 line-clamp-2">
                           {post.title}
                         </h3>
                         {post.date && (
-                          <div className="flex items-center text-gray-600 text-sm mb-4">
+                          <div className="flex items-center text-white/80 text-sm mb-4">
                             <Calendar size={16} className="mr-2" />
-                            {new Date(post.date).toLocaleDateString('en-US', {
-                              year: 'numeric',
-                              month: 'long',
-                              day: 'numeric',
-                            })}
+                            {new Date(post.date).toLocaleDateString()}
                           </div>
                         )}
-                        <div className="relative h-[300px] overflow-hidden rounded-lg mt-4">
-                          <img
-                            src={post.headPhotoLink}
-                            alt={post.title}
-                            className="object-cover w-full h-full"
-                          />
-                        </div>
+                        <span className="inline-flex items-center text-white text-sm font-medium">
+                          Read More 
+                          <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                          </svg>
+                        </span>
                       </div>
                     </div>
-
-                    {/* Desktop Layout */}
-                    <div className="hidden md:block">
-                      <div className="relative h-[500px] overflow-hidden rounded-lg">
-                        <img
-                          src={post.headPhotoLink}
-                          alt={post.title}
-                          className="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-700"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                          <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                            <h3 className="text-white text-xl font-medium mb-2 line-clamp-2">
-                              {post.title}
-                            </h3>
-                            {post.date && (
-                              <div className="flex items-center text-white/80 text-sm mb-4">
-                                <Calendar size={16} className="mr-2" />
-                                {new Date(post.date).toLocaleDateString('en-US', {
-                                  year: 'numeric',
-                                  month: 'long',
-                                  day: 'numeric',
-                                })}
-                              </div>
-                            )}
-                            <span className="inline-flex items-center text-white text-sm font-medium">
-                              Read More 
-                              <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                              </svg>
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
+                  </div>
                 </div>
-              ))}
-            </div>
-            {canScrollRight && (
+              </Link>
+            ))}
+          </div>
+          
+          {category.posts.length > visiblePosts[category.name] && (
+            <div className="text-center mt-8">
               <button
-                onClick={() => scrollRight(category.name)}
-                className="absolute -right-3 md:-right-6 top-1/2 -translate-y-1/2 bg-white shadow-lg hover:bg-gray-100 rounded-full p-2 md:p-3 z-10 transition-all"
-                suppressHydrationWarning
-                id={`${buttonId}-right-${category.name}`}
+                onClick={() => loadMore(category.name)}
+                className="px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 
+                         transition-colors duration-300 flex items-center gap-2 mx-auto"
               >
-                <svg 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  width="20" 
-                  height="20" 
-                  viewBox="0 0 24 24" 
-                  fill="none" 
-                  stroke="currentColor" 
-                  strokeWidth="2" 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round"
-                >
-                  <path d="m9 18 6-6-6-6"/>
+                <span>Show More</span>
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       ))}
     </div>
