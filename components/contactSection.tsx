@@ -25,24 +25,45 @@ const ContactSection = () => {
             <input
               type="text"
               placeholder="Name"
-              className="w-1/2 p-3 border rounded-lg focus:ring-2 focus:ring-pink-400 outline-none font-lato"
+              className="w-1/2 p-3 border rounded-lg focus:ring-2 focus:ring-black outline-none font-lato text-gray-700 placeholder-gray-400"
             />
             <input
               type="email"
               placeholder="Email"
-              className="w-1/2 p-3 border rounded-lg focus:ring-2 focus:ring-pink-400 outline-none font-lato"
+              className="w-1/2 p-3 border rounded-lg focus:ring-2 focus:ring-black outline-none font-lato text-gray-700 placeholder-gray-400"
             />
           </div>
           
           <input
             type="tel"
             placeholder="Phone"
-            className="p-3 border rounded-lg focus:ring-2 focus:ring-pink-400 outline-none font-lato"
+            className="p-3 border rounded-lg focus:ring-2 focus:ring-black outline-none font-lato text-gray-700 placeholder-gray-400"
           />
+          
+          <div className="relative">
+            <select
+              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-black outline-none font-lato text-gray-700 appearance-none bg-white pr-10"
+              defaultValue="Select Service"
+            >
+              <option value="" disabled>Select Service</option>
+              <option value="Wedding">Wedding</option>
+              <option value="Pre Wedding">Pre Wedding</option>
+              <option value="Anniversaries">Anniversaries</option>
+              <option value="Engagement">Engagement</option>
+              <option value="Corporate Event">Corporate Event</option>
+              <option value="Live streaming">Live Streaming</option>
+              <option value="Others">Others</option>
+            </select>
+            <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+              <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </div>
+          </div>
           
           <textarea
             placeholder="Message"
-            className="p-3 border rounded-lg h-32 focus:ring-2 focus:ring-pink-400 outline-none font-lato"
+            className="p-3 border rounded-lg h-32 focus:ring-2 focus:ring-black outline-none font-lato text-gray-700 placeholder-gray-400"
           ></textarea>
           
           <button className="bg-gray-400 text-white py-3 rounded-lg hover:bg-black transition-transform transform hover:scale-105 font-lato font-medium">

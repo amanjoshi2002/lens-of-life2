@@ -141,6 +141,12 @@ const Navbar = () => {
 
           <div className="flex items-center space-x-8">
             <Link 
+              href="/testimonials" 
+              className="text-white hover:text-gray-300 transition-colors duration-300 text-sm tracking-wider"
+            >
+              Testimonials
+            </Link>
+            <Link 
               href="/faq" 
               className="text-white hover:text-gray-300 transition-colors duration-300 text-sm tracking-wider"
             >
@@ -232,6 +238,12 @@ const Navbar = () => {
                   className="text-white hover:text-gray-300 transition-colors duration-300 text-sm tracking-wider"
                 >
                   BLOG
+                </Link>
+                <Link 
+                  href="/testimonial" 
+                  className="text-white hover:text-gray-300 transition-colors duration-300 text-sm tracking-wider"
+                >
+                  TESTIMONIALS
                 </Link>
                 <Link 
                   href="/faq" 

@@ -25,9 +25,7 @@ function PortfolioContent() {
   const router = useRouter();
   const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
-  const searchParams = useSearchParams();
-  const [defaultCategoryId, setDefaultCategoryId] = useState('');
-  const categoryId = searchParams?.get('category') || defaultCategoryId;
+  const [selectedCategoryId, setSelectedCategoryId] = useState('');
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -35,30 +33,18 @@ function PortfolioContent() {
         const res = await fetch("/api/categories");
         const data: Category[] = await res.json();
         setCategories(data);
-        // Set the first category as default if no category is selected
-        if (data.length > 0 && !searchParams?.get('category')) {
-          setDefaultCategoryId(data[0]._id);
-        }
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
     };
 
     fetchCategories();
-  }, [searchParams]);
+  }, []);
 
-  // Update handleAllClick to navigate to /portfolio
-  const handleAllClick = () => {
-    setDefaultCategoryId('');
-    router.push('/portfolio'); // Navigate to /portfolio
-  };
-
-  // Modify the fetchPortfolios effect
   useEffect(() => {
     const fetchPortfolios = async () => {
       try {
-        const url = categoryId ? `/api/portfolios?categoryId=${categoryId}` : '/api/portfolios';
-        const res = await fetch(url);
+        const res = await fetch('/api/portfolios');
         const data = await res.json();
         setPortfolios(data);
       } catch (error) {
@@ -67,9 +53,21 @@ function PortfolioContent() {
     };
 
     fetchPortfolios();
-  }, [categoryId]);
+  }, []);
 
-  const filteredPortfolios = portfolios.filter(portfolio => portfolio.category._id === categoryId);
+  // Update category selection handlers
+  const handleAllClick = () => {
+    setSelectedCategoryId('');
+  };
+
+  const handleCategoryClick = (categoryId: string) => {
+    setSelectedCategoryId(categoryId);
+  };
+
+  // Filter portfolios based on selected category
+  const filteredPortfolios = selectedCategoryId 
+    ? portfolios.filter(portfolio => portfolio.category._id === selectedCategoryId)
+    : portfolios;
 
   const heroSlides = [
     {
@@ -93,7 +91,7 @@ function PortfolioContent() {
             <button
               onClick={handleAllClick}
               className={`px-4 py-2 rounded-full text-sm sm:text-base transition-all duration-300 ${
-                !categoryId ? 'bg-black text-white' : 'bg-gray-200 text-black hover:bg-gray-800 hover:text-white'
+                !selectedCategoryId ? 'bg-black text-white' : 'bg-gray-200 text-black hover:bg-gray-800 hover:text-white'
               }`}
             >
               All
@@ -101,9 +99,9 @@ function PortfolioContent() {
             {categories.map((category) => (
               <button
                 key={category._id}
-                onClick={() => router.push(`/portfolio?category=${category._id}`)}
+                onClick={() => handleCategoryClick(category._id)}
                 className={`px-4 py-2 rounded-full text-sm sm:text-base transition-all duration-300 ${
-                  category._id === categoryId ? 'bg-black text-white' : 'bg-gray-200 text-black hover:bg-gray-800 hover:text-white'
+                  category._id === selectedCategoryId ? 'bg-black text-white' : 'bg-gray-200 text-black hover:bg-gray-800 hover:text-white'
                 }`}
               >
                 {category.name}
@@ -114,7 +112,7 @@ function PortfolioContent() {
           {/* Portfolio Grid */}
           <div className="w-full">
             <div className="columns-1 sm:columns-2 lg:columns-3 gap-0 [column-fill:_balance] w-full">
-              {(categoryId ? filteredPortfolios : portfolios)
+              {filteredPortfolios
                 .slice()
                 .reverse()
                 .flatMap((portfolio) =>
@@ -125,15 +123,15 @@ function PortfolioContent() {
                     return (
                       <div 
                         key={`${portfolio._id}-${index}`} 
-                        className={`mb-0 break-inside-avoid ${
+                        className={`mb-0 break-inside-avoid overflow-hidden relative ${
                           isLarge ? 'h-[90vh]' : isWide ? 'h-[60vh]' : 'h-[70vh]'
                         }`}
                       >
-                        <div className="w-full h-full">
+                        <div className="w-full h-full overflow-hidden">
                           <img
                             alt={portfolio.title}
                             className="w-full h-full object-cover transition-all duration-500 
-                                     filter grayscale hover:grayscale-0 hover:scale-105"
+                                     filter grayscale hover:grayscale-0 hover:scale-105 z-10"
                             src={photo}
                           />
                         </div>

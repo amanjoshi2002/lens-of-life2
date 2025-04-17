@@ -3,20 +3,22 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { Mail, MapPin, Phone, Send, Instagram } from "lucide-react";
 import Navbar from "../../../components/Navbar";
+import Footer from "../../../components/Footer";
 
 const Contact = () => {
   const [formState, setFormState] = useState({
     name: "",
     email: "",
     subject: "",
+    service: "",
     message: "",
   });
-  
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
     setFormState((prev) => ({ ...prev, [name]: value }));
@@ -32,7 +34,7 @@ const Contact = () => {
     console.log("Form submitted:", formState);
     setIsSubmitting(false);
     setIsSubmitted(true);
-    setFormState({ name: "", email: "", subject: "", message: "" });
+    setFormState({ name: "", email: "", subject: "", service: "", message: "" }); // Add service here
     
     // Reset submission status after 5 seconds
     setTimeout(() => setIsSubmitted(false), 5000);
@@ -87,7 +89,7 @@ const Contact = () => {
       >
         <div className="relative w-full h-0 pb-[56.25%] sm:pb-[45%] md:pb-[35%]">
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d75424.95960804925!2d-1.6006004776245095!3d53.799806211759126!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48793e4ada64bd99%3A0x51adbafd0213dca9!2sLeeds%2C%20UK!5e0!3m2!1sen!2sus!4v1709489843696!5m2!1sen!2sus"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3845.5524143959547!2d73.92431827507825!3d15.496519185132392!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbfbfb94ae7549b%3A0x6badb125297ccb94!2sLens%20Of%20Life%20Creations%20-%20Best%20Wedding%20Photographers%20In%20Goa!5e0!3m2!1sen!2sin!4v1709669669261!5m2!1sen!2sin"
             className="absolute top-0 left-0 w-full h-full border-0"
             allowFullScreen
             loading="lazy"
@@ -164,7 +166,7 @@ const Contact = () => {
                 href="tel:+12345678901"
                 className="text-gray-500 hover:text-gray-800 transition-colors duration-300"
               >
-                +1 (234) 567-8901
+                +91 8999903681
               </a>
             </div>
           </motion.div>
@@ -191,13 +193,13 @@ const Contact = () => {
             <div>
               <h3 className="font-medium text-sm mb-1">Studio</h3>
               <address className="text-gray-500 not-italic">
-                123 Photo Street<br />
-                New York, NY 10001
+              Panjim - Belagavi Rd<br />
+              Old Goa, Goa 403402
               </address>
             </div>
           </motion.div>
 
-          <motion.div variants={itemVariants} className="flex items-center">
+          {/* <motion.div variants={itemVariants} className="flex items-center">
             <div className="h-12 w-12 rounded-full bg-black/5 flex items-center justify-center mr-4">
               <Instagram className="h-5 w-5 text-gray-700" />
             </div>
@@ -210,7 +212,7 @@ const Contact = () => {
                 @photographer
               </a>
             </div>
-          </motion.div>
+          </motion.div> */}
         </motion.div>
 
         <motion.div
@@ -308,6 +310,35 @@ const Contact = () => {
                 />
               </motion.div>
 
+              {/* Add Service Dropdown */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.35, duration: 0.5 }}
+              >
+                <label htmlFor="service" className="block text-sm font-medium text-gray-700 mb-1">
+                  Service
+                </label>
+                <select
+                  id="service"
+                  name="service"
+                  value={formState.service}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 border-gray-200 rounded-lg focus:ring-0 focus:border-gray-400 transition-colors duration-300 bg-gray-50 appearance-none"
+                >
+                  <option value="" disabled>Select a service</option>
+                  <option value="Wedding">Wedding</option>
+                  <option value="Pre Wedding">Pre Wedding</option>
+                  <option value="Anniversaries">Anniversaries</option>
+                  <option value="Engagement">Engagement</option>
+                  <option value="Corporate Event">Corporate Event</option>
+                  <option value="Live streaming">Live Streaming</option>
+                  <option value="Others">Others</option>
+                </select>
+              </motion.div>
+
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -357,6 +388,7 @@ const Contact = () => {
         </motion.div>
       </div>
     </section>
+    <Footer/>
     </>
   );
 };
