@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
+import Loading from "../../../components/Loading";
 
 interface Testimonial {
   _id: string;
@@ -48,21 +49,7 @@ const TestimonialsPage = () => {
     return (
       <>
         <Navbar />
-        <section className="bg-gray-100 py-20 min-h-screen">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-4 sm:px-8">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="bg-white shadow-lg rounded-lg p-6 animate-pulse">
-                  <div className="h-4 bg-gray-200 rounded w-3/4 mb-4"></div>
-                  <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
-                  <div className="h-4 bg-gray-200 rounded w-5/6"></div>
-                  <div className="h-12 w-12 bg-gray-200 rounded-full mx-auto my-4"></div>
-                  <div className="h-4 bg-gray-200 rounded w-1/2 mx-auto"></div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <Loading/>
         <Footer />
       </>
     );

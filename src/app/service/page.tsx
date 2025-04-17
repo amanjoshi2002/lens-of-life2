@@ -7,6 +7,7 @@ import Hero from '../../../components/Hero1';
 import Navbar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 import CategorySlider from '../../../components/blogCategory1';
+import Loading from '../../../components/Loading';
 
 function BlogContent() {
   const searchParams = useSearchParams();
@@ -52,7 +53,7 @@ function BlogContent() {
 
 export default function BlogPage() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<Loading/>}>
       <BlogContent />
     </Suspense>
   );

@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import Image from "next/image";
 import Navbar from "../../../../components/Navbar";
 import Footer from "../../../../components/Footer";
+import Loading from "../../../../components/Loading";
 
 interface BlogPost {
   _id: string;
@@ -55,20 +56,8 @@ export default function BlogPost() {
     return (
       <>
         <Navbar />
-        <main className="pt-[var(--navbar-height)] min-h-screen">
-          <div className="max-w-4xl mx-auto py-12 px-4 md:px-6">
-            <div className="animate-pulse space-y-6">
-              <div className="h-8 bg-gray-200 rounded w-3/4"></div>
-              <div className="h-64 bg-gray-200 rounded"></div>
-              <div className="space-y-4">
-                <div className="h-4 bg-gray-200 rounded w-full"></div>
-                <div className="h-4 bg-gray-200 rounded w-5/6"></div>
-                <div className="h-4 bg-gray-200 rounded w-4/6"></div>
-              </div>
-            </div>
-          </div>
-        </main>
-        <Footer />
+        <Loading/>
+        <Footer/>
       </>
     );
   }

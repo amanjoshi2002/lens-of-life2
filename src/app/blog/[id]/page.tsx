@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import Image from "next/image";
 import Navbar from "../../../../components/Navbar";
 import Footer from "../../../../components/Footer";
+import Loading from "../../../../components/Loading";
 
 interface BlogNew {
   _id: string;
@@ -36,7 +37,7 @@ export default function BlogPost() {
   }, [id]);
 
   if (!blog) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return (
