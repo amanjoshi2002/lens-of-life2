@@ -44,7 +44,7 @@ const Services = () => {
   ];
 
   return (
-    <section className="py-10 sm:py-20">
+    <section className="pt-10 sm:pt-20 pb-0">
       {services.map((service, index) => (
         <div key={service.title} className={`w-full ${backgroundColors[index]} p-6 sm:p-10`}>
           <motion.div

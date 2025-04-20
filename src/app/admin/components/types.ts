@@ -1,10 +1,17 @@
+export interface Paragraph {
+  heading: string;
+  content: string;
+}
+
 export interface Blog {
   _id: string;
   category: string;
   title: string;
   headPhotoLink: string;
   headPhotoLinks: string[];
-  paragraphs: { heading: string; content: string }[];
+  coupleName?: string;
+  weddingDate?: string; // ISO string or Date
+  paragraphs: Paragraph[];
   subPhotos: string[];
   photos: string[];
   videos: string[];
@@ -15,7 +22,9 @@ export interface FormState {
   title: string;
   headPhotoLink: string;
   headPhotoLinks: string[];
-  paragraphs: { heading: string; content: string }[];
+  coupleName?: string;
+  weddingDate?: string; // ISO string or Date
+  paragraphs: Paragraph[];
   subPhotos: string[];
   photos: string[];
   videos: string[];

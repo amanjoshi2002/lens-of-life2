@@ -1,39 +1,31 @@
 import { Blog } from "./types";
 
-interface BlogListProps {
+interface Props {
   blogs: Blog[];
-  searchTerm: string;
-  selectedCategory: string;
+  onEdit: (b: Blog) => void;
+  onDelete: (id: string) => void;
+  search: string;
+  setSearch: (s: string) => void;
+  filterCategory: string;
+  setFilterCategory: (c: string) => void;
   categories: string[];
-  editingBlogId: string | null;
-  form: any;
-  onSearchChange: (value: string) => void;
-  onCategoryChange: (value: string) => void;
-  onEditBlog: (blog: Blog) => void;
-  onDeleteBlog: (id: string) => void;
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, index: number, type: string) => void;
-  handleRemoveField: (index: number) => void;
 }
 
 const BlogList = ({
   blogs,
-  searchTerm,
-  selectedCategory,
+  onEdit,
+  onDelete,
+  search,
+  setSearch,
+  filterCategory,
+  setFilterCategory,
   categories,
-  editingBlogId,
-  form,
-  onSearchChange,
-  onCategoryChange,
-  onEditBlog,
-  onDeleteBlog,
-  handleInputChange,
-  handleRemoveField,
-}: BlogListProps) => {
-  const filteredBlogs = blogs.filter((blog) => {
-    const matchesTitle = blog.title.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory ? blog.category === selectedCategory : true;
-    return matchesTitle && matchesCategory;
-  });
+}: Props) => {
+  const filtered = blogs.filter(
+    (b) =>
+      b.title.toLowerCase().includes(search.toLowerCase()) &&
+      (!filterCategory || b.category === filterCategory)
+  );
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md mt-6">
@@ -42,117 +34,48 @@ const BlogList = ({
         <input
           type="text"
           placeholder="Search by title"
-          value={searchTerm}
-          onChange={(e) => onSearchChange(e.target.value)}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
           className="border border-gray-300 p-2 rounded text-black"
         />
         <select
-          value={selectedCategory}
-          onChange={(e) => onCategoryChange(e.target.value)}
+          value={filterCategory}
+          onChange={(e) => setFilterCategory(e.target.value)}
           className="border border-gray-300 p-2 rounded text-black"
         >
           <option value="">All Categories</option>
-          {categories.map((category) => (
-            <option key={category} value={category}>
-              {category}
-            </option>
+          {categories.map((c) => (
+            <option key={c} value={c}>{c}</option>
           ))}
         </select>
       </div>
-      {filteredBlogs.length > 0 ? (
-        filteredBlogs.map((blog) => (
+      {filtered.length > 0 ? (
+        filtered.map((blog) => (
           <div key={blog._id} className="border-b border-gray-200 py-4">
-            {editingBlogId === blog._id ? (
-              <div>
-                <select
-                  name="category"
-                  value={form.category}
-                  onChange={(e) => handleInputChange(e, 0, "category")}
-                  className="border border-gray-300 p-2 rounded mb-2 w-full text-black"
-                >
-                  <option value="">Select Category</option>
-                  {categories.map((category) => (
-                    <option key={category} value={category}>
-                      {category}
-                    </option>
-                  ))}
-                </select>
-                <input
-                  type="text"
-                  name="title"
-                  placeholder="Title"
-                  value={form.title}
-                  onChange={(e) => handleInputChange(e, 0, "title")}
-                  className="border border-gray-300 p-2 rounded mb-2 w-full text-black"
-                />
-                <input
-                  type="text"
-                  name="headPhotoLink"
-                  placeholder="Head Photo Link"
-                  value={form.headPhotoLink}
-                  onChange={(e) => handleInputChange(e, 0, "headPhotoLink")}
-                  className="border border-gray-300 p-2 rounded mb-2 w-full text-black"
-                />
-                {form.paragraphs.map((paragraph: any, index: number) => (
-                  <div key={index} className="flex gap-2 mb-2">
-                    <input
-                      type="text"
-                      name="heading"
-                      placeholder={`Heading ${index + 1}`}
-                      value={paragraph.heading || ""}
-                      onChange={(e) => handleInputChange(e, index, "paragraphs")}
-                      className="border border-gray-300 p-2 rounded flex-grow text-black"
-                    />
-                    <input
-                      type="text"
-                      name="content"
-                      placeholder={`Content ${index + 1}`}
-                      value={paragraph.content || ""}
-                      onChange={(e) => handleInputChange(e, index, "paragraphs")}
-                      className="border border-gray-300 p-2 rounded flex-grow text-black"
-                    />
-                    <input
-                      type="text"
-                      placeholder={`Sub Photo ${index + 1}`}
-                      value={form.subPhotos[index] || ""}
-                      onChange={(e) => handleInputChange(e, index, "subPhotos")}
-                      className="border border-gray-300 p-2 rounded flex-grow text-black"
-                    />
-                    <button
-                      onClick={() => handleRemoveField(index)}
-                      className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-                    >
-                      Remove
-                    </button>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div>
-                <h3 className="text-xl font-medium">{blog.title}</h3>
-                <p className="text-gray-600">{blog.category}</p>
-                <div className="grid grid-cols-2 gap-2 mb-4">
-                  <img src={blog.headPhotoLink} alt="Main Head Photo" className="mb-2" />
-                  {blog.headPhotoLinks?.map((link, index) => (
-                    <img key={index} src={link} alt={`Head Photo ${index + 1}`} className="mb-2" />
-                  ))}
-                </div>
-                <div className="flex gap-2 mt-2">
-                  <button
-                    onClick={() => onEditBlog(blog)}
-                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => onDeleteBlog(blog._id)}
-                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-            )}
+            <h3 className="text-xl font-medium">{blog.title}</h3>
+            <p className="text-gray-600">{blog.category}</p>
+            {blog.coupleName && <p className="text-gray-700">Couple: {blog.coupleName}</p>}
+            {blog.weddingDate && <p className="text-gray-700">Wedding Date: {blog.weddingDate.slice(0,10)}</p>}
+            <div className="grid grid-cols-2 gap-2 mb-4">
+              <img src={blog.headPhotoLink} alt="Main Head Photo" className="mb-2" />
+              {blog.headPhotoLinks?.map((link, i) => (
+                <img key={i} src={link} alt={`Head Photo ${i + 1}`} className="mb-2" />
+              ))}
+            </div>
+            <div className="flex gap-2 mt-2">
+              <button
+                onClick={() => onEdit(blog)}
+                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+              >
+                Edit
+              </button>
+              <button
+                onClick={() => onDelete(blog._id)}
+                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+              >
+                Delete
+              </button>
+            </div>
           </div>
         ))
       ) : (

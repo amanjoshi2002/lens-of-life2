@@ -1,180 +1,109 @@
 import { useState, ChangeEvent } from "react";
 import { FormState } from "./types";
-import HeadPhotoSection from "./HeadPhotoSection";
-import ParagraphSection from "./ParagraphSection";
-import MediaSection from "./MediaSection";
 
-interface BlogFormProps {
-  initialForm: FormState;
+interface Props {
+  form: FormState;
+  setForm: (f: FormState) => void;
   categories: string[];
-  editingBlogId: string | null;
-  onSave: () => void;
+  onSave: (f: FormState) => void;
+  onCancel: () => void;
+  editing: boolean;
 }
 
-const BlogForm = ({ initialForm, categories, editingBlogId, onSave }: BlogFormProps) => {
-  const [form, setForm] = useState<FormState>(initialForm);
-
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>, index: number, type: string) => {
-    const { value } = e.target;
-    if (type === "paragraphs") {
-      const newParagraphs = [...form.paragraphs];
-      if (e.target.name === "heading") {
-        newParagraphs[index] = { ...newParagraphs[index], heading: value };
-      } else {
-        newParagraphs[index] = { ...newParagraphs[index], content: value };
-      }
-      setForm({ ...form, paragraphs: newParagraphs });
-    } else if (type === "headPhotoLinks") {
-      const newHeadPhotoLinks = [...form.headPhotoLinks];
-      newHeadPhotoLinks[index] = value;
-      setForm({ ...form, headPhotoLinks: newHeadPhotoLinks });
-    } else if (type === "subPhotos") {
-      const newSubPhotos = [...form.subPhotos];
-      newSubPhotos[index] = value;
-      setForm({ ...form, subPhotos: newSubPhotos });
-    } else if (type === "photos") {
-      const newPhotos = [...form.photos];
-      newPhotos[index] = value;
-      setForm({ ...form, photos: newPhotos });
-    } else if (type === "videos") {
-      const newVideos = [...form.videos];
-      newVideos[index] = value;
-      setForm({ ...form, videos: newVideos });
-    } else {
-      setForm({ ...form, [type]: value });
-    }
+const BlogForm = ({ form, setForm, categories, onSave, onCancel, editing }: Props) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
   };
 
-  const handleAddField = () => {
-    setForm({
-      ...form,
-      paragraphs: [...form.paragraphs, { heading: "", content: "" }],
-      subPhotos: [...form.subPhotos, ""],
-    });
+  const handleArrayChange = (arr: string[], idx: number, value: string, key: keyof FormState) => {
+    const copy = [...arr];
+    copy[idx] = value;
+    setForm({ ...form, [key]: copy });
   };
 
-  const handleRemoveField = (index: number) => {
-    const newParagraphs = form.paragraphs.filter((_, i) => i !== index);
-    const newSubPhotos = form.subPhotos.filter((_, i) => i !== index);
-    setForm({ ...form, paragraphs: newParagraphs, subPhotos: newSubPhotos });
+  const handleParagraphChange = (idx: number, field: "heading" | "content", value: string) => {
+    const copy = [...form.paragraphs];
+    copy[idx] = { ...copy[idx], [field]: value };
+    setForm({ ...form, paragraphs: copy });
   };
 
-  const handleAddHeadPhoto = () => {
-    setForm({ ...form, headPhotoLinks: [...form.headPhotoLinks, ""] });
-  };
+  const addField = (key: keyof FormState, empty: any) => setForm({ ...form, [key]: [...(form[key] as any[]), empty] });
+  const removeField = (key: keyof FormState, idx: number) => setForm({ ...form, [key]: (form[key] as any[]).filter((_, i) => i !== idx) });
 
-  const handleRemoveHeadPhoto = (index: number) => {
-    const newHeadPhotoLinks = form.headPhotoLinks.filter((_, i) => i !== index);
-    setForm({ ...form, headPhotoLinks: newHeadPhotoLinks });
-  };
-
-  const handleAddPhoto = () => {
-    setForm({ ...form, photos: [...form.photos, ""] });
-  };
-
-  const handleRemovePhoto = (index: number) => {
-    const newPhotos = form.photos.filter((_, i) => i !== index);
-    setForm({ ...form, photos: newPhotos });
-  };
-
-  const handleAddVideo = () => {
-    setForm({ ...form, videos: [...form.videos, ""] });
-  };
-
-  const handleRemoveVideo = (index: number) => {
-    const newVideos = form.videos.filter((_, i) => i !== index);
-    setForm({ ...form, videos: newVideos });
-  };
-
-  const handleSubmit = async () => {
-    const endpoint = editingBlogId ? "/api/blogs/edit" : "/api/blogs/add";
-    const method = editingBlogId ? "PUT" : "POST";
-    const body = editingBlogId ? { ...form, _id: editingBlogId } : form;
-
-    const res = await fetch(endpoint, {
-      method,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-    });
-
-    if (res.ok) {
-      onSave();
-    }
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSave(form);
   };
 
   return (
-    <div className="grid grid-cols-1 gap-4">
-      <select
-        name="category"
-        value={form.category}
-        onChange={(e) => handleInputChange(e, 0, "category")}
-        className="border border-gray-300 p-2 rounded text-black"
-        suppressHydrationWarning
-      >
+    <form className="grid gap-3 mb-8" onSubmit={submit}>
+      <select name="category" value={form.category} onChange={handleChange} className="border p-2 rounded text-black">
         <option value="">Select Category</option>
-        {categories.map((category) => (
-          <option key={category} value={category}>
-            {category}
-          </option>
-        ))}
+        {categories.map((c) => <option key={c} value={c}>{c}</option>)}
       </select>
-      
-      <input
-        type="text"
-        name="title"
-        placeholder="Title"
-        value={form.title}
-        onChange={(e) => handleInputChange(e, 0, "title")}
-        className="border border-gray-300 p-2 rounded text-black"
-        suppressHydrationWarning
-      />
-      
-      <input
-        type="text"
-        name="headPhotoLink"
-        placeholder="Head Photo Link"
-        value={form.headPhotoLink}
-        onChange={(e) => handleInputChange(e, 0, "headPhotoLink")}
-        className="border border-gray-300 p-2 rounded text-black"
-        suppressHydrationWarning
-      />
-      
-      <HeadPhotoSection 
-        headPhotoLinks={form.headPhotoLinks}
-        onInputChange={handleInputChange}
-        onAddHeadPhoto={handleAddHeadPhoto}
-        onRemoveHeadPhoto={handleRemoveHeadPhoto}
-      />
-      
-      <ParagraphSection 
-        paragraphs={form.paragraphs}
-        subPhotos={form.subPhotos}
-        onInputChange={handleInputChange}
-        onAddField={handleAddField}
-        onRemoveField={handleRemoveField}
-      />
-      
-      <MediaSection 
-        photos={form.photos}
-        videos={form.videos}
-        onInputChange={handleInputChange}
-        onAddPhoto={handleAddPhoto}
-        onRemovePhoto={handleRemovePhoto}
-        onAddVideo={handleAddVideo}
-        onRemoveVideo={handleRemoveVideo}
-      />
-      
-      <button
-        onClick={handleSubmit}
-        className={`${
-          editingBlogId ? "bg-blue-500 hover:bg-blue-600" : "bg-green-500 hover:bg-green-600"
-        } text-white px-4 py-2 rounded`}
-      >
-        {editingBlogId ? "Save Changes" : "Add Blog"}
-      </button>
-    </div>
+      <input name="title" value={form.title} onChange={handleChange} placeholder="Title" className="border p-2 rounded text-black" />
+      <input name="headPhotoLink" value={form.headPhotoLink} onChange={handleChange} placeholder="Head Photo Link" className="border p-2 rounded text-black" />
+      <input name="coupleName" value={form.coupleName || ""} onChange={handleChange} placeholder="Couple Name" className="border p-2 rounded text-black" />
+      <input name="weddingDate" type="date" value={form.weddingDate ? form.weddingDate.slice(0,10) : ""} onChange={handleChange} placeholder="Wedding Date" className="border p-2 rounded text-black" />
+
+      <label className="font-semibold">Head Photo Links</label>
+      {form.headPhotoLinks.map((link, i) => (
+        <div key={i} className="flex gap-2 mb-1">
+          <input value={link} onChange={e => handleArrayChange(form.headPhotoLinks, i, e.target.value, "headPhotoLinks")} className="border p-2 rounded flex-1 text-black" placeholder={`Head Photo Link ${i + 1}`} />
+          <button type="button" onClick={() => removeField("headPhotoLinks", i)} className="bg-red-400 text-white px-2 rounded">Remove</button>
+        </div>
+      ))}
+      <button type="button" onClick={() => addField("headPhotoLinks", "")} className="bg-gray-200 px-2 rounded mb-2">Add Head Photo Link</button>
+
+      <label className="font-semibold">Paragraphs</label>
+      {form.paragraphs.map((p, i) => (
+        <div key={i} className="flex gap-2 mb-1">
+          <input value={p.heading} onChange={e => handleParagraphChange(i, "heading", e.target.value)} placeholder="Heading" className="border p-2 rounded flex-1 text-black" />
+          <textarea value={p.content} onChange={e => handleParagraphChange(i, "content", e.target.value)} placeholder="Content" className="border p-2 rounded flex-1 text-black" />
+          <button type="button" onClick={() => removeField("paragraphs", i)} className="bg-red-400 text-white px-2 rounded">Remove</button>
+        </div>
+      ))}
+      <button type="button" onClick={() => addField("paragraphs", { heading: "", content: "" })} className="bg-gray-200 px-2 rounded mb-2">Add Paragraph</button>
+
+      <label className="font-semibold">Sub Photos</label>
+      {form.subPhotos.map((link, i) => (
+        <div key={i} className="flex gap-2 mb-1">
+          <input value={link} onChange={e => handleArrayChange(form.subPhotos, i, e.target.value, "subPhotos")} className="border p-2 rounded flex-1 text-black" placeholder={`Sub Photo ${i + 1}`} />
+          <button type="button" onClick={() => removeField("subPhotos", i)} className="bg-red-400 text-white px-2 rounded">Remove</button>
+        </div>
+      ))}
+      <button type="button" onClick={() => addField("subPhotos", "")} className="bg-gray-200 px-2 rounded mb-2">Add Sub Photo</button>
+
+      <label className="font-semibold">Photos</label>
+      {form.photos.map((link, i) => (
+        <div key={i} className="flex gap-2 mb-1">
+          <input value={link} onChange={e => handleArrayChange(form.photos, i, e.target.value, "photos")} className="border p-2 rounded flex-1 text-black" placeholder={`Photo ${i + 1}`} />
+          <button type="button" onClick={() => removeField("photos", i)} className="bg-red-400 text-white px-2 rounded">Remove</button>
+        </div>
+      ))}
+      <button type="button" onClick={() => addField("photos", "")} className="bg-gray-200 px-2 rounded mb-2">Add Photo</button>
+
+      <label className="font-semibold">Videos</label>
+      {form.videos.map((link, i) => (
+        <div key={i} className="flex gap-2 mb-1">
+          <input value={link} onChange={e => handleArrayChange(form.videos, i, e.target.value, "videos")} className="border p-2 rounded flex-1 text-black" placeholder={`Video ${i + 1}`} />
+          <button type="button" onClick={() => removeField("videos", i)} className="bg-red-400 text-white px-2 rounded">Remove</button>
+        </div>
+      ))}
+      <button type="button" onClick={() => addField("videos", "")} className="bg-gray-200 px-2 rounded mb-2">Add Video</button>
+
+      <div className="flex gap-2 mt-2">
+        <button type="submit" className={`${editing ? "bg-blue-500" : "bg-green-500"} text-white px-4 py-2 rounded`}>
+          {editing ? "Save Changes" : "Add Blog"}
+        </button>
+        {editing && (
+          <button type="button" onClick={onCancel} className="bg-gray-400 text-white px-4 py-2 rounded">
+            Cancel
+          </button>
+        )}
+      </div>
+    </form>
   );
 };
 

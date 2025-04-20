@@ -8,6 +8,11 @@ const blogSchema = new Schema({
   headPhotoLink: { type: String, required: true }, // Keeping for backward compatibility
   headPhotoLinks: [{ type: String }], // New field for multiple head photos
   date: { type: Date, default: Date.now },
+
+  // Add these two fields:
+  coupleName: { type: String }, // Name of the couple
+  weddingDate: { type: Date },  // Wedding date
+
   paragraphs: [{ 
     heading: { type: String },
     content: { type: String }

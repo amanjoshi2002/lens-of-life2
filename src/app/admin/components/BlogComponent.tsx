@@ -1,93 +1,55 @@
-import { useState, useEffect, ChangeEvent } from "react";
+import { useState, useEffect } from "react";
 import BlogForm from "./BlogForm";
 import BlogList from "./BlogList";
 import { Blog, FormState } from "./types";
 
-interface BlogComponentProps {
-  blogs: Blog[];
-  fetchBlogs: () => void;
-  handleDeleteBlog: (id: string) => void;
-}
+const emptyForm: FormState = {
+  category: "",
+  title: "",
+  headPhotoLink: "",
+  headPhotoLinks: [""],
+  coupleName: "",
+  weddingDate: "",
+  paragraphs: [{ heading: "", content: "" }],
+  subPhotos: [""],
+  photos: [""],
+  videos: [""],
+};
 
-const BlogComponent = ({ blogs, fetchBlogs, handleDeleteBlog }: BlogComponentProps) => {
-  const [editingBlogId, setEditingBlogId] = useState<string | null>(null);
-  const [form, setForm] = useState<FormState>({
-    category: "",
-    title: "",
-    headPhotoLink: "",
-    headPhotoLinks: [""],
-    paragraphs: [{ heading: "", content: "" }],
-    subPhotos: [""],
-    photos: [""],
-    videos: [""],
-  });
-  const [searchTerm, setSearchTerm] = useState<string>("");
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
+const BlogComponent = () => {
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [form, setForm] = useState<FormState>(emptyForm);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [categories, setCategories] = useState<string[]>([]);
+  const [search, setSearch] = useState("");
+  const [filterCategory, setFilterCategory] = useState("");
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const res = await fetch("/api/categories");
-        if (!res.ok) {
-          throw new Error("Failed to fetch categories");
-        }
-        const data = await res.json();
-        setCategories(data.map((category: { name: string }) => category.name));
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
-
+    fetchBlogs();
     fetchCategories();
   }, []);
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>, index: number, type: string) => {
-    const { value } = e.target;
-    if (type === "paragraphs") {
-      const newParagraphs = [...form.paragraphs];
-      if (e.target.name === "heading") {
-        newParagraphs[index] = { ...newParagraphs[index], heading: value };
-      } else {
-        newParagraphs[index] = { ...newParagraphs[index], content: value };
-      }
-      setForm({ ...form, paragraphs: newParagraphs });
-    } else if (type === "headPhotoLinks") {
-      const newHeadPhotoLinks = [...form.headPhotoLinks];
-      newHeadPhotoLinks[index] = value;
-      setForm({ ...form, headPhotoLinks: newHeadPhotoLinks });
-    } else if (type === "subPhotos") {
-      const newSubPhotos = [...form.subPhotos];
-      newSubPhotos[index] = value;
-      setForm({ ...form, subPhotos: newSubPhotos });
-    } else if (type === "photos") {
-      const newPhotos = [...form.photos];
-      newPhotos[index] = value;
-      setForm({ ...form, photos: newPhotos });
-    } else if (type === "videos") {
-      const newVideos = [...form.videos];
-      newVideos[index] = value;
-      setForm({ ...form, videos: newVideos });
-    } else {
-      setForm({ ...form, [type]: value });
-    }
+  const fetchBlogs = async () => {
+    const res = await fetch("/api/blogs");
+    const data = await res.json();
+    setBlogs(data);
   };
 
-  const handleRemoveField = (index: number) => {
-    const newParagraphs = form.paragraphs.filter((_, i) => i !== index);
-    const newSubPhotos = form.subPhotos.filter((_, i) => i !== index);
-    const newPhotos = form.photos.filter((_, i) => i !== index);
-    const newVideos = form.videos.filter((_, i) => i !== index);
-    setForm({ ...form, paragraphs: newParagraphs, subPhotos: newSubPhotos, photos: newPhotos, videos: newVideos });
+  const fetchCategories = async () => {
+    const res = await fetch("/api/categories");
+    const data = await res.json();
+    setCategories(data.map((c: any) => c.name));
   };
 
-  const handleEditBlog = (blog: Blog) => {
-    setEditingBlogId(blog._id);
+  const handleEdit = (blog: Blog) => {
+    setEditingId(blog._id);
     setForm({
       category: blog.category,
       title: blog.title,
       headPhotoLink: blog.headPhotoLink,
       headPhotoLinks: blog.headPhotoLinks?.length ? blog.headPhotoLinks : [""],
+      coupleName: blog.coupleName || "",
+      weddingDate: blog.weddingDate || "",
       paragraphs: blog.paragraphs,
       subPhotos: blog.subPhotos,
       photos: blog.photos,
@@ -95,162 +57,67 @@ const BlogComponent = ({ blogs, fetchBlogs, handleDeleteBlog }: BlogComponentPro
     });
   };
 
-  const handleSaveChanges = async () => {
-    try {
-      if (!editingBlogId) return;
-      
-      // Check for empty required fields
-      if (!form.category || !form.title) {
-        console.error("Missing required fields: category and title must be provided");
-        alert("Please fill in all required fields (category and title)");
-        return;
-      }
-      
-      // Clean up empty entries in arrays
-      const cleanedForm = {
-        ...form,
-        _id: editingBlogId,
-        headPhotoLinks: form.headPhotoLinks.filter(link => link.trim() !== ""),
-        paragraphs: form.paragraphs.filter(p => p.heading.trim() !== "" || p.content.trim() !== ""),
-        subPhotos: form.subPhotos.filter(link => link.trim() !== ""),
-        photos: form.photos.filter(link => link.trim() !== ""),
-        videos: form.videos.filter(link => link.trim() !== "")
-      };
-      
-      console.log("Sending update data to API:", JSON.stringify(cleanedForm, null, 2));
-      
-      const res = await fetch(`/api/blogs/edit`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(cleanedForm),
-      });
-      
-      if (res.ok) {
-        setEditingBlogId(null);
-        fetchBlogs();
-        resetForm();
-        alert("Blog updated successfully!");
-      } else {
-        const errorText = await res.text();
-        let errorMessage = "Failed to update blog";
-        
-        try {
-          const errorData = JSON.parse(errorText);
-          errorMessage = errorData.message || errorData.error || errorMessage;
-        } catch (e) {
-          // If the response isn't valid JSON, use the raw text
-          if (errorText) errorMessage += `: ${errorText}`;
-        }
-        
-        console.error("API error:", res.status, errorMessage);
-        alert(errorMessage);
-      }
-    } catch (error) {
-      console.error("Error updating blog:", error);
-      alert("An error occurred while updating the blog");
-    }
-  };
-
-  const handleAddBlog = async () => {
-    try {
-      // Check for empty required fields
-      if (!form.category || !form.title) {
-        console.error("Missing required fields: category and title must be provided");
-        alert("Please fill in all required fields (category and title)");
-        return;
-      }
-      
-      // Clean up empty entries in arrays
-      const cleanedForm = {
-        ...form,
-        headPhotoLinks: form.headPhotoLinks.filter(link => link.trim() !== ""),
-        paragraphs: form.paragraphs.filter(p => p.heading.trim() !== "" || p.content.trim() !== ""),
-        subPhotos: form.subPhotos.filter(link => link.trim() !== ""),
-        photos: form.photos.filter(link => link.trim() !== ""),
-        videos: form.videos.filter(link => link.trim() !== "")
-      };
-      
-      console.log("Sending data to API:", JSON.stringify(cleanedForm, null, 2));
-      
-      const res = await fetch("/api/blogs/add", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(cleanedForm),
-      });
-      
-      if (res.ok) {
-        fetchBlogs();
-        resetForm();
-        alert("Blog added successfully!");
-      } else {
-        const errorText = await res.text();
-        let errorMessage = "Failed to add blog";
-        
-        try {
-          const errorData = JSON.parse(errorText);
-          errorMessage = errorData.message || errorData.error || errorMessage;
-        } catch (e) {
-          // If the response isn't valid JSON, use the raw text
-          if (errorText) errorMessage += `: ${errorText}`;
-        }
-        
-        console.error("API error:", res.status, errorMessage);
-        alert(errorMessage);
-      }
-    } catch (error) {
-      console.error("Error adding blog:", error);
-      alert("An error occurred while adding the blog");
-    }
-  };
-
-  const resetForm = () => {
-    setForm({
-      category: "",
-      title: "",
-      headPhotoLink: "",
-      headPhotoLinks: [""],
-      paragraphs: [{ heading: "", content: "" }],
-      subPhotos: [""],
-      photos: [""],
-      videos: [""],
+  const handleDelete = async (id: string) => {
+    await fetch("/api/blogs/delete", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id }),
     });
+    fetchBlogs();
   };
 
-  const handleFormSave = () => {
-    if (editingBlogId) {
-      handleSaveChanges();
+  const handleSave = async (formData: FormState) => {
+    const cleaned = {
+      ...formData,
+      headPhotoLinks: formData.headPhotoLinks.filter((x) => x.trim()),
+      paragraphs: formData.paragraphs.filter((p) => p.heading.trim() || p.content.trim()),
+      subPhotos: formData.subPhotos.filter((x) => x.trim()),
+      photos: formData.photos.filter((x) => x.trim()),
+      videos: formData.videos.filter((x) => x.trim()),
+    };
+    if (editingId) {
+      await fetch("/api/blogs/edit", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...cleaned, _id: editingId }),
+      });
     } else {
-      handleAddBlog();
+      await fetch("/api/blogs/add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(cleaned),
+      });
     }
+    setEditingId(null);
+    setForm(emptyForm);
+    fetchBlogs();
+  };
+
+  const handleCancel = () => {
+    setEditingId(null);
+    setForm(emptyForm);
   };
 
   return (
     <div>
-      <h2 className="text-2xl font-semibold mb-4">Add/Edit Blog</h2>
-      <BlogForm 
-        initialForm={form}
-        categories={categories}
-        editingBlogId={editingBlogId}
-        onSave={handleFormSave}
-      />
-      
-      <BlogList 
-        blogs={blogs}
-        searchTerm={searchTerm}
-        selectedCategory={selectedCategory}
-        categories={categories}
-        editingBlogId={editingBlogId}
+      <h2 className="text-2xl font-semibold mb-4">{editingId ? "Edit Blog" : "Add Blog"}</h2>
+      <BlogForm
         form={form}
-        onSearchChange={setSearchTerm}
-        onCategoryChange={setSelectedCategory}
-        onEditBlog={handleEditBlog}
-        onDeleteBlog={handleDeleteBlog}
-        handleInputChange={handleInputChange}
-        handleRemoveField={handleRemoveField}
+        setForm={setForm}
+        categories={categories}
+        onSave={handleSave}
+        onCancel={handleCancel}
+        editing={!!editingId}
+      />
+      <BlogList
+        blogs={blogs}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+        search={search}
+        setSearch={setSearch}
+        filterCategory={filterCategory}
+        setFilterCategory={setFilterCategory}
+        categories={categories}
       />
     </div>
   );

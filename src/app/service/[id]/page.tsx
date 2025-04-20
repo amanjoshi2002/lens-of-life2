@@ -16,6 +16,9 @@ interface BlogPost {
   subPhotos: string[];
   photos: string[];
   videos: string[];
+ coupleName?: string;
+ weddingDate?: string;
+
 }
 
 export default function BlogPost() {
@@ -102,10 +105,28 @@ export default function BlogPost() {
               />
               {/* Title Overlay */}
               <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/30">
-                <h1 className="text-3xl md:text-5xl font-bold text-white font-serif px-4 text-center mb-12">
+                <h1 className="text-3xl md:text-5xl font-bold text-white font-serif px-4 text-center mb-4">
                   {blog.title}
                 </h1>
-                {/* Scroll Down Indicator - moved into title container */}
+               {(blog.coupleName || blog.weddingDate) && (
+                 <div className="mb-8">
+                   {blog.coupleName && (
+                     <div className="text-lg md:text-xl font-semibold text-white text-center">
+                       {blog.coupleName}
+                     </div>
+                   )}
+                   {blog.weddingDate && (
+                     <div className="text-md md:text-lg text-white/90 text-center mt-1">
+                       Wedding Date: {new Date(blog.weddingDate).toLocaleDateString("en-US", {
+                         year: "numeric",
+                         month: "long",
+                         day: "numeric",
+                       })}
+                     </div>
+                   )}
+                 </div>
+               )}
+                {/* Scroll Down Indicator */}
                 <div className="text-white animate-bounce">
                   <svg 
                     className="w-8 h-8"
@@ -123,6 +144,25 @@ export default function BlogPost() {
                 </div>
               </div>
             </div>
+            {/* Couple Name and Wedding Date */}
+            {(blog.coupleName || blog.weddingDate) && (
+              <div className="bg-white/80 py-4 px-4 md:px-8 text-center shadow-sm">
+                {blog.coupleName && (
+                  <div className="text-lg md:text-xl font-semibold text-gray-700">
+                    Couple: {blog.coupleName}
+                  </div>
+                )}
+                {blog.weddingDate && (
+                  <div className="text-md md:text-lg text-gray-600 mt-1">
+                    Wedding Date: {new Date(blog.weddingDate).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
 
