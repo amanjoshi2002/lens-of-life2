@@ -40,7 +40,7 @@ export default function FAQ() {
 
   const heroSlides = [
       {
-        image: '/images/hero/pre wed.jpg',
+        image: '/images/hero/cover1.jpg',
         title: '',
         subtitle: 'Your Questions Answered'
       }

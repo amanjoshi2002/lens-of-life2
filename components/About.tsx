@@ -17,20 +17,20 @@ const About = () => {
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="relative h-[600px]"
+            className="relative h-[600px] hidden md:block"
           >
             <div className="absolute top-0 left-0 w-4/5">
               <img
-                src="/images/about/Screenshot 2025-03-02 at 11.39.49 AM-modified.png"
+                src="/images/about/cameraperson.png"
                 alt="Photographer with camera"
-                className="w-full h-auto object-cover rounded-lg    "
+                className="w-full h-auto object-cover rounded-lg"
               />
             </div>
             <div className="absolute bottom-0 right-0 w-3/4">
               <img
                 src="/images/about/logo.jpg"
                 alt="Mother and child portrait"
-                className="w-full h-auto object-cover rounded-lg "
+                className="w-full h-auto object-cover rounded-lg"
               />
             </div>
           </motion.div>
@@ -67,6 +67,20 @@ const About = () => {
               </p>
             </div>
           </div>
+
+          {/* Mobile Image */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="md:hidden w-full"
+          >
+            <img
+              src="/images/about/logo.jpg"
+              alt="Mother and child portrait"
+              className="w-full h-auto object-cover rounded-lg"
+            />
+          </motion.div>
         </motion.div>
       </div>
     </section>

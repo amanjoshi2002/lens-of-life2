@@ -5,6 +5,7 @@ import Footer from "../../../components/Footer";
 import Navbar from "../../../components/Navbar";
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
+import  Loading from '../../../components/Loading';
 
 interface Category {
   _id: string;
@@ -26,34 +27,35 @@ function PortfolioContent() {
   const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchCategories = async () => {
+    const fetchData = async () => {
       try {
-        const res = await fetch("/api/categories");
-        const data: Category[] = await res.json();
-        setCategories(data);
+        setIsLoading(true);
+        const [categoriesRes, portfoliosRes] = await Promise.all([
+          fetch("/api/categories"),
+          fetch('/api/portfolios')
+        ]);
+        
+        const categoriesData = await categoriesRes.json();
+        const portfoliosData = await portfoliosRes.json();
+        
+        setCategories(categoriesData);
+        setPortfolios(portfoliosData);
       } catch (error) {
-        console.error("Error fetching categories:", error);
+        console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    fetchCategories();
+    fetchData();
   }, []);
 
-  useEffect(() => {
-    const fetchPortfolios = async () => {
-      try {
-        const res = await fetch('/api/portfolios');
-        const data = await res.json();
-        setPortfolios(data);
-      } catch (error) {
-        console.error("Error fetching portfolios:", error);
-      }
-    };
-
-    fetchPortfolios();
-  }, []);
+  if (isLoading) {
+    return <Loading />;
+  }
 
   // Update category selection handlers
   const handleAllClick = () => {
@@ -163,7 +165,7 @@ function PortfolioContent() {
                           <img
                             alt={portfolio.title}
                             className="w-full h-full object-cover transition-all duration-500 
-                                     filter grayscale hover:grayscale-0 hover:scale-105 z-10"
+                                     md:filter md:grayscale md:hover:grayscale-0 hover:scale-105 z-10"
                             src={photo}
                           />
                         </div>
