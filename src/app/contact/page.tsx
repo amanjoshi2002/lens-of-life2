@@ -8,7 +8,7 @@ import Footer from "../../../components/Footer";
 const Contact = () => {
   const [formState, setFormState] = useState({
     name: "",
-    email: "",
+    phone: "", // Changed from email to phone
     subject: "",
     service: "",
     message: "",
@@ -178,10 +178,10 @@ const Contact = () => {
             <div>
               <h3 className="font-medium text-sm mb-1">Email</h3>
               <a
-                href="mailto:hello@photographer.com"
+                href="mailto:lensoflifecreations@gmail.com"
                 className="text-gray-500 hover:text-gray-800 transition-colors duration-300"
               >
-                hello@photographer.com
+                lensoflifecreations@gmail.com
               </a>
             </div>
           </motion.div>
@@ -273,18 +273,19 @@ const Contact = () => {
                   viewport={{ once: true }}
                   transition={{ delay: 0.2, duration: 0.5 }}
                 >
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                    Email
+                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                    Phone Number
                   </label>
                   <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formState.email}
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    value={formState.phone}
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 border-gray-200 rounded-lg focus:ring-0 focus:border-gray-400 transition-colors duration-300 bg-gray-50"
-                    placeholder="your@email.com"
+                    placeholder="Your phone number"
+                    pattern="[0-9]{10}"
                   />
                 </motion.div>
               </div>
