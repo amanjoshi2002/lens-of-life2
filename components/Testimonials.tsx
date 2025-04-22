@@ -102,7 +102,7 @@ const TestimonialSection = () => {
   return (
     <section className="bg-black py-16 md:py-24 overflow-hidden">
       <div className="max-w-6xl mx-auto text-center px-4">
-        <h2 className="text-5xl md:text-6xl font-script text-white mb-2">What our clients say</h2>
+        <h2 className="text-5xl md:text-6xl font-['Limelight'] text-white mb-2">What our clients say</h2>
         <p className="text-white mt-2 font-light tracking-wider uppercase text-sm">Client Reviews</p>
       </div>
 

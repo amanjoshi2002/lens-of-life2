@@ -1,6 +1,6 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { Poppins } from 'next/font/google';
+import { Limelight, Poppins } from 'next/font/google';
 import WhatsAppButton from '../../components/WhatsAppButton';
 import CallButton from '../../components/CallButton';
 

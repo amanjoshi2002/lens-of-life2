@@ -78,60 +78,43 @@ export default function CategorySlider({ selectedCategory }: Props) {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-12">
+    <div className="max-w-7xl mx-auto px-8 py-16"> {/* Increased padding */}
       {categories.map((category) => (
-        <div key={category.name} id={category.name.toLowerCase().replace(/\s+/g, '-')} className="mb-16">
-          <h2 className="text-3xl font-light tracking-wide mb-8 text-center">{category.name}</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {category.posts.slice(0, visiblePosts[category.name]).map((post, index) => (
+        <div key={category.name} id={category.name.toLowerCase().replace(/\s+/g, '-')} className="mb-24">
+          <h2 className="text-4xl font-light tracking-wide mb-12 text-center">{category.name}</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12"> {/* Changed to 2 columns */}
+            {category.posts.slice(0, visiblePosts[category.name]).map((post, index, array) => (
               <Link key={post._id} href={`/service/${post._id}`} className="block group">
-                {/* Mobile Layout */}
-                <div className="block md:hidden">
-                  <div className="bg-black/5 p-4 rounded-lg">
-                    <h3 className="text-xl font-medium mb-2">{post.title}</h3>
-                    {post.date && (
-                      <div className="flex items-center text-gray-600 text-sm mb-4">
-                        <Calendar size={16} className="mr-2" />
-                        {new Date(post.date).toLocaleDateString()}
-                      </div>
-                    )}
-                    <div className="relative h-[300px] overflow-hidden rounded-lg">
-                      <img
-                        src={post.headPhotoLink}
-                        alt={post.title}
-                        className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-500"
-                        loading={index < 6 ? "eager" : "lazy"}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Desktop Layout */}
                 <div className="hidden md:block">
-                  <div className="relative aspect-[3/4] overflow-hidden rounded-lg">
+                  <div className="relative aspect-[16/9] overflow-hidden rounded-lg">
                     <img
                       src={post.headPhotoLink}
                       alt={post.title}
-                      className="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-700 grayscale hover:grayscale-0"
+                      className="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
                       loading={index < 6 ? "eager" : "lazy"}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                      <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                        <h3 className="text-white text-xl font-medium mb-2 line-clamp-2">
+                    {/* Show count overlay on last visible item if there are more items */}
+                    {index === array.length - 1 && category.posts.length > visiblePosts[category.name] && (
+                      <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                        <div className="text-center text-white">
+                          <p className="text-5xl font-light mb-2">+{category.posts.length - visiblePosts[category.name]}</p>
+                          <p className="text-xl font-light">
+                            {category.name === "Videos" ? "More Videos" : "More Photos"}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500">
+                      <div className="absolute bottom-0 left-0 right-0 p-10 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                        <h3 className="text-white text-3xl font-light mb-3">
                           {post.title}
                         </h3>
                         {post.date && (
-                          <div className="flex items-center text-white/80 text-sm mb-4">
-                            <Calendar size={16} className="mr-2" />
+                          <div className="flex items-center text-white/90 text-base">
+                            <Calendar size={18} className="mr-2" />
                             {new Date(post.date).toLocaleDateString()}
                           </div>
                         )}
-                        <span className="inline-flex items-center text-white text-sm font-medium">
-                          Read More 
-                          <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                          </svg>
-                        </span>
                       </div>
                     </div>
                   </div>
