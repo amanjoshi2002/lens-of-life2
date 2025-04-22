@@ -5,7 +5,7 @@ const CallButton = () => {
   return (
     <div className="fixed bottom-8 right-4 z-[100]">
       <Link
-        href="tel:+your-phone-number"
+        href="tel:+9189999 03681"
         target="_blank"
         rel="noopener noreferrer"
       >

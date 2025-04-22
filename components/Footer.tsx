@@ -29,13 +29,13 @@ export default function Footer() {
 
         {/* Social Media Icons */}
         <div className="flex justify-center gap-6 mb-8">
-          <a href="https://facebook.com" className="hover:text-gray-300 transition">
+          <a href="https://www.facebook.com/LensOfLifeCreations" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300 transition">
             <Facebook size={24} />
           </a>
-          <a href="https://instagram.com" className="hover:text-gray-300 transition">
+          <a href="https://www.instagram.com/lens_of_life_creations/" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300 transition">
             <Instagram size={24} />
           </a>
-          <a href="https://youtube.com" className="hover:text-gray-300 transition">
+          <a href="https://www.youtube.com/channel/UCCSyvF805iTIuebb_WqtKuQ" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300 transition">
             <Youtube size={24} />
           </a>
         </div>
