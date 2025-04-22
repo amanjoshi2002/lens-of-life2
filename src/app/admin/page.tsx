@@ -266,13 +266,7 @@ const AdminPage = () => {
 
         {/* Content Area */}
         <div className="bg-white rounded-lg shadow-sm p-6">
-          {activeTab === "blog" && (
-            <BlogComponent
-              blogs={blogs}
-              fetchBlogs={fetchBlogs}
-              handleDeleteBlog={handleDeleteBlog}
-            />
-          )}
+          {activeTab === "blog" && <BlogComponent />}
           {activeTab === "faq" && <FAQComponent />}
           {activeTab === "portfolio" && <PortfolioComponent />}
           {/* Add BlogNewComponent here */}

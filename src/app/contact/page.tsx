@@ -34,7 +34,7 @@ const Contact = () => {
     console.log("Form submitted:", formState);
     setIsSubmitting(false);
     setIsSubmitted(true);
-    setFormState({ name: "", email: "", subject: "", service: "", message: "" }); // Add service here
+    setFormState({ name: "", phone: "", subject: "", service: "", message: "" }); // Add service here
     
     // Reset submission status after 5 seconds
     setTimeout(() => setIsSubmitted(false), 5000);
