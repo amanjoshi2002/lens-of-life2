@@ -224,7 +224,7 @@ const AdminPage = () => {
             className={`px-4 py-2 rounded ${activeTab === "blog" ? "bg-blue-500 text-white" : "bg-gray-200 text-black"}`}
             onClick={() => setActiveTab("blog")}
           >
-            Blog
+            Services
           </button>
           <button
             className={`px-4 py-2 rounded ${activeTab === "faq" ? "bg-blue-500 text-white" : "bg-gray-200 text-black"}`}
@@ -260,7 +260,7 @@ const AdminPage = () => {
             className={`px-4 py-2 rounded ${activeTab === "blognew" ? "bg-blue-500 text-white" : "bg-gray-200 text-black"}`}
             onClick={() => setActiveTab("blognew")}
           >
-            New Blog
+           Blog
           </button>
         </div>
 

@@ -71,7 +71,7 @@ function PortfolioContent() {
 
   const heroSlides = [
     {
-      image: '/images/hero/pre wed.jpg',
+      image: '/images/hero/cover1.jpg',
       title: '',
       subtitle: 'Explore Our Work'
     }
@@ -80,9 +80,41 @@ function PortfolioContent() {
   return (
     <>
       <Navbar />
-      <Hero pageTitle="Portfolio" slides={heroSlides} />
+      <div className="relative h-screen">
+        <Hero pageTitle="Portfolio" slides={heroSlides} />
+        
+        {/* Add scroll down mouse icon */}
+        <div 
+          onClick={() => {
+            const contentElement = document.getElementById('portfolio-content');
+            if (contentElement) {
+              contentElement.scrollIntoView({ behavior: 'smooth' });
+            }
+          }}
+          className="absolute inset-x-0 bottom-10 mx-auto w-fit animate-bounce z-50"
+        >
+          <div className="text-white text-center">
+            <span className="text-sm mb-2 block">Scroll Down</span>
+            <div className="flex justify-center">
+              <svg 
+                className="w-8 h-8" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  strokeWidth={2} 
+                  d="M19 14l-7 7m0 0l-7-7m7 7V3"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
       
-      <div className="py-17 bg-white">
+      <div id="portfolio-content" className="py-17 bg-white">
         <div className="w-full mt-[-18]">
           <div className="w-24 h-1 bg-primary mx-auto mb-12"></div>
 

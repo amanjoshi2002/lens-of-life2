@@ -39,29 +39,68 @@ export default function BlogPage() {
 
   const heroSlides = [
     {
-      image: '/images/hero/pre wed.jpg',
+      image: '/images/services/Destination wedding.jpg',
       title: '',
       subtitle: 'Stories, Tips, and Photography Insights'
     },
     {
-      image: '/images/hero/destinationwedding.jpg',
+      image: '/images/services/Goan Wedding.jpg',
       title: '',
       subtitle: 'Stories, Tips, and Photography Insights'
     },
     {
-      image: "/images/hero/pre wed.jpg",
-    
+      image: "/images/services/Pre wedding.jpg",
       title: '',
       subtitle: 'Stories, Tips, and Photography Insights'
-    }
+    },
+    {
+      image: "/images/services/Conference and Events.jpg",
+      title: '',
+      subtitle: 'Stories, Tips, and Photography Insights'
+    },
   ];
+
+  // Add scroll function to scroll to content
+  const scrollToContent = () => {
+    const contentElement = document.getElementById('blog-content');
+    if (contentElement) {
+      contentElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <>
       <Navbar />
-      <Hero pageTitle="Blog" slides={heroSlides} />
+      <div className="relative h-screen">
+        <Hero pageTitle="Blog" slides={heroSlides} />
+        
+        {/* Add scroll down mouse icon */}
+        <div 
+          onClick={scrollToContent}
+          className="absolute inset-x-0 bottom-10 mx-auto w-fit animate-bounce z-50"
+        >
+          <div className="text-white text-center">
+            <span className="text-sm mb-2 block">Scroll Down</span>
+            <div className="flex justify-center">
+              <svg 
+                className="w-8 h-8" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  strokeWidth={2} 
+                  d="M19 14l-7 7m0 0l-7-7m7 7V3"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
       
-      <div className="max-w-7xl mx-auto px-4 py-16">
+      <div id="blog-content" className="max-w-7xl mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {blogs.map((blog) => (
             <div key={blog._id} className="bg-white rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-[1.02]">

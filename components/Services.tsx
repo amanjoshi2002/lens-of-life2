@@ -9,28 +9,28 @@ const Services = () => {
       title: "DESTINATION WEDDING",
       description:
         "Celebrate your love with stunning destination wedding photography. From scenic beaches to grand venues, we capture every emotion and detail, turning your special day into timeless memories. Let us frame your love story beautifully!",
-      image: "/images/services/destination.webp",
+      image: "/images/services/Destination wedding.jpg",
       category: "destination-wedding", // Add category for navigation
     },
     {
       title: "GOAN WEDDING",
       description:
         "Experience the magic of a Goan wedding with stunning photography that captures every vibrant moment. From sun-kissed beaches to grand heritage venues, we bring your love story to life with breathtaking shots, rich in tradition, joy, and scenic beauty. Let us preserve your special day with timeless elegance!",
-      image: "/images/services/GOAN WEDDING.jpg",
+      image: "/images/services/Goan Wedding.jpg",
       category: "goan-wedding", // Add category for navigation
     },
     {
       title: "PRE-WEDDING",
       description:
         "Celebrate your love story with a dreamy pre-wedding photoshoot. Whether it's on Goa's golden beaches, lush landscapes, or charming streets, we capture your chemistry in stunning frames. Let us create timeless memories before your big day!",
-      image: "/images/services/prewedding.webp",
+      image: "/images/services/Pre wedding.jpg",
       category: "pre-wedding", // Add category for navigation
     },
     {
       title: "LIVE EVENTS AND CONFERENCES",
       description:
         "Capture the energy and essence of your live events and conferences with professional photography. From keynote speeches to candid interactions, we document every moment with precision and creativity, ensuring your event is remembered for years to come.",
-      image: "/images/services/live-event.jpg",
+      image: "/images/services/Conference and Events.jpg",
       category: "live-events-and-conference", // Add category for navigation
     },
   ];

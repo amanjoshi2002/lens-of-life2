@@ -240,7 +240,7 @@ const Navbar = () => {
                   BLOG
                 </Link>
                 <Link 
-                  href="/testimonial" 
+                  href="/testimonials" 
                   className="text-white hover:text-gray-300 transition-colors duration-300 text-sm tracking-wider"
                 >
                   TESTIMONIALS

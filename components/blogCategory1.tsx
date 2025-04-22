@@ -85,7 +85,7 @@ export default function CategorySlider({ selectedCategory }: Props) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12"> {/* Changed to 2 columns */}
             {category.posts.slice(0, visiblePosts[category.name]).map((post, index, array) => (
               <Link key={post._id} href={`/service/${post._id}`} className="block group">
-                <div className="hidden md:block">
+                <div className="block">
                   <div className="relative aspect-[16/9] overflow-hidden rounded-lg">
                     <img
                       src={post.headPhotoLink}
@@ -104,19 +104,33 @@ export default function CategorySlider({ selectedCategory }: Props) {
                         </div>
                       </div>
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500">
+                    
+                    {/* Hover overlay only for medium screens and up */}
+                    <div className="hidden md:block absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500">
                       <div className="absolute bottom-0 left-0 right-0 p-10 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
                         <h3 className="text-white text-3xl font-light mb-3">
                           {post.title}
                         </h3>
                         {post.date && (
                           <div className="flex items-center text-white/90 text-base">
-                            <Calendar size={18} className="mr-2" />
+                            <Calendar size={16} className="mr-2" />
                             {new Date(post.date).toLocaleDateString()}
                           </div>
                         )}
                       </div>
                     </div>
+                  </div>
+                  {/* Title and date below image on small screens */}
+                  <div className="block md:hidden mt-3">
+                    <h3 className="text-xl font-light text-gray-800 mb-1">
+                      {post.title}
+                    </h3>
+                    {post.date && (
+                      <div className="flex items-center text-gray-600 text-sm">
+                        <Calendar size={14} className="mr-1" />
+                        {new Date(post.date).toLocaleDateString()}
+                      </div>
+                    )}
                   </div>
                 </div>
               </Link>

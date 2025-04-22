@@ -272,8 +272,7 @@ export default function BlogPost() {
                           setIsGalleryOpen(true);
                         }}
                         className="absolute inset-0 bg-black/30 flex items-center justify-center 
-                                    cursor-pointer backdrop-blur-[2px] opacity-0 
-                                    group-hover:opacity-100 transition-all duration-300"
+                                    cursor-pointer backdrop-blur-[2px]"
                       >
                         <div className="text-center">
                           <span className="text-white text-sm font-light tracking-wider block">
@@ -405,8 +404,7 @@ export default function BlogPost() {
                       </div>
                       {index === 1 && blog.videos.length > 3 && (
                         <div className="absolute inset-0 bg-black/30 flex items-center justify-center 
-                                    cursor-pointer backdrop-blur-[2px] opacity-0 
-                                    group-hover:opacity-100 transition-all duration-300">
+                                    cursor-pointer backdrop-blur-[2px]">
                           <div className="text-center">
                             <span className="text-white text-sm font-light tracking-wider block">
                               View All

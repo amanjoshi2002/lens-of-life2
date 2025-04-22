@@ -19,26 +19,31 @@ interface HeroProps {
 
 const defaultSlides: Slide[] = [
   {
-    image: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=2070',
-    title: 'Capturing Timeless Moments',
-    subtitle: 'A professional lens that preserves your emotions forever.',
+    image: '/images/services/Destination wedding.jpg',
+    title: '',
+    subtitle: 'Stories, Tips, and Photography Insights'
   },
   {
-    image: '/images/hero/destinationwedding.jpg',
-    title: 'Every Picture Tells a Story',
-    subtitle: 'Crafting visual poetry through my camera lens.',
+    image: '/images/services/Goan Wedding.jpg',
+    title: '',
+    subtitle: 'Stories, Tips, and Photography Insights'
   },
   {
-    image: '/images/hero/pre wed.jpg',
-    title: 'Cherishing Beautiful Memories',
-    subtitle: 'Your most precious moments, captured in perfect detail.',
+    image: "/images/services/Pre wedding.jpg",
+    title: '',
+    subtitle: 'Stories, Tips, and Photography Insights'
+  },
+  {
+    image: "/images/services/Conference and Events.jpg",
+    title: '',
+    subtitle: 'Stories, Tips, and Photography Insights'
   },
 ];
 
 export default function HeroSlider({ pageTitle, slides = defaultSlides }: HeroProps) {
   return (
-    <div className="relative w-full pt-16">
-      <div className="relative h-[80vh] w-full">
+    <div className="relative w-full h-screen"> {/* Updated to h-screen */}
+      <div className="relative h-full w-full"> {/* Changed from h-[80vh] to h-full */}
         <Swiper
           modules={[Autoplay, EffectFade]}
           effect="fade"
@@ -55,6 +60,7 @@ export default function HeroSlider({ pageTitle, slides = defaultSlides }: HeroPr
                   fill
                   className="object-cover brightness-50"
                   priority
+                  sizes="100vw"
                 />
                 
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-4 space-y-4">

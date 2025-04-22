@@ -7,18 +7,18 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 const Hero = () => {
   const slides = [
     {
-      image: "/images/hero/destinationwedding.jpg",
+      image: "/images/hero/cover1.jpg",
       title: "LUXURY PORTRAIT",
       subtitle: "EXPERIENCE",
       text: "Capturing timeless reflections of your unique journey through motherhood and family life."
     },
     {
-      image: "/images/hero/D2.webp",
+      image: "/images/hero/cover2.jpg",
       subtitle: "MOMENTS",
       text: "Celebrating the beautiful journey of motherhood with elegant portraiture."
     },
     {
-      image: "/images/hero/pre wed.jpg",
+      image: "/images/hero/cover3.jpg",
       title: "FAMILY",
       subtitle: "PORTRAITS",
       text: "Creating timeless memories that will be cherished for generations."
