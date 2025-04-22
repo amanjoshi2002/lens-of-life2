@@ -186,7 +186,7 @@ const TestimonialSection = () => {
 
       {testimonials.length > 1 && (
         <div className="text-center mt-10">
-          <Link href="/testimonial">
+          <Link href="/testimonials">
             <button className="bg-transparent border border-white text-white px-6 py-3 rounded-full font-light tracking-wider hover:bg-white hover:text-black transition-all duration-300 text-sm">
               VIEW ALL TESTIMONIALS
             </button>
