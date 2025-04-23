@@ -84,30 +84,30 @@ export default function BlogPost() {
   return (
     <>
       <Navbar />
-      <main className="pt-[var(--navbar-height)] min-h-screen">
-        <div className="w-full">
-          <div className="relative">
-            <div className="w-full aspect-[4/3] md:aspect-[16/9] relative overflow-hidden group">
-              <Image
-                src={blog.headPhotoLink}
-                alt={blog.title}
-                fill
-                sizes="100vw"
-                priority
-                className="object-cover object-center shadow-sm grayscale group-hover:grayscale-0 
-                         transition-all duration-500 transform group-hover:scale-[1.03]"
-                id={`${componentId}-head-image`}
-                suppressHydrationWarning
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.src = "/fallback-image.jpg";
-                }}
-              />
-              {/* Title Overlay */}
-              <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/30">
-                <h1 className="text-3xl md:text-5xl font-bold text-white font-serif px-4 text-center mb-4">
-                  {blog.title}
-                </h1>
+      <div className="min-h-screen">
+        {/* Hero Section */}
+        <div className="w-full h-screen relative">
+          <div className="w-full h-full relative overflow-hidden group">
+            <Image
+              src={blog.headPhotoLink}
+              alt={blog.title}
+              fill
+              sizes="100vw"
+              priority
+              className="object-cover object-center shadow-sm grayscale group-hover:grayscale-0 
+                       transition-all duration-500 transform group-hover:scale-[1.03]"
+              id={`${componentId}-head-image`}
+              suppressHydrationWarning
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = "/fallback-image.jpg";
+              }}
+            />
+            {/* Title Overlay */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/30">
+              <h1 className="text-3xl md:text-5xl font-bold text-white font-serif px-4 text-center mb-4">
+                {blog.title}
+              </h1>
                {(blog.coupleName || blog.weddingDate) && (
                  <div className="mb-8">
                    {blog.coupleName && (
@@ -166,7 +166,7 @@ export default function BlogPost() {
           </div>
         </div>
 
-        {/* Content container with max-width */}
+        {/* Rest of the content */}
         <div className="max-w-4xl mx-auto px-4 md:px-6 mt-20">
           {/* Remove the original title section since it's now in the image */}
           {blog.paragraphs.map((paragraph, index) => (
@@ -436,12 +436,12 @@ export default function BlogPost() {
                       </svg>
                     </button>
 
-                    <div className="relative h-[85vh] w-full max-w-5xl mx-auto">
+                    <div className="relative w-full h-0 pb-[56.25%] max-w-5xl mx-auto">
                       {blog.videos[currentVideoIndex] && (
                         <iframe
                           src={`https://www.youtube.com/embed/${blog.videos[currentVideoIndex].match(/(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/user\/\S+|\/ytscreeningroom\?v=|\/sandalsResorts#\w\/\w\/.*\/))([^\/&\?]{10,12})/)?.[1]}`}
                           title={`YouTube video ${currentVideoIndex + 1}`}
-                          className="w-full h-full"
+                          className="absolute top-0 left-0 w-full h-full"
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                           allowFullScreen
                         />
@@ -485,7 +485,6 @@ export default function BlogPost() {
             </div>
           )}
         </div>
-      </main>
       <Footer />
     </>
   );
