@@ -1,5 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface Testimonial {
   _id: string;
@@ -41,11 +43,16 @@ const TestimonialComponent = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newTestimonial),
       });
-      if (!res.ok) throw new Error("Failed to add testimonial");
-      setNewTestimonial({ name: "", location: "", review: "", rating: 5 });
-      fetchTestimonials();
+      if (res.ok) {
+        setNewTestimonial({ name: "", location: "", review: "", rating: 5 });
+        fetchTestimonials();
+        toast.success("Testimonial added successfully!");
+      } else {
+        throw new Error("Failed to add testimonial");
+      }
     } catch (error) {
       console.error("Error adding testimonial:", error);
+      toast.error("Failed to add testimonial.");
     }
   };
 
@@ -54,15 +61,21 @@ const TestimonialComponent = () => {
       const res = await fetch(`/api/testimonials/${id}`, {
         method: "DELETE",
       });
-      if (!res.ok) throw new Error("Failed to delete testimonial");
-      fetchTestimonials();
+      if (res.ok) {
+        fetchTestimonials();
+        toast.success("Testimonial deleted successfully!");
+      } else {
+        throw new Error("Failed to delete testimonial");
+      }
     } catch (error) {
       console.error("Error deleting testimonial:", error);
+      toast.error("Failed to delete testimonial.");
     }
   };
 
   return (
     <div>
+      <ToastContainer />
       <h2 className="text-2xl font-bold mb-4">Testimonials</h2>
       
       <form onSubmit={handleSubmit} className="mb-6 space-y-4">

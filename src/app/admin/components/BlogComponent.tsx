@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import BlogForm from "./BlogForm";
 import BlogList from "./BlogList";
 import { Blog, FormState } from "./types";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const emptyForm: FormState = {
   category: "",
@@ -75,22 +77,29 @@ const BlogComponent = () => {
       photos: formData.photos.filter((x) => x.trim()),
       videos: formData.videos.filter((x) => x.trim()),
     };
-    if (editingId) {
-      await fetch("/api/blogs/edit", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...cleaned, _id: editingId }),
-      });
-    } else {
-      await fetch("/api/blogs/add", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(cleaned),
-      });
+    try {
+      if (editingId) {
+        await fetch("/api/blogs/edit", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...cleaned, _id: editingId }),
+        });
+        toast.success("Blog updated successfully!");
+      } else {
+        await fetch("/api/blogs/add", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(cleaned),
+        });
+        toast.success("Blog added successfully!");
+      }
+      setEditingId(null);
+      setForm(emptyForm);
+      fetchBlogs();
+    } catch (error) {
+      console.error("Error saving blog:", error);
+      toast.error("Failed to save blog.");
     }
-    setEditingId(null);
-    setForm(emptyForm);
-    fetchBlogs();
   };
 
   const handleCancel = () => {
@@ -100,6 +109,7 @@ const BlogComponent = () => {
 
   return (
     <div>
+      <ToastContainer />
       <h2 className="text-2xl font-semibold mb-4">{editingId ? "Edit Blog" : "Add Blog"}</h2>
       <BlogForm
         form={form}

@@ -8,6 +8,8 @@ import PortfolioComponent from "./components/PortfolioComponent";
 import SubcategoryComponent from "./components/SubcategoryComponent";
 import TestimonialComponent from "./components/TestimonialComponent";
 import BlogNewComponent from "./components/BlogNewComponent";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface Blog {
   _id: string;
@@ -146,8 +148,10 @@ const AdminPage = () => {
       console.log("Category added:", data);
       setNewCategoryName("");
       fetchCategories();
+      toast.success("Category added successfully!");
     } catch (error) {
       console.error("Error adding category:", error);
+      toast.error("Failed to add category.");
     }
   };
 
@@ -201,6 +205,7 @@ const AdminPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
+      <ToastContainer />
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold text-gray-800">Admin Panel</h1>
         <div className="flex gap-4">

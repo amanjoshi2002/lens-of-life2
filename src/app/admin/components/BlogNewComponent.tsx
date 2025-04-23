@@ -1,5 +1,7 @@
 'use client';
 import { useState, useEffect } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface BlogNew {
   _id: string;
@@ -37,9 +39,11 @@ const BlogNewComponent = ({ blogs, fetchBlogs, handleDeleteBlog }: BlogNewCompon
       if (res.ok) {
         setForm({ photo: "", headline: "", body: "" });
         fetchBlogs();
+        toast.success("Blog added successfully!");
       }
     } catch (error) {
       console.error("Error adding blog:", error);
+      toast.error("Failed to add blog.");
     }
   };
 
@@ -64,14 +68,17 @@ const BlogNewComponent = ({ blogs, fetchBlogs, handleDeleteBlog }: BlogNewCompon
         setEditingBlogId(null);
         setForm({ photo: "", headline: "", body: "" });
         fetchBlogs();
+        toast.success("Blog updated successfully!");
       }
     } catch (error) {
       console.error("Error updating blog:", error);
+      toast.error("Failed to update blog.");
     }
   };
 
   return (
     <div className="space-y-6">
+      <ToastContainer />
       <div className="bg-white p-6 rounded-lg shadow">
         <h2 className="text-xl font-semibold mb-4">
           {editingBlogId ? "Edit Blog" : "Add New Blog"}

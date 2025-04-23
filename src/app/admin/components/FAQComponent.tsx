@@ -1,4 +1,6 @@
 import { useState, useEffect, ChangeEvent } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface FAQ {
   _id: string;
@@ -31,16 +33,69 @@ const FAQComponent = () => {
   };
 
   const handleAddFaq = async () => {
-    const res = await fetch("/api/faqs/add", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(form),
-    });
-    if (res.ok) {
-      setForm({ question: "", answer: "" });
-      fetchFaqs();
+    try {
+      const res = await fetch("/api/faqs/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form),
+      });
+      if (res.ok) {
+        setForm({ question: "", answer: "" });
+        fetchFaqs();
+        toast.success("FAQ added successfully!");
+      } else {
+        throw new Error("Failed to add FAQ");
+      }
+    } catch (error) {
+      console.error("Error adding FAQ:", error);
+      toast.error("Failed to add FAQ.");
+    }
+  };
+
+  const handleSaveChanges = async () => {
+    if (!editingFaqId) return;
+    try {
+      const res = await fetch(`/api/faqs/edit`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...form, id: editingFaqId }),
+      });
+      if (res.ok) {
+        setEditingFaqId(null);
+        setForm({ question: "", answer: "" }); // Clear the form
+        fetchFaqs();
+        toast.success("FAQ updated successfully!");
+      } else {
+        throw new Error("Failed to update FAQ");
+      }
+    } catch (error) {
+      console.error("Error updating FAQ:", error);
+      toast.error("Failed to update FAQ.");
+    }
+  };
+
+  const handleDeleteFaq = async (id: string) => {
+    try {
+      const res = await fetch("/api/faqs/delete", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id }),
+      });
+      if (res.ok) {
+        fetchFaqs();
+        toast.success("FAQ deleted successfully!");
+      } else {
+        throw new Error("Failed to delete FAQ");
+      }
+    } catch (error) {
+      console.error("Error deleting FAQ:", error);
+      toast.error("Failed to delete FAQ.");
     }
   };
 
@@ -49,36 +104,9 @@ const FAQComponent = () => {
     setForm({ question: faq.question, answer: faq.answer });
   };
 
-  const handleSaveChanges = async () => {
-    if (!editingFaqId) return;
-    const res = await fetch(`/api/faqs/edit`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ ...form, id: editingFaqId }),
-    });
-    if (res.ok) {
-      setEditingFaqId(null);
-      fetchFaqs();
-    }
-  };
-
-  const handleDeleteFaq = async (id: string) => {
-    const res = await fetch("/api/faqs/delete", {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id }),
-    });
-    if (res.ok) {
-      fetchFaqs();
-    }
-  };
-
   return (
     <div>
+      <ToastContainer />
       <h2 className="text-2xl font-semibold mb-4">FAQ Section</h2>
       <div className="grid grid-cols-1 gap-4">
         <input
@@ -138,4 +166,4 @@ const FAQComponent = () => {
   );
 };
 
-export default FAQComponent; 
+export default FAQComponent;

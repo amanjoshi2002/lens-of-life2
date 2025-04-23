@@ -1,4 +1,6 @@
 import { useState, useEffect, ChangeEvent } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface Category {
   _id: string;
@@ -65,16 +67,48 @@ const PortfolioComponent = () => {
   };
 
   const handleAddPortfolio = async () => {
-    const res = await fetch("/api/portfolios/add", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(form),
-    });
-    if (res.ok) {
-      setForm({ title: "", category: "", photos: [""] });
-      fetchPortfolios();
+    try {
+      const res = await fetch("/api/portfolios/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form),
+      });
+      if (res.ok) {
+        setForm({ title: "", category: "", photos: [""] }); // Clear the form
+        fetchPortfolios();
+        toast.success("Portfolio added successfully!");
+      } else {
+        throw new Error("Failed to add portfolio");
+      }
+    } catch (error) {
+      console.error("Error adding portfolio:", error);
+      toast.error("Failed to add portfolio.");
+    }
+  };
+
+  const handleSaveChanges = async () => {
+    if (!editingPortfolioId) return;
+    try {
+      const res = await fetch(`/api/portfolios/edit`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...form, _id: editingPortfolioId }),
+      });
+      if (res.ok) {
+        setEditingPortfolioId(null);
+        setForm({ title: "", category: "", photos: [""] }); // Clear the form
+        fetchPortfolios();
+        toast.success("Portfolio updated successfully!");
+      } else {
+        throw new Error("Failed to update portfolio");
+      }
+    } catch (error) {
+      console.error("Error updating portfolio:", error);
+      toast.error("Failed to update portfolio.");
     }
   };
 
@@ -87,31 +121,27 @@ const PortfolioComponent = () => {
     });
   };
 
-  const handleSaveChanges = async () => {
-    if (!editingPortfolioId) return;
-    const res = await fetch(`/api/portfolios/edit`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ ...form, _id: editingPortfolioId }),
-    });
-    if (res.ok) {
-      setEditingPortfolioId(null);
-      fetchPortfolios();
-    }
-  };
+  // Remove the duplicate handleSaveChanges function
+  
 
   const handleDeletePortfolio = async (id: string) => {
-    const res = await fetch("/api/portfolios/delete", {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id }),
-    });
-    if (res.ok) {
-      fetchPortfolios();
+    try {
+      const res = await fetch("/api/portfolios/delete", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id }),
+      });
+      if (res.ok) {
+        fetchPortfolios();
+        toast.success("Portfolio deleted successfully!");
+      } else {
+        throw new Error("Failed to delete portfolio");
+      }
+    } catch (error) {
+      console.error("Error deleting portfolio:", error);
+      toast.error("Failed to delete portfolio.");
     }
   };
 
@@ -121,6 +151,7 @@ const PortfolioComponent = () => {
 
   return (
     <div>
+      <ToastContainer />
       <h2 className="text-2xl font-semibold mb-4">Add/Edit Portfolio</h2>
       <div className="grid grid-cols-1 gap-4">
         <input
@@ -220,4 +251,4 @@ const PortfolioComponent = () => {
   );
 };
 
-export default PortfolioComponent; 
+export default PortfolioComponent;
