@@ -100,15 +100,15 @@ const TestimonialSection = () => {
   };
 
   return (
-    <section className="bg-black py-16 md:py-24 overflow-hidden">
-      <div className="max-w-6xl mx-auto text-center px-4">
-        <h2 className="text-5xl md:text-6xl font-['Limelight'] text-white mb-2">What our clients say</h2>
-        <p className="text-white mt-2 font-light tracking-wider uppercase text-sm">Client Reviews</p>
+    <section className="bg-white py-20 md:py-28 overflow-hidden">
+      <div className="max-w-7xl mx-auto text-center px-4">
+        <h2 className="text-4xl md:text-5xl font-['Limelight'] text-black mb-2">What our clients say</h2>
+        <p className="text-black mt-1 font-light tracking-wider uppercase text-xs mb-8">Client Reviews</p>
       </div>
 
-      <div className="relative max-w-3xl mx-auto mt-12 px-4">
+      <div className="relative max-w-6xl mx-auto mt-8 px-4">
         {/* Testimonial Slider */}
-        <div className="relative h-[400px] md:h-[350px]">
+        <div className="relative min-h-[400px] md:min-h-[300px] flex items-center">
           <AnimatePresence initial={false} custom={direction} mode="wait">
             <motion.div
               key={currentIndex}
@@ -123,25 +123,25 @@ const TestimonialSection = () => {
               }}
               className="absolute w-full"
             >
-              <div className="bg-neutral-100 shadow-lg rounded-lg p-8 flex flex-col items-center text-center mx-auto">
-                <QuoteIcon size={36} className="text-gray-900 mb-6" />
+              <div className="flex flex-col items-center text-center mx-auto py-8">
+                <QuoteIcon size={36} className="text-black mb-6" />
 
-                <p className="text-gray-900 italic text-lg md:text-xl leading-relaxed">
+                <p className="text-gray-900 italic text-lg md:text-xl leading-relaxed max-w-4xl mx-auto mb-8">
                   "{testimonials[currentIndex].review}"
                 </p>
 
-                <div className="mt-8 w-16 h-16 bg-black text-white flex items-center justify-center rounded-full text-xl font-bold">
+                <div className="mt-4 w-12 h-12 bg-black text-white flex items-center justify-center rounded-full text-lg font-bold">
                   {getInitials(testimonials[currentIndex].name)}
                 </div>
 
-                <div className="mt-4">
-                  <p className="font-semibold text-black text-lg">{testimonials[currentIndex].name}</p>
-                  <p className="text-gray-900 text-sm">{testimonials[currentIndex].location}</p>
+                <div className="mt-3">
+                  <p className="font-semibold text-black text-base">{testimonials[currentIndex].name}</p>
+                  <p className="text-gray-900 text-sm mt-0.5">{testimonials[currentIndex].location}</p>
                 </div>
 
-                <div className="flex mt-3">
+                <div className="flex mt-2">
                   {Array.from({ length: testimonials[currentIndex].rating }, (_, i) => (
-                    <Star key={i} size={20} className="text-black" fill="currentColor" />
+                    <Star key={i} size={16} className="text-black" fill="currentColor" />
                   ))}
                 </div>
               </div>
@@ -150,24 +150,24 @@ const TestimonialSection = () => {
         </div>
 
         {/* Navigation Buttons */}
-        <button 
-          onClick={prevTestimonial}
-          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-full md:-translate-x-12 bg-white/10 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/20 transition-all"
-          aria-label="Previous testimonial"
-        >
-          <ChevronLeft size={24} />
-        </button>
-        
-        <button 
-          onClick={nextTestimonial}
-          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-full md:translate-x-12 bg-white/10 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/20 transition-all"
-          aria-label="Next testimonial"
-        >
-          <ChevronRight size={24} />
-        </button>
+                <button 
+                  onClick={prevTestimonial}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 text-black p-3 rounded-full hover:bg-black hover:text-white transition-all shadow-md"
+                  aria-label="Previous testimonial"
+                >
+                  <ChevronLeft size={24} />
+                </button>
+                
+                <button 
+                  onClick={nextTestimonial}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 text-black p-3 rounded-full hover:bg-black hover:text-white transition-all shadow-md"
+                  aria-label="Next testimonial"
+                >
+                  <ChevronRight size={24} />
+                </button>
 
         {/* Indicator Dots */}
-        <div className="flex justify-center mt-8 space-x-3">
+        <div className="flex justify-center mt-8 space-x-2">
           {testimonials.map((_, index) => (
             <button
               key={index}
@@ -175,8 +175,8 @@ const TestimonialSection = () => {
                 setDirection(index > currentIndex ? 1 : -1);
                 setCurrentIndex(index);
               }}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                index === currentIndex ? "bg-white w-6" : "bg-white/40"
+              className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                index === currentIndex ? "bg-black w-4" : "bg-black/40"
               }`}
               aria-label={`Go to testimonial ${index + 1}`}
             />
@@ -185,10 +185,10 @@ const TestimonialSection = () => {
       </div>
 
       {testimonials.length > 1 && (
-        <div className="text-center mt-10">
+        <div className="text-center mt-8">
           <Link href="/testimonials">
-            <button className="bg-transparent border border-white text-white px-6 py-3 rounded-full font-light tracking-wider hover:bg-white hover:text-black transition-all duration-300 text-sm">
-              VIEW ALL TESTIMONIALS
+            <button className="bg-transparent border border-black text-black px-5 py-2 rounded-full font-light tracking-wider hover:bg-black hover:text-white transition-all duration-300 text-xs">
+              READ MORE
             </button>
           </Link>
         </div>

@@ -36,7 +36,7 @@ const ContactSection = () => {
           
           <input
             type="tel"
-            placeholder="Phone"
+            placeholder="WhatsApp number"
             className="p-3 border rounded-lg focus:ring-2 focus:ring-black outline-none font-lato text-gray-700 placeholder-gray-400"
           />
           
@@ -45,10 +45,10 @@ const ContactSection = () => {
               className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-black outline-none font-lato text-gray-700 appearance-none bg-white pr-10"
               defaultValue="Select Service"
             >
-              <option value="" disabled>Select Service</option>
+              <option value="Select Service">Select Service</option>
               <option value="Wedding">Wedding</option>
               <option value="Pre Wedding">Pre Wedding</option>
-              <option value="Anniversaries">Anniversaries</option>
+              <option value="Anniversary">Anniversary</option>
               <option value="Engagement">Engagement</option>
               <option value="Corporate Event">Corporate Event</option>
               <option value="Live streaming">Live Streaming</option>

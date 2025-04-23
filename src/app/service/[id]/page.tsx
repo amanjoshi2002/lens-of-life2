@@ -357,14 +357,16 @@ export default function BlogPost() {
 
           {blog.videos.length > 0 && (
             <div className="mt-10 md:mt-16 mb-10 md:mb-16">
-            
-              <div className="grid grid-cols-4 gap-2 max-w-3xl mx-auto">
+              <h2 className="text-2xl md:text-3xl font-light text-center mb-6 md:mb-8">
+                Featured Video
+              </h2>
+              <div className="max-w-3xl mx-auto">
                 <div 
                   onClick={() => {
                     setCurrentVideoIndex(0);
                     setIsVideoGalleryOpen(true);
                   }}
-                  className="relative aspect-[3/4] col-span-2 cursor-pointer group overflow-hidden rounded-md"
+                  className="relative aspect-video w-full cursor-pointer group overflow-hidden rounded-lg"
                 >
                   <video 
                     src={blog.videos[0]} 
@@ -373,50 +375,29 @@ export default function BlogPost() {
                     playsInline
                   />
                   <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
-                </div>
-
-                <div className="col-span-2 grid grid-rows-2 gap-2">
-                  {blog.videos.slice(1, 3).map((video, index) => (
+                  {blog.videos.length > 1 && (
                     <div 
-                      key={index}
-                      onClick={() => {
-                        setCurrentVideoIndex(index + 1);
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setCurrentVideoIndex(1);
                         setIsVideoGalleryOpen(true);
                       }}
-                      className="relative aspect-[3/2] cursor-pointer group overflow-hidden rounded-md"
+                      className="absolute bottom-4 right-4 bg-black/50 hover:bg-black/70 p-3 rounded-full 
+                               backdrop-blur-sm transition-all duration-300 group-hover:scale-110"
                     >
-                      <video 
-                        src={video} 
-                        className="absolute inset-0 w-full h-full object-cover"
-                        muted
-                        playsInline
-                      />
-                      <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      <div className="text-white flex items-center gap-2">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                         </svg>
+                        <span className="text-sm font-medium">{blog.videos.length - 1}</span>
                       </div>
-                      {index === 1 && blog.videos.length > 3 && (
-                        <div className="absolute inset-0 bg-black/30 flex items-center justify-center 
-                                    cursor-pointer backdrop-blur-[2px]">
-                          <div className="text-center">
-                            <span className="text-white text-sm font-light tracking-wider block">
-                              View All
-                            </span>
-                            <span className="text-white/80 text-xs mt-1 block">
-                              +{blog.videos.length - 3} videos
-                            </span>
-                          </div>
-                        </div>
-                      )}
                     </div>
-                  ))}
+                  )}
                 </div>
               </div>
 

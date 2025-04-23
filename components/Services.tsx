@@ -27,7 +27,7 @@ const Services = () => {
       category: "pre-wedding", // Add category for navigation
     },
     {
-      title: "LIVE EVENTS AND CONFERENCES",
+      title: "CONFERENCE AND EVENTS",
       description:
         "Capture the energy and essence of your live events and conferences with professional photography. From keynote speeches to candid interactions, we document every moment with precision and creativity, ensuring your event is remembered for years to come.",
       image: "/images/services/Conference and Events.jpg",

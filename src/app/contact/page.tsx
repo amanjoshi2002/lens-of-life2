@@ -193,7 +193,7 @@ const Contact = () => {
             <div>
               <h3 className="font-medium text-sm mb-1">Studio</h3>
               <address className="text-gray-500 not-italic">
-              Panjim - Belagavi Rd<br />
+              Lake View Apartment, Panjim Road<br />
               Old Goa, Goa 403402
               </address>
             </div>
@@ -284,7 +284,7 @@ const Contact = () => {
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 border-gray-200 rounded-lg focus:ring-0 focus:border-gray-400 transition-colors duration-300 bg-gray-50"
-                    placeholder="Your phone number"
+                    placeholder="Your whatsapp number"
                     pattern="[0-9]{10}"
                   />
                 </motion.div>
@@ -332,7 +332,7 @@ const Contact = () => {
                   <option value="" disabled>Select a service</option>
                   <option value="Wedding">Wedding</option>
                   <option value="Pre Wedding">Pre Wedding</option>
-                  <option value="Anniversaries">Anniversaries</option>
+                  <option value="Anniversary">Anniversary</option>
                   <option value="Engagement">Engagement</option>
                   <option value="Corporate Event">Corporate Event</option>
                   <option value="Live streaming">Live Streaming</option>
