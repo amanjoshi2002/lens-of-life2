@@ -104,8 +104,8 @@ const About = () => {
             className="md:hidden w-full"
           >
             <img
-              src="/images/about/logo.jpg"
-              alt="Mother and child portrait"
+              src="/images/about/cameraperson.png" // Change this to the desired image path
+              alt="Alternative portrait for mobile"
               className="w-full h-auto object-cover rounded-lg"
             />
           </motion.div>

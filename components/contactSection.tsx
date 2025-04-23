@@ -1,6 +1,21 @@
 import { motion } from "framer-motion";
 
 const ContactSection = () => {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const name = form.elements.namedItem("name") as HTMLInputElement;
+    const date = form.elements.namedItem("date") as HTMLInputElement;
+    const whatsapp = form.elements.namedItem("whatsapp") as HTMLInputElement;
+    const service = form.elements.namedItem("service") as HTMLSelectElement;
+    const message = form.elements.namedItem("message") as HTMLTextAreaElement;
+
+    const whatsappMessage = `Name: ${name.value}\nDate: ${date.value}\nWhatsApp: ${whatsapp.value}\nService: ${service.value}\nMessage: ${message.value}`;
+    const whatsappUrl = `https://wa.me/918999903681?text=${encodeURIComponent(whatsappMessage)}`;
+
+    window.open(whatsappUrl, "_blank");
+  };
+
   return (
     <motion.div
       id="contact"
@@ -20,28 +35,31 @@ const ContactSection = () => {
       </div>
       
       <div className="md:w-1/2 w-full mt-6 md:mt-0 md:pl-8">
-        <form className="flex flex-col space-y-4 bg-white p-8 rounded-lg shadow-md">
+        <form onSubmit={handleSubmit} className="flex flex-col space-y-4 bg-white p-8 rounded-lg shadow-md">
           <div className="flex gap-4">
             <input
               type="text"
+              name="name"
               placeholder="Name"
               className="w-1/2 p-3 border rounded-lg focus:ring-2 focus:ring-black outline-none font-lato text-gray-700 placeholder-gray-400"
             />
             <input
-              type="email"
-              placeholder="Email"
+              type="date"
+              name="date"
               className="w-1/2 p-3 border rounded-lg focus:ring-2 focus:ring-black outline-none font-lato text-gray-700 placeholder-gray-400"
             />
           </div>
           
           <input
             type="tel"
+            name="whatsapp"
             placeholder="WhatsApp number"
             className="p-3 border rounded-lg focus:ring-2 focus:ring-black outline-none font-lato text-gray-700 placeholder-gray-400"
           />
           
           <div className="relative">
             <select
+              name="service"
               className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-black outline-none font-lato text-gray-700 appearance-none bg-white pr-10"
               defaultValue="Select Service"
             >
@@ -62,11 +80,12 @@ const ContactSection = () => {
           </div>
           
           <textarea
+            name="message"
             placeholder="Message"
             className="p-3 border rounded-lg h-32 focus:ring-2 focus:ring-black outline-none font-lato text-gray-700 placeholder-gray-400"
           ></textarea>
           
-          <button className="bg-gray-400 text-white py-3 rounded-lg hover:bg-black transition-transform transform hover:scale-105 font-lato font-medium">
+          <button type="submit" className="bg-gray-400 text-white py-3 rounded-lg hover:bg-black transition-transform transform hover:scale-105 font-lato font-medium">
             Submit
           </button>
         </form>

@@ -9,6 +9,7 @@ const Contact = () => {
   const [formState, setFormState] = useState({
     name: "",
     phone: "", // Changed from email to phone
+    date: "", // Add date field
     subject: "",
     service: "",
     message: "",
@@ -28,14 +29,17 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    
-    console.log("Form submitted:", formState);
+    // Construct WhatsApp message
+    const whatsappMessage = `Name: ${formState.name}\nDate: ${formState.date}\nPhone: ${formState.phone}\nSubject: ${formState.subject}\nService: ${formState.service}\nMessage: ${formState.message}`;
+    const whatsappUrl = `https://wa.me/918999903681?text=${encodeURIComponent(whatsappMessage)}`;
+
+    // Open WhatsApp message in a new tab
+    window.open(whatsappUrl, "_blank");
+
     setIsSubmitting(false);
     setIsSubmitted(true);
-    setFormState({ name: "", phone: "", subject: "", service: "", message: "" }); // Add service here
-    
+    setFormState({ name: "", phone: "", date: "", subject: "", service: "", message: "" });
+
     // Reset submission status after 5 seconds
     setTimeout(() => setIsSubmitted(false), 5000);
   };
@@ -296,18 +300,17 @@ const Contact = () => {
                 viewport={{ once: true }}
                 transition={{ delay: 0.3, duration: 0.5 }}
               >
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
-                  Subject
+                <label htmlFor="date" className="block text-sm font-medium text-gray-700 mb-1">
+                  Date
                 </label>
                 <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  value={formState.subject}
+                  type="date"
+                  id="date"
+                  name="date"
+                  value={formState.date}
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 border-gray-200 rounded-lg focus:ring-0 focus:border-gray-400 transition-colors duration-300 bg-gray-50"
-                  placeholder="How can I help you?"
                 />
               </motion.div>
 
