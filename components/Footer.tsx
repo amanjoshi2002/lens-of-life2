@@ -18,7 +18,7 @@ export default function Footer() {
           <div className="space-y-3">
             <Link href="/" className="block hover:text-gray-300 transition">HOME</Link>
             <Link href="/portfolio" className="block hover:text-gray-300 transition">PORTFOLIO</Link>
-            <Link href="/services" className="block hover:text-gray-300 transition">SERVICES</Link>
+            <Link href="/service?category=destination-wedding" className="block hover:text-gray-300 transition">SERVICES</Link>
           </div>
           <div className="space-y-3">
             <Link href="/blog" className="block hover:text-gray-300 transition">BLOG</Link>

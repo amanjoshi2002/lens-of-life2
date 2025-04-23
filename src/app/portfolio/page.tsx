@@ -28,35 +28,90 @@ function PortfolioContent() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+ const [error, setError] = useState<string | null>(null);
+  const [imagesLoaded, setImagesLoaded] = useState(0);
+  const [totalImages, setTotalImages] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
+        setError(null);
+        
         const [categoriesRes, portfoliosRes] = await Promise.all([
-          fetch("/api/categories"),
-          fetch('/api/portfolios')
+          fetch("/api/categories", { 
+            next: { revalidate: 3600 } // Cache for 1 hour
+          }),
+          fetch('/api/portfolios', {
+            next: { revalidate: 3600 }
+          })
         ]);
+
+        if (!categoriesRes.ok || !portfoliosRes.ok) {
+          throw new Error('Failed to fetch data');
+        }
         
         const categoriesData = await categoriesRes.json();
         const portfoliosData = await portfoliosRes.json();
         
+        // Calculate total images to load
+        const totalPhotos = portfoliosData.reduce((acc: number, portfolio: Portfolio) => 
+          acc + portfolio.photos.length, 0);
+        setTotalImages(totalPhotos);
+
         setCategories(categoriesData);
         setPortfolios(portfoliosData);
       } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setIsLoading(false);
+        setError('Failed to load portfolio data. Please refresh the page.');
       }
     };
 
     fetchData();
   }, []);
 
+  // Handle image load events
+  const handleImageLoad = () => {
+    setImagesLoaded(prev => prev + 1);
+  };
+
+  // Show loading until all images are loaded
+  if (isLoading || (totalImages > 0 && imagesLoaded < totalImages)) {
+    return (
+      <div className="min-h-screen">
+        <Loading />
+        {totalImages > 0 && (
+          <div className="fixed bottom-4 left-0 right-0 text-center text-gray-600">
+            Loading images: {imagesLoaded}/{totalImages}
+          </div>
+        )}
+      </div>
+    );
+  }
+
   if (isLoading) {
     return <Loading />;
   }
 
+  if (error) {
+    return (
+      <>
+        <Navbar />
+        <div className="min-h-screen flex items-center justify-center px-4">
+          <div className="text-center">
+            <h2 className="text-2xl font-light mb-4">Something went wrong</h2>
+            <p className="text-gray-600 mb-6">{error}</p>
+            <button 
+              onClick={() => window.location.reload()}
+              className="px-6 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition-colors"
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+        <Footer />
+      </>
+    );
+  }
   // Update category selection handlers
   const handleAllClick = () => {
     setSelectedCategoryId('');
@@ -167,6 +222,8 @@ function PortfolioContent() {
                             className="w-full h-full object-cover transition-all duration-500 
                                      md:filter md:grayscale md:hover:grayscale-0 hover:scale-105 z-10"
                             src={photo}
+                            onLoad={handleImageLoad}
+                            loading="lazy"
                           />
                         </div>
                       </div>
