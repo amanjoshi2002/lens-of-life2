@@ -86,6 +86,7 @@ export default function BlogPost() {
       <Navbar />
       <div className="min-h-screen">
         {/* Hero Section */}
+        // For the head photo
         <div className="w-full h-screen relative">
           <div className="w-full h-full relative overflow-hidden group">
             <Image
@@ -190,7 +191,7 @@ export default function BlogPost() {
                       alt={`Sub Photo ${index + 1}`}
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
-                      className="object-cover object-center shadow-sm grayscale group-hover:grayscale-0 
+                      className="object-contain md:object-cover object-center shadow-sm grayscale group-hover:grayscale-0 
                                transition-all duration-500 transform group-hover:scale-[1.03]"
                       id={`${componentId}-sub-image-${index}`}
                       suppressHydrationWarning

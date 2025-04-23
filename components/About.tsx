@@ -9,44 +9,65 @@ const About = () => {
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
+          viewport={{ once: true, margin: "-100px" }}
           className="grid md:grid-cols-2 gap-12 md:gap-16 items-center"
         >
           {/* Image Section with Overlapping Effect */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
+            transition={{ duration: 1.5, ease: "easeOut", delay: 0.2 }}
+            viewport={{ once: true, margin: "-100px" }}
             className="relative h-[600px] hidden md:block"
           >
-            <div className="absolute top-0 left-0 w-4/5">
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.2, delay: 0.4 }}
+              viewport={{ once: true }}
+              className="absolute top-0 left-0 w-4/5"
+            >
               <img
                 src="/images/about/cameraperson.png"
                 alt="Photographer with camera"
                 className="w-full h-auto object-cover rounded-lg"
               />
-            </div>
-            <div className="absolute bottom-0 right-0 w-3/4">
+            </motion.div>
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.2, delay: 0.6 }}
+              viewport={{ once: true }}
+              className="absolute bottom-0 right-0 w-3/4"
+            >
               <img
                 src="/images/about/logo.jpg"
                 alt="Mother and child portrait"
                 className="w-full h-auto object-cover rounded-lg"
               />
-            </div>
+            </motion.div>
           </motion.div>
 
           {/* Text Content */}
           <div className="space-y-8">
             <motion.h2
-              initial={{ opacity: 0, x: -20 }}
+              initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
+              transition={{ duration: 1.2, ease: "easeOut", delay: 0.3 }}
+              viewport={{ once: true, margin: "-100px" }}
               className="text-6xl font-['Limelight'] text-neutral-800 mb-8"
             >
               About 
             </motion.h2>
             <div className="space-y-6">
-              <p className="text-lg leading-relaxed text-neutral-700">
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, delay: 0.5 }}
+                viewport={{ once: true }}
+                className="text-lg leading-relaxed text-neutral-700"
+              >
                 I'm Anja, a creative soul and a dedicated mother based in Leeds. 
                 I'm thrilled to offer a unique portrait experience designed to 
                 capture the beauty and emotion of motherhood. Understanding 
@@ -54,8 +75,14 @@ const About = () => {
                 photoshoot process that respects your time and reflects your 
                 needs—whether you're anticipating a new arrival, celebrating 
                 your newborn, or wanting to preserve timeless family moments.
-              </p>
-              <p className="text-lg leading-relaxed text-neutral-700">
+              </motion.p>
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, delay: 0.7 }}
+                viewport={{ once: true }}
+                className="text-lg leading-relaxed text-neutral-700"
+              >
                 Located in the vibrant city of Leeds, my studio is a sanctuary 
                 where art meets emotion. Each session is bespoke, crafted to 
                 reflect your personal story and style. As a mother myself, I bring 
@@ -64,7 +91,7 @@ const About = () => {
                 than photography—it's a celebration of life's most cherished 
                 stages. Let's capture these moments together, creating art that 
                 will be treasured forever.
-              </p>
+              </motion.p>
             </div>
           </div>
 
@@ -72,6 +99,7 @@ const About = () => {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.5, ease: "easeOut", delay: 0.2 }}
             viewport={{ once: true }}
             className="md:hidden w-full"
           >
