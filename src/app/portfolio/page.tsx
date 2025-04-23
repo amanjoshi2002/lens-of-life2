@@ -28,9 +28,7 @@ function PortfolioContent() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState('');
   const [isLoading, setIsLoading] = useState(true);
- const [error, setError] = useState<string | null>(null);
-  const [imagesLoaded, setImagesLoaded] = useState(0);
-  const [totalImages, setTotalImages] = useState(0);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,80 +36,61 @@ function PortfolioContent() {
         setIsLoading(true);
         setError(null);
         
-        const [categoriesRes, portfoliosRes] = await Promise.all([
-          fetch("/api/categories", { 
-            next: { revalidate: 3600 } // Cache for 1 hour
-          }),
-          fetch('/api/portfolios', {
-            next: { revalidate: 3600 }
-          })
-        ]);
-
-        if (!categoriesRes.ok || !portfoliosRes.ok) {
-          throw new Error('Failed to fetch data');
+        // Fetch categories first
+        const categoriesRes = await fetch("/api/categories");
+        if (!categoriesRes.ok) {
+          throw new Error('Failed to fetch categories');
         }
-        
         const categoriesData = await categoriesRes.json();
+        
+        // Only fetch portfolios if categories are successful
+        const portfoliosRes = await fetch('/api/portfolios');
+        if (!portfoliosRes.ok) {
+          throw new Error('Failed to fetch portfolios');
+        }
         const portfoliosData = await portfoliosRes.json();
         
-        // Calculate total images to load
-        const totalPhotos = portfoliosData.reduce((acc: number, portfolio: Portfolio) => 
-          acc + portfolio.photos.length, 0);
-        setTotalImages(totalPhotos);
-
+        // Set data only if both fetches are successful
         setCategories(categoriesData);
         setPortfolios(portfoliosData);
       } catch (error) {
-        setError('Failed to load portfolio data. Please refresh the page.');
+        console.error("Error fetching data:", error);
+        setError('Failed to load content. Please check your connection and try again.');
+        // Important: Set empty arrays to prevent undefined errors
+        setCategories([]);
+        setPortfolios([]);
+      } finally {
+        // Remove the timeout to prevent unnecessary waiting
+        setIsLoading(false);
       }
     };
 
     fetchData();
   }, []);
 
-  // Handle image load events
-  const handleImageLoad = () => {
-    setImagesLoaded(prev => prev + 1);
-  };
-
-  // Show loading until all images are loaded
-  if (isLoading || (totalImages > 0 && imagesLoaded < totalImages)) {
-    return (
-      <div className="min-h-screen">
-        <Loading />
-        {totalImages > 0 && (
-          <div className="fixed bottom-4 left-0 right-0 text-center text-gray-600">
-            Loading images: {imagesLoaded}/{totalImages}
-          </div>
-        )}
-      </div>
-    );
-  }
-
+  // Modify the loading condition
   if (isLoading) {
     return <Loading />;
   }
 
-  if (error) {
+  // Show error state even if categories are empty
+  if (error || (!isLoading && categories.length === 0)) {
     return (
-      <>
-        <Navbar />
-        <div className="min-h-screen flex items-center justify-center px-4">
-          <div className="text-center">
-            <h2 className="text-2xl font-light mb-4">Something went wrong</h2>
-            <p className="text-gray-600 mb-6">{error}</p>
-            <button 
-              onClick={() => window.location.reload()}
-              className="px-6 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition-colors"
-            >
-              Try Again
-            </button>
-          </div>
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">Oops!</h2>
+          <p className="text-gray-600">{error || 'No content available'}</p>
+          <button 
+            onClick={() => window.location.reload()}
+            className="mt-4 px-6 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition-colors"
+          >
+            Try Again
+          </button>
         </div>
-        <Footer />
-      </>
+      </div>
     );
   }
+
   // Update category selection handlers
   const handleAllClick = () => {
     setSelectedCategoryId('');
@@ -133,6 +112,10 @@ function PortfolioContent() {
       subtitle: 'Explore Our Work'
     }
   ];
+
+  const handleContactClick = () => {
+    router.push('/contact');
+  };
 
   return (
     <>
@@ -222,8 +205,6 @@ function PortfolioContent() {
                             className="w-full h-full object-cover transition-all duration-500 
                                      md:filter md:grayscale md:hover:grayscale-0 hover:scale-105 z-10"
                             src={photo}
-                            onLoad={handleImageLoad}
-                            loading="lazy"
                           />
                         </div>
                       </div>
@@ -238,8 +219,11 @@ function PortfolioContent() {
             <h3 className="text-xl sm:text-2xl font-playfair text-gray-900 mb-4">
               Ready to capture your special moments?
             </h3>
-            <button className="px-6 sm:px-8 py-3 bg-black text-white rounded-full hover:bg-primary/90 
-                              transition-colors duration-300 shadow-md hover:shadow-lg">
+            <button 
+              onClick={handleContactClick}
+              className="px-6 sm:px-8 py-3 bg-black text-white rounded-full hover:bg-primary/90 
+                        transition-colors duration-300 shadow-md hover:shadow-lg"
+            >
               Contact Us
             </button>
           </div>
