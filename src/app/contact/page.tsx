@@ -288,7 +288,7 @@ const Contact = () => {
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 border-gray-200 rounded-lg focus:ring-0 focus:border-gray-400 transition-colors duration-300 bg-gray-50"
-                    placeholder="Your whatsapp number"
+                    placeholder="Whatsapp number"
                     pattern="[0-9]{10}"
                   />
                 </motion.div>
@@ -301,7 +301,7 @@ const Contact = () => {
                 transition={{ delay: 0.3, duration: 0.5 }}
               >
                 <label htmlFor="date" className="block text-sm font-medium text-gray-700 mb-1">
-                  Date
+                  Date of Event
                 </label>
                 <input
                   type="date"
@@ -310,7 +310,7 @@ const Contact = () => {
                   value={formState.date}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border-gray-200 rounded-lg focus:ring-0 focus:border-gray-400 transition-colors duration-300 bg-gray-50"
+                  className="text-gray-400 w-full px-4 py-3 border-gray-200 rounded-lg focus:ring-0 focus:border-gray-400 transition-colors duration-300 bg-gray-50"
                 />
               </motion.div>
 
@@ -330,7 +330,7 @@ const Contact = () => {
                   value={formState.service}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border-gray-200 rounded-lg focus:ring-0 focus:border-gray-400 transition-colors duration-300 bg-gray-50 appearance-none"
+                  className=" text-gray-400 w-full px-4 py-3 border-gray-200 rounded-lg focus:ring-0 focus:border-gray-400 transition-colors duration-300 bg-gray-50 appearance-none"
                 >
                   <option value="" disabled>Select a service</option>
                   <option value="Wedding">Wedding</option>

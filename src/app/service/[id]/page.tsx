@@ -146,24 +146,7 @@ export default function BlogPost() {
               </div>
             </div>
             {/* Couple Name and Wedding Date */}
-            {(blog.coupleName || blog.weddingDate) && (
-              <div className="bg-white/80 py-4 px-4 md:px-8 text-center shadow-sm">
-                {blog.coupleName && (
-                  <div className="text-lg md:text-xl font-semibold text-gray-700">
-                    Couple: {blog.coupleName}
-                  </div>
-                )}
-                {blog.weddingDate && (
-                  <div className="text-md md:text-lg text-gray-600 mt-1">
-                    Wedding Date: {new Date(blog.weddingDate).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                  </div>
-                )}
-              </div>
-            )}
+          
           </div>
         </div>
 

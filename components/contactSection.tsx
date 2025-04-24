@@ -41,12 +41,13 @@ const ContactSection = () => {
               type="text"
               name="name"
               placeholder="Name"
-              className="w-1/2 p-3 border rounded-lg focus:ring-2 focus:ring-black outline-none font-lato text-gray-700 placeholder-gray-400"
+              className="w-1/2 p-3 border rounded-lg focus:ring-2 focus:ring-black outline-none font-lato text-gray-500 placeholder-gray-400 bg-white"
             />
             <input
               type="date"
               name="date"
-              className="w-1/2 p-3 border rounded-lg focus:ring-2 focus:ring-black outline-none font-lato text-gray-700 placeholder-gray-400"
+              placeholder="Date"
+              className="w-1/2 p-3 border rounded-lg focus:ring-2 focus:ring-black outline-none font-lato text-gray-400 placeholder-gray-300 bg-white"
             />
           </div>
           
@@ -54,13 +55,13 @@ const ContactSection = () => {
             type="tel"
             name="whatsapp"
             placeholder="WhatsApp number"
-            className="p-3 border rounded-lg focus:ring-2 focus:ring-black outline-none font-lato text-gray-700 placeholder-gray-400"
+            className="p-3 border rounded-lg focus:ring-2 focus:ring-black outline-none font-lato text-gray-500 placeholder-gray-400 bg-white"
           />
           
           <div className="relative">
             <select
               name="service"
-              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-black outline-none font-lato text-gray-700 appearance-none bg-white pr-10"
+              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-black outline-none font-lato text-gray-400 appearance-none bg-white pr-10"
               defaultValue="Select Service"
             >
               <option value="Select Service">Select Service</option>
@@ -82,7 +83,7 @@ const ContactSection = () => {
           <textarea
             name="message"
             placeholder="Message"
-            className="p-3 border rounded-lg h-32 focus:ring-2 focus:ring-black outline-none font-lato text-gray-700 placeholder-gray-400"
+            className="p-3 border rounded-lg h-32 focus:ring-2 focus:ring-black outline-none font-lato text-gray-400 placeholder-gray-300 bg-white"
           ></textarea>
           
           <button type="submit" className="bg-gray-400 text-white py-3 rounded-lg hover:bg-black transition-transform transform hover:scale-105 font-lato font-medium">

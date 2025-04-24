@@ -1,5 +1,5 @@
 "use client";
-import { QuoteIcon, Star } from "lucide-react";
+import { QuoteIcon, Star, X } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import Navbar from "../../../components/Navbar";
@@ -14,9 +14,12 @@ interface Testimonial {
   rating?: number;
 }
 
+const MAX_REVIEW_LENGTH = 150; // Maximum characters to show before "Read More"
+
 const TestimonialsPage = () => {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedReview, setSelectedReview] = useState<Testimonial | null>(null);
 
   useEffect(() => {
     const fetchTestimonials = async () => {
@@ -45,6 +48,11 @@ const TestimonialsPage = () => {
       .toUpperCase();
   };
 
+  const truncateReview = (review: string) => {
+    if (review.length <= MAX_REVIEW_LENGTH) return review;
+    return `${review.substring(0, MAX_REVIEW_LENGTH)}...`;
+  };
+
   if (isLoading) {
     return (
       <>
@@ -68,7 +76,22 @@ const TestimonialsPage = () => {
           {testimonials.map((testimonial) => (
             <div key={testimonial._id} className="bg-white shadow-lg rounded-lg p-8 flex flex-col items-center text-center">
               <QuoteIcon size={36} className="text-gray-900 mb-6" />
-              <p className="text-gray-900 italic text-lg">{testimonial.review}</p>
+              <div className="hidden md:block"> {/* Only show truncated version on medium and larger screens */}
+                <p className="text-gray-900 italic text-lg">
+                  {truncateReview(testimonial.review)}
+                  {testimonial.review.length > MAX_REVIEW_LENGTH && (
+                    <button
+                      onClick={() => setSelectedReview(testimonial)}
+                      className="text-black font-semibold ml-2 hover:underline"
+                    >
+                      Read More
+                    </button>
+                  )}
+                </p>
+              </div>
+              <div className="md:hidden"> {/* Show full review on small screens */}
+                <p className="text-gray-900 italic text-lg">{testimonial.review}</p>
+              </div>
               <div className="mt-8 w-16 h-16 bg-black text-white flex items-center justify-center rounded-full text-xl font-bold">
                 {getInitials(testimonial.name)}
               </div>
@@ -86,6 +109,38 @@ const TestimonialsPage = () => {
             </div>
           ))}
         </div>
+
+        {/* Modal for full review */}
+        {selectedReview && (
+          <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex items-center justify-center p-4 z-50">
+            <div className="bg-white rounded-lg p-8 max-w-2xl w-full max-h-[80vh] overflow-y-auto relative">
+              <button
+                onClick={() => setSelectedReview(null)}
+                className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+              >
+                <X size={24} />
+              </button>
+              <div className="flex flex-col items-center text-center">
+                <QuoteIcon size={36} className="text-gray-900 mb-6" />
+                <p className="text-gray-900 italic text-lg mb-6">{selectedReview.review}</p>
+                <div className="w-16 h-16 bg-black text-white flex items-center justify-center rounded-full text-xl font-bold">
+                  {getInitials(selectedReview.name)}
+                </div>
+                <div className="mt-4">
+                  <p className="font-semibold text-black text-lg">{selectedReview.name}</p>
+                  <p className="text-gray-700 text-sm">{selectedReview.location}</p>
+                </div>
+                {selectedReview.rating && (
+                  <div className="flex mt-3">
+                    {Array.from({ length: selectedReview.rating }, (_, i) => (
+                      <Star key={i} size={20} className="text-black fill-black" />
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className="text-center mt-10">
           <Link href="/">
