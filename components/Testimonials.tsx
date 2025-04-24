@@ -1,5 +1,5 @@
 "use client";
-import { QuoteIcon, Star, ChevronLeft, ChevronRight } from "lucide-react";
+import { QuoteIcon, Star, ChevronLeft, ChevronRight, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -11,6 +11,8 @@ interface Testimonial {
   location: string;
   rating: number;
 }
+
+const MAX_REVIEW_LENGTH = 200; // Maximum characters to show before "Read More"
 
 // Function to get initials from the author's name
 const getInitials = (name: string | undefined) => {
@@ -27,6 +29,7 @@ const TestimonialSection = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
+  const [selectedReview, setSelectedReview] = useState<Testimonial | null>(null);
 
   useEffect(() => {
     const fetchTestimonials = async () => {
@@ -69,6 +72,11 @@ const TestimonialSection = () => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + testimonials.length) % testimonials.length);
   };
 
+  const truncateReview = (review: string) => {
+    if (review.length <= MAX_REVIEW_LENGTH) return review;
+    return `${review.substring(0, MAX_REVIEW_LENGTH)}...`;
+  };
+
   if (isLoading) {
     return (
       <section className="bg-black py-16 md:py-24">
@@ -107,7 +115,6 @@ const TestimonialSection = () => {
       </div>
 
       <div className="relative max-w-6xl mx-auto mt-8 px-4">
-        {/* Testimonial Slider */}
         <div className="relative min-h-[400px] md:min-h-[300px] flex items-center">
           <AnimatePresence initial={false} custom={direction} mode="wait">
             <motion.div
@@ -126,9 +133,19 @@ const TestimonialSection = () => {
               <div className="flex flex-col items-center text-center mx-auto py-8">
                 <QuoteIcon size={36} className="text-black mb-6" />
 
-                <p className="text-gray-900 italic text-lg md:text-xl leading-relaxed max-w-4xl mx-auto mb-8">
-                  "{testimonials[currentIndex].review}"
-                </p>
+                <div className="mb-8">
+                  <p className="text-gray-900 italic text-lg md:text-xl leading-relaxed max-w-4xl mx-auto">
+                    "{truncateReview(testimonials[currentIndex].review)}"
+                    {testimonials[currentIndex].review.length > MAX_REVIEW_LENGTH && (
+                      <button
+                        onClick={() => setSelectedReview(testimonials[currentIndex])}
+                        className="text-black font-semibold ml-2 hover:underline"
+                      >
+                        Read More
+                      </button>
+                    )}
+                  </p>
+                </div>
 
                 <div className="mt-4 w-12 h-12 bg-black text-white flex items-center justify-center rounded-full text-lg font-bold">
                   {getInitials(testimonials[currentIndex].name)}
@@ -191,6 +208,38 @@ const TestimonialSection = () => {
               READ MORE
             </button>
           </Link>
+        </div>
+      )}
+
+      {/* Modal for full review */}
+      {selectedReview && (
+        <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg p-8 max-w-2xl w-full max-h-[80vh] overflow-y-auto relative">
+            <button
+              onClick={() => setSelectedReview(null)}
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+            >
+              <X size={24} />
+            </button>
+            <div className="flex flex-col items-center text-center">
+              <QuoteIcon size={36} className="text-gray-900 mb-6" />
+              <p className="text-gray-900 italic text-lg mb-6">{selectedReview.review}</p>
+              <div className="w-12 h-12 bg-black text-white flex items-center justify-center rounded-full text-lg font-bold">
+                {getInitials(selectedReview.name)}
+              </div>
+              <div className="mt-4">
+                <p className="font-semibold text-black text-lg">{selectedReview.name}</p>
+                <p className="text-gray-700 text-sm">{selectedReview.location}</p>
+              </div>
+              {selectedReview.rating && (
+                <div className="flex mt-3">
+                  {Array.from({ length: selectedReview.rating }, (_, i) => (
+                    <Star key={i} size={16} className="text-black fill-black" />
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       )}
     </section>
