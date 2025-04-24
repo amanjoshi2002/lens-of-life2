@@ -191,7 +191,7 @@ export default function BlogPost() {
                       alt={`Sub Photo ${index + 1}`}
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
-                      className="object-contain md:object-cover object-center shadow-sm grayscale group-hover:grayscale-0 
+                      className="object-contain object-center shadow-sm md:grayscale md:group-hover:grayscale-0 
                                transition-all duration-500 transform group-hover:scale-[1.03]"
                       id={`${componentId}-sub-image-${index}`}
                       suppressHydrationWarning
@@ -225,7 +225,7 @@ export default function BlogPost() {
                     alt="Featured photo"
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover shadow-sm grayscale group-hover:grayscale-0 
+                    className="object-cover shadow-sm md:grayscale md:group-hover:grayscale-0 
                              transition-all duration-500 transform group-hover:scale-[1.03]"
                   />
                   <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -244,7 +244,7 @@ export default function BlogPost() {
                       alt="Second photo"
                       fill
                       sizes="(max-width: 768px) 100vw, 25vw"
-                      className="object-cover shadow-sm grayscale group-hover:grayscale-0 
+                      className="object-cover shadow-sm md:grayscale md:group-hover:grayscale-0 
                                transition-all duration-500 transform group-hover:scale-[1.03]"
                     />
                     <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -262,7 +262,7 @@ export default function BlogPost() {
                       alt="Third photo"
                       fill
                       sizes="(max-width: 768px) 100vw, 25vw"
-                      className="object-cover shadow-sm grayscale hover:grayscale-0 
+                      className="object-cover shadow-sm md:grayscale md:group-hover:grayscale-0 
                                transition-all duration-500 transform group-hover:scale-[1.03]"
                     />
                     {blog.photos.length > 3 && (
@@ -415,7 +415,7 @@ export default function BlogPost() {
                 })}
               </div>
 
-              {/* Rest of the video gallery modal code remains the same */}
+              {/* Enhanced Video Gallery Modal with Responsive Design */}
               {isVideoGalleryOpen && (
                 <div className="fixed inset-0 bg-black/95 z-50 p-4 md:p-8">
                   <button
@@ -427,16 +427,8 @@ export default function BlogPost() {
                     </svg>
                   </button>
 
-                  <div className="h-full flex items-center justify-center">
-                    <button
-                      onClick={() => setCurrentVideoIndex((prev) => (prev === 0 ? blog.videos.length - 1 : prev - 1))}
-                      className="absolute left-4 text-white/90 p-2 hover:bg-white/10 rounded-full z-10"
-                    >
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                      </svg>
-                    </button>
-
+                  {/* Mobile View (Default) */}
+                  <div className="md:hidden h-full flex items-center justify-center">
                     <div className="relative w-full h-0 pb-[56.25%] max-w-5xl mx-auto">
                       {blog.videos[currentVideoIndex] && (
                         <iframe
@@ -448,37 +440,95 @@ export default function BlogPost() {
                         />
                       )}
                     </div>
-
-                    <button
-                      onClick={() => setCurrentVideoIndex((prev) => (prev === blog.videos.length - 1 ? 0 : prev + 1))}
-                      className="absolute right-4 text-white/90 p-2 hover:bg-white/10 rounded-full z-10"
-                    >
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
-                    </button>
+                    
+                    {/* Mobile Navigation Controls */}
+                    <div className="absolute bottom-20 left-0 right-0 flex justify-between px-4">
+                      <button
+                        onClick={() => setCurrentVideoIndex((prev) => (prev === 0 ? blog.videos.length - 1 : prev - 1))}
+                        className="bg-white/10 p-2 rounded-full"
+                      >
+                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                        </svg>
+                      </button>
+                      
+                      <button
+                        onClick={() => setCurrentVideoIndex((prev) => (prev === blog.videos.length - 1 ? 0 : prev + 1))}
+                        className="bg-white/10 p-2 rounded-full"
+                      >
+                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </button>
+                    </div>
+                    
+                    {/* Mobile Video Counter */}
+                    <div className="absolute bottom-4 left-0 right-0 text-center text-white/80 text-sm">
+                      {currentVideoIndex + 1} / {blog.videos.length}
+                    </div>
                   </div>
+                  
+                  {/* Desktop View (Full Screen) */}
+                  <div className="hidden md:block h-full">
+                    {/* Full Screen Video */}
+                    <div className="h-full flex flex-col justify-center">
+                      <div className="relative w-full h-[85vh]">
+                        {blog.videos[currentVideoIndex] && (
+                          <iframe
+                            src={`https://www.youtube.com/embed/${blog.videos[currentVideoIndex].match(/(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/user\/\S+|\/ytscreeningroom\?v=|\/sandalsResorts#\w\/\w\/.*\/))([^\/&\?]{10,12})/)?.[1]}`}
+                            title={`YouTube video ${currentVideoIndex + 1}`}
+                            className="absolute top-0 left-0 w-full h-full"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                          />
+                        )}
+                      </div>
+                      
+                      {/* Desktop Navigation Controls */}
+                      <button
+                        onClick={() => setCurrentVideoIndex((prev) => (prev === 0 ? blog.videos.length - 1 : prev - 1))}
+                        className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white/90 p-2 hover:bg-white/10 rounded-full z-10"
+                      >
+                        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                        </svg>
+                      </button>
 
-                  {/* Video Thumbnails */}
-                  <div className="absolute bottom-4 left-0 right-0 overflow-x-auto py-2">
-                    <div className="flex gap-2 justify-center">
-                      {blog.videos.map((videoUrl, index) => {
-                        const videoId = videoUrl.match(/(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/user\/\S+|\/ytscreeningroom\?v=|\/sandalsResorts#\w\/\w\/.*\/))([^\/&\?]{10,12})/)?.[1];
-                        return (
-                          <div
-                            key={index}
-                            onClick={() => setCurrentVideoIndex(index)}
-                            className={`relative w-24 h-16 cursor-pointer rounded-md overflow-hidden
-                                      ${currentVideoIndex === index ? 'ring-2 ring-white' : 'opacity-50 hover:opacity-100'}`}
-                          >
-                            <img
-                              src={`https://img.youtube.com/vi/${videoId}/mqdefault.jpg`}
-                              alt={`Video thumbnail ${index + 1}`}
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                        );
-                      })}
+                      <button
+                        onClick={() => setCurrentVideoIndex((prev) => (prev === blog.videos.length - 1 ? 0 : prev + 1))}
+                        className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white/90 p-2 hover:bg-white/10 rounded-full z-10"
+                      >
+                        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </button>
+                    </div>
+                    
+                    {/* Video Thumbnails for Desktop */}
+                    <div className="absolute bottom-4 left-0 right-0 overflow-x-auto py-2">
+                      <div className="flex gap-2 justify-center">
+                        {blog.videos.map((videoUrl, index) => {
+                          const thumbId = videoUrl.match(/(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/user\/\S+|\/ytscreeningroom\?v=|\/sandalsResorts#\w\/\w\/.*\/))([^\/&\?]{10,12})/)?.[1];
+                          
+                          return thumbId ? (
+                            <div
+                              key={index}
+                              onClick={() => setCurrentVideoIndex(index)}
+                              className={`relative w-24 h-16 cursor-pointer rounded-md overflow-hidden group
+                                        ${currentVideoIndex === index ? 'ring-2 ring-white' : 'opacity-50 hover:opacity-100'}`}
+                            >
+                              <img
+                                src={`https://img.youtube.com/vi/${thumbId}/mqdefault.jpg`}
+                                alt={`Thumbnail ${index + 1}`}
+                                className="w-full h-full object-cover"
+                              />
+                              {currentVideoIndex === index && (
+                                <div className="absolute inset-0 bg-white/20 pointer-events-none" />
+                              )}
+                            </div>
+                          ) : null;
+                        })}
+                      </div>
                     </div>
                   </div>
                 </div>
