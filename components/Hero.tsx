@@ -8,20 +8,20 @@ const Hero = () => {
   const slides = [
     {
       image: "/images/hero/cover1.jpg",
-      title: "LUXURY PORTRAIT",
-      subtitle: "EXPERIENCE",
-      text: "Capturing timeless reflections of your unique journey through motherhood and family life."
+      title: "Luxury in Capture",
+      subtitle: "",
+      text: "Crafting breathtaking memories of your beach wedding with refined elegance and artistry."
     },
     {
       image: "/images/hero/cover2.jpg",
       subtitle: "MOMENTS",
-      text: "Celebrating the beautiful journey of motherhood with elegant portraiture."
+      text: "As your love story unfolds, We capture each golden moment, preserving every step you take towards forever."
     },
     {
       image: "/images/hero/cover3.jpg",
-      title: "FAMILY",
-      subtitle: "PORTRAITS",
-      text: "Creating timeless memories that will be cherished for generations."
+      title: "Cherished Moments",
+      subtitle: "",
+      text: "Capturing your love’s reflection as the sun sets on a new chapter together."
     }
   ];
 

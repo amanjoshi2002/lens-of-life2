@@ -39,7 +39,13 @@ const TestimonialSection = () => {
           throw new Error('Failed to fetch testimonials');
         }
         const data = await response.json();
-        setTestimonials(data);
+        // Sort testimonials by most recent first (assuming _id contains timestamp)
+        // and take only the top 5
+        const recentTestimonials = data
+          .sort((a: Testimonial, b: Testimonial) => 
+            b._id.localeCompare(a._id))
+          .slice(0, 5);
+        setTestimonials(recentTestimonials);
       } catch (error) {
         console.error('Error fetching testimonials:', error);
       } finally {

@@ -203,7 +203,7 @@ function PortfolioContent() {
                           <img
                             alt={portfolio.title}
                             className="w-full h-full object-cover transition-all duration-500 
-                                     md:filter md:grayscale md:hover:grayscale-0 hover:scale-105 z-10"
+                                     hover:scale-105 z-10"                                       
                             src={photo}
                           />
                         </div>

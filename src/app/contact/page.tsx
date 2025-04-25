@@ -8,9 +8,8 @@ import Footer from "../../../components/Footer";
 const Contact = () => {
   const [formState, setFormState] = useState({
     name: "",
-    phone: "", // Changed from email to phone
-    date: "", // Add date field
-    subject: "",
+    phone: "",
+    date: "",
     service: "",
     message: "",
   });
@@ -29,19 +28,28 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Construct WhatsApp message
-    const whatsappMessage = `Name: ${formState.name}\nDate: ${formState.date}\nPhone: ${formState.phone}\nSubject: ${formState.subject}\nService: ${formState.service}\nMessage: ${formState.message}`;
-    const whatsappUrl = `https://wa.me/918999903681?text=${encodeURIComponent(whatsappMessage)}`;
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formState),
+      });
 
-    // Open WhatsApp message in a new tab
-    window.open(whatsappUrl, "_blank");
+      if (!response.ok) {
+        throw new Error('Failed to send email');
+      }
 
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    setFormState({ name: "", phone: "", date: "", subject: "", service: "", message: "" });
-
-    // Reset submission status after 5 seconds
-    setTimeout(() => setIsSubmitted(false), 5000);
+      setIsSubmitted(true);
+      setFormState({ name: "", phone: "", date: "", service: "", message: "" });
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setIsSubmitting(false);
+      // Reset submission status after 5 seconds
+      setTimeout(() => setIsSubmitted(false), 5000);
+    }
   };
 
   const containerVariants = {
@@ -185,7 +193,7 @@ const Contact = () => {
                 href="mailto:lensoflifecreations@gmail.com"
                 className="text-gray-500 hover:text-gray-800 transition-colors duration-300"
               >
-                lensoflifecreations@gmail.com
+                info@lensoflifecreations.in
               </a>
             </div>
           </motion.div>
@@ -266,8 +274,7 @@ const Contact = () => {
                     value={formState.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 border-gray-200 rounded-lg focus:ring-0 focus:border-gray-400 transition-colors duration-300 bg-gray-50"
-                    placeholder="Your name"
+                    className="text-gray-700 placeholder:text-gray-700 w-full px-4 py-3 border-gray-200 rounded-lg focus:ring-0 focus:border-gray-400 transition-colors duration-300 bg-gray-50"                    placeholder="Your name"
                   />
                 </motion.div>
 
@@ -287,8 +294,7 @@ const Contact = () => {
                     value={formState.phone}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 border-gray-200 rounded-lg focus:ring-0 focus:border-gray-400 transition-colors duration-300 bg-gray-50"
-                    placeholder="Whatsapp number"
+                    className="text-gray-700 placeholder:text-gray-700 w-full px-4 py-3 border-gray-200 rounded-lg focus:ring-0 focus:border-gray-400 transition-colors duration-300 bg-gray-50"                    placeholder="Whatsapp number"
                     pattern="[0-9]{10}"
                   />
                 </motion.div>
@@ -310,8 +316,7 @@ const Contact = () => {
                   value={formState.date}
                   onChange={handleChange}
                   required
-                  className="text-gray-400 w-full px-4 py-3 border-gray-200 rounded-lg focus:ring-0 focus:border-gray-400 transition-colors duration-300 bg-gray-50"
-                />
+                  className="text-gray-700 placeholder:text-gray-700 w-full px-4 py-3 border-gray-200 rounded-lg focus:ring-0 focus:border-gray-400 transition-colors duration-300 bg-gray-50"                />
               </motion.div>
 
               {/* Add Service Dropdown */}
@@ -330,8 +335,7 @@ const Contact = () => {
                   value={formState.service}
                   onChange={handleChange}
                   required
-                  className=" text-gray-400 w-full px-4 py-3 border-gray-200 rounded-lg focus:ring-0 focus:border-gray-400 transition-colors duration-300 bg-gray-50 appearance-none"
-                >
+                  className="text-gray-700 placeholder:text-gray-700 w-full px-4 py-3 border-gray-200 rounded-lg focus:ring-0 focus:border-gray-400 transition-colors duration-300 bg-gray-50 appearance-none"                >
                   <option value="" disabled>Select a service</option>
                   <option value="Wedding">Wedding</option>
                   <option value="Pre Wedding">Pre Wedding</option>
@@ -359,8 +363,7 @@ const Contact = () => {
                   onChange={handleChange}
                   required
                   rows={5}
-                  className="w-full px-4 py-3 border-gray-200 rounded-lg focus:ring-0 focus:border-gray-400 transition-colors duration-300 bg-gray-50"
-                  placeholder="Tell me about your project..."
+                  className="text-gray-700 placeholder:text-gray-700 w-full px-4 py-3 border-gray-200 rounded-lg focus:ring-0 focus:border-gray-400 transition-colors duration-300 bg-gray-50"                  placeholder="Tell me about your project..."
                 ></textarea>
               </motion.div>
 

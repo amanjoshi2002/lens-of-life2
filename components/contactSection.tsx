@@ -1,19 +1,48 @@
+"use client";
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 const ContactSection = () => {
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
     const form = e.target as HTMLFormElement;
-    const name = form.elements.namedItem("name") as HTMLInputElement;
-    const date = form.elements.namedItem("date") as HTMLInputElement;
-    const whatsapp = form.elements.namedItem("whatsapp") as HTMLInputElement;
-    const service = form.elements.namedItem("service") as HTMLSelectElement;
-    const message = form.elements.namedItem("message") as HTMLTextAreaElement;
+    const formData = {
+      name: (form.elements.namedItem("name") as HTMLInputElement).value,
+      date: (form.elements.namedItem("date") as HTMLInputElement).value,
+      whatsapp: (form.elements.namedItem("whatsapp") as HTMLInputElement).value,
+      service: (form.elements.namedItem("service") as HTMLSelectElement).value,
+      message: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
+    };
 
-    const whatsappMessage = `Name: ${name.value}\nDate: ${date.value}\nWhatsApp: ${whatsapp.value}\nService: ${service.value}\nMessage: ${message.value}`;
-    const whatsappUrl = `https://wa.me/918999903681?text=${encodeURIComponent(whatsappMessage)}`;
+    try {
+      // Send email
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
 
-    window.open(whatsappUrl, "_blank");
+      if (!response.ok) {
+        throw new Error('Failed to send email');
+      }
+
+      setSubmitStatus('success');
+      form.reset();
+
+    } catch (error) {
+      console.error('Error:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -41,13 +70,15 @@ const ContactSection = () => {
               type="text"
               name="name"
               placeholder="Name"
-              className="w-1/2 p-3 border rounded-lg focus:ring-2 focus:ring-black outline-none font-lato text-gray-500 placeholder-gray-400 bg-white"
+              required
+              className="w-1/2 p-3 border rounded-lg focus:ring-2 focus:ring-black outline-none font-lato text-gray-700 placeholder:text-gray-700 bg-white"
             />
             <input
               type="date"
               name="date"
               placeholder="Date"
-              className="w-1/2 p-3 border rounded-lg focus:ring-2 focus:ring-black outline-none font-lato text-gray-400 placeholder-gray-300 bg-white"
+              required
+              className="w-1/2 p-3 border rounded-lg focus:ring-2 focus:ring-black outline-none font-lato text-gray-700 placeholder:text-gray-700 bg-white"
             />
           </div>
           
@@ -55,13 +86,15 @@ const ContactSection = () => {
             type="tel"
             name="whatsapp"
             placeholder="WhatsApp number"
-            className="p-3 border rounded-lg focus:ring-2 focus:ring-black outline-none font-lato text-gray-500 placeholder-gray-400 bg-white"
+            required
+            className="p-3 border rounded-lg focus:ring-2 focus:ring-black outline-none font-lato text-gray-700 placeholder:text-gray-700 bg-white"
           />
           
           <div className="relative">
             <select
               name="service"
-              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-black outline-none font-lato text-gray-400 appearance-none bg-white pr-10"
+              required
+              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-black outline-none font-lato text-gray-700 appearance-none bg-white pr-10"
               defaultValue="Select Service"
             >
               <option value="Select Service">Select Service</option>
@@ -83,12 +116,24 @@ const ContactSection = () => {
           <textarea
             name="message"
             placeholder="Message"
-            className="p-3 border rounded-lg h-32 focus:ring-2 focus:ring-black outline-none font-lato text-gray-400 placeholder-gray-300 bg-white"
+            required
+            className="p-3 border rounded-lg h-32 focus:ring-2 focus:ring-black outline-none font-lato text-gray-700 placeholder:text-gray-700 bg-white"
           ></textarea>
           
-          <button type="submit" className="bg-gray-400 text-white py-3 rounded-lg hover:bg-black transition-transform transform hover:scale-105 font-lato font-medium">
-            Submit
+          <button 
+            type="submit" 
+            disabled={isSubmitting}
+            className={`bg-gray-400 text-white py-3 rounded-lg hover:bg-black transition-transform transform hover:scale-105 font-lato font-medium ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+          >
+            {isSubmitting ? 'Sending...' : 'Submit'}
           </button>
+          
+          {submitStatus === 'success' && (
+            <p className="text-green-600 text-center mt-4">Message sent successfully!</p>
+          )}
+          {submitStatus === 'error' && (
+            <p className="text-red-600 text-center mt-4">Failed to send message. Please try again.</p>
+          )}
         </form>
       </div>
     </motion.div>

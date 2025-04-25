@@ -30,7 +30,7 @@ const About = () => {
             >
               <img
                 src="/images/about/cameraperson.png"
-                alt="Photographer with camera"
+                alt="Professional photographer at work"
                 className="w-full h-auto object-cover rounded-lg"
               />
             </motion.div>
@@ -43,7 +43,7 @@ const About = () => {
             >
               <img
                 src="/images/about/logo.jpg"
-                alt="Mother and child portrait"
+                alt="Wedding photography sample"
                 className="w-full h-auto object-cover rounded-lg"
               />
             </motion.div>
@@ -68,13 +68,13 @@ const About = () => {
                 viewport={{ once: true }}
                 className="text-lg leading-relaxed text-neutral-700"
               >
-                I'm Anja, a creative soul and a dedicated mother based in Leeds. 
-                I'm thrilled to offer a unique portrait experience designed to 
-                capture the beauty and emotion of motherhood. Understanding 
-                the fleeting nature of life's precious moments, I've tailored a 
-                photoshoot process that respects your time and reflects your 
-                needs—whether you're anticipating a new arrival, celebrating 
-                your newborn, or wanting to preserve timeless family moments.
+                Hello, I'm Glen Almeida, the proud founder of Lens of Life Creations. 
+                What started as a passion for photography has now grown into a mission 
+                to preserve the most precious moments of your life through the art of 
+                visual storytelling. At Lens of Life Creations, we specialize in wedding 
+                photography, pre-wedding shoots, candid moments, cinematic videography, 
+                and drone photography — offering a wide range of services to capture 
+                every aspect of your unique journey.
               </motion.p>
               <motion.p 
                 initial={{ opacity: 0, y: 20 }}
@@ -83,14 +83,25 @@ const About = () => {
                 viewport={{ once: true }}
                 className="text-lg leading-relaxed text-neutral-700"
               >
-                Located in the vibrant city of Leeds, my studio is a sanctuary 
-                where art meets emotion. Each session is bespoke, crafted to 
-                reflect your personal story and style. As a mother myself, I bring 
-                empathy and insight to each shoot, ensuring that your portraits 
-                resonate with warmth and authenticity. This experience is more 
-                than photography—it's a celebration of life's most cherished 
-                stages. Let's capture these moments together, creating art that 
-                will be treasured forever.
+                With years of experience and a keen eye for detail, I personally oversee 
+                every project, ensuring that every shot reflects the emotions, beauty, 
+                and essence of your story. We take pride in creating authentic, heartfelt, 
+                and cinematic images that not only showcase the beauty of the day but 
+                also the emotions, connections, and bonds shared with your loved ones. 
+                Every smile, every tear, every joyous moment — we ensure that no detail 
+                is ever missed.
+              </motion.p>
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, delay: 0.9 }}
+                viewport={{ once: true }}
+                className="text-lg leading-relaxed text-neutral-700"
+              >
+                Lens of Life Creations is more than just a photography service; it's a 
+                journey we take with you. We are honored to be part of your story, 
+                capturing memories that will last a lifetime. Your love, your moments, 
+                your story — let us help you tell it beautifully.
               </motion.p>
             </div>
           </div>
@@ -104,8 +115,8 @@ const About = () => {
             className="md:hidden w-full"
           >
             <img
-              src="/images/about/cameraperson.png" // Change this to the desired image path
-              alt="Alternative portrait for mobile"
+              src="/images/about/cameraperson.png"
+              alt="Professional photographer at work"
               className="w-full h-auto object-cover rounded-lg"
             />
           </motion.div>

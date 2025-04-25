@@ -9,28 +9,28 @@ const Services = () => {
     {
       title: "DESTINATION WEDDING",
       description:
-        "Celebrate your love with stunning destination wedding photography. From scenic beaches to grand venues, we capture every emotion and detail, turning your special day into timeless memories. Let us frame your love story beautifully!",
+        "We are specialized in destination wedding photography and cinematography, capturing the magic of your love story in breathtaking locations worldwide. From intimate beach elopements to luxury international weddings, our expert team delivers cinematic videography, aerial drone footage, and authentic storytelling that reflect the beauty and culture of your chosen destination. We travel globally to turn your special day into timeless, visually stunning memories.",
       image: "/images/services/Destination wedding.jpg",
       category: "destination-wedding",
     },
     {
       title: "GOAN WEDDING",
       description:
-        "Experience the magic of a Goan wedding with stunning photography that captures every vibrant moment. From sun-kissed beaches to grand heritage venues, we bring your love story to life with breathtaking shots, rich in tradition, joy, and scenic beauty. Let us preserve your special day with timeless elegance!",
+        "We offer expert Goan wedding photography and cinematography, capturing the vibrant traditions, beachside beauty, and cultural charm that make weddings in Goa truly magical. From traditional rituals to modern celebrations, our team documents every moment with stunning detail, combining local expertise with artistic storytelling to preserve the essence of your special day in Goa.",
       image: "/images/services/Goan Wedding.jpg",
       category: "goan-wedding",
     },
     {
       title: "PRE-WEDDING",
       description:
-        "Celebrate your love story with a dreamy pre-wedding photoshoot. Whether it's on Goa's golden beaches, lush landscapes, or charming streets, we capture your chemistry in stunning frames. Let us create timeless memories before your big day!",
+        "We specialize in pre-wedding photoshoots that capture the excitement, romance, and chemistry between you and your partner. Whether it's a scenic outdoor session or a stylish urban shoot, our personalized approach ensures every frame reflects your unique love story. From candid moments to cinematic poses, we create timeless visuals that set the perfect tone for your wedding day.",
       image: "/images/services/Pre wedding.jpg",
       category: "pre-wedding",
     },
     {
       title: "CONFERENCE AND EVENTS",
       description:
-        "Capture the energy and essence of your live events and conferences with professional photography. From keynote speeches to candid interactions, we document every moment with precision and creativity, ensuring your event is remembered for years to come.",
+        "We offer expert event and conference photography for corporate seminars, business conferences, trade shows, product launches, and social gatherings. Our professional team captures every key moment—candid audience reactions, dynamic speaker shots, and event highlights—with precision and creativity. We deliver high-quality, tailored visuals that reflect the energy and importance of your event.",
       image: "/images/services/Conference and Events.jpg",
       category: "live-events-and-conference",
     },
