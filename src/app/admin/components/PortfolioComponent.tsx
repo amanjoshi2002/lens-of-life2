@@ -203,7 +203,7 @@ const PortfolioComponent = () => {
           onClick={editingPortfolioId ? handleSaveChanges : handleAddPortfolio}
           className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800"
         >
-          {editingPortfolioId ? "Save Changes" : "Add Portfolio"}
+          {editingPortfolioId ? "Save Changes" : "SAVE"}
         </button>
       </div>
       <div className="bg-white p-6 rounded-lg shadow-md mt-6">

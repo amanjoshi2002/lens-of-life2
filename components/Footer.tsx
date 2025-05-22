@@ -18,12 +18,14 @@ export default function Footer() {
           <div className="space-y-3">
             <Link href="/" className="block hover:text-gray-300 transition">HOME</Link>
             <Link href="/portfolio" className="block hover:text-gray-300 transition">PORTFOLIO</Link>
-            <Link href="/service?category=destination-wedding" className="block hover:text-gray-300 transition">SERVICES</Link>
+                   <Link href="/contact" className="block hover:text-gray-300 transition">CONTACT</Link>
+
           </div>
           <div className="space-y-3">
             <Link href="/blog" className="block hover:text-gray-300 transition">BLOG</Link>
             <Link href="/faq" className="block hover:text-gray-300 transition">FAQs</Link>
-            <Link href="/contact" className="block hover:text-gray-300 transition">CONTACT</Link>
+            <Link href="/testimonials" className="block hover:text-gray-300 transition">TESTIMONIALS</Link>
+
           </div>
         </div>
 

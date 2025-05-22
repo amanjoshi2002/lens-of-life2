@@ -47,15 +47,7 @@ const BlogForm = ({ form, setForm, categories, onSave, onCancel, editing }: Prop
       <input name="coupleName" value={form.coupleName || ""} onChange={handleChange} placeholder="Couple Name" className="border p-2 rounded text-black" />
       <input name="weddingDate" type="date" value={form.weddingDate ? form.weddingDate.slice(0,10) : ""} onChange={handleChange} placeholder="Wedding Date" className="border p-2 rounded text-black" />
 
-      <label className="font-semibold">Head Photo Links</label>
-      {form.headPhotoLinks.map((link, i) => (
-        <div key={i} className="flex gap-2 mb-1">
-          <input value={link} onChange={e => handleArrayChange(form.headPhotoLinks, i, e.target.value, "headPhotoLinks")} className="border p-2 rounded flex-1 text-black" placeholder={`Head Photo Link ${i + 1}`} />
-          <button type="button" onClick={() => removeField("headPhotoLinks", i)} className="bg-red-400 text-white px-2 rounded">Remove</button>
-        </div>
-      ))}
-      <button type="button" onClick={() => addField("headPhotoLinks", "")} className="bg-gray-200 px-2 rounded mb-2">Add Head Photo Link</button>
-
+    
       <label className="font-semibold">Paragraphs</label>
       {form.paragraphs.map((p, i) => (
         <div key={i} className="flex gap-2 mb-1">
@@ -95,7 +87,7 @@ const BlogForm = ({ form, setForm, categories, onSave, onCancel, editing }: Prop
 
       <div className="flex gap-2 mt-2">
         <button type="submit" className={`${editing ? "bg-blue-500" : "bg-green-500"} text-white px-4 py-2 rounded`}>
-          {editing ? "Save Changes" : "Add Blog"}
+          {editing ? "Save Changes" : "Add Service"}
         </button>
         {editing && (
           <button type="button" onClick={onCancel} className="bg-gray-400 text-white px-4 py-2 rounded">

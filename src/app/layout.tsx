@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Limelight, Poppins } from 'next/font/google';
 import WhatsAppButton from '../../components/WhatsAppButton';
 import CallButton from '../../components/CallButton';
+import GoogleAnalytics from '../../components/GoogleAnalytics';
 
 const poppins = Poppins({ 
   subsets: ['latin'],
@@ -21,6 +22,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <GoogleAnalytics />
+      </head>
       <body className={poppins.className}>
         {children}
         <WhatsAppButton />

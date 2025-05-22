@@ -5,6 +5,21 @@ import { useState } from "react";
 const ContactSection = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [formData, setFormData] = useState({
+    name: '',
+    date: '',
+    whatsapp: '',
+    service: '',
+    message: ''
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,14 +86,18 @@ const ContactSection = () => {
               name="name"
               placeholder="Name"
               required
-              className="w-1/2 p-3 border rounded-lg focus:ring-2 focus:ring-black outline-none font-lato text-gray-700 placeholder:text-gray-700 bg-white"
+              value={formData.name}
+              onChange={handleChange}
+              className="w-1/2 p-3 border rounded-lg focus:ring-2 focus:ring-black outline-none font-lato text-gray-700 placeholder:text-gray-400 bg-white"
             />
             <input
               type="date"
               name="date"
               placeholder="Date"
               required
-              className="w-1/2 p-3 border rounded-lg focus:ring-2 focus:ring-black outline-none font-lato text-gray-700 placeholder:text-gray-700 bg-white"
+              value={formData.date}
+              onChange={handleChange}
+              className="w-1/2 p-3 border rounded-lg focus:ring-2 focus:ring-black outline-none font-lato text-gray-700 placeholder:text-gray-400 bg-white [&:not(:valid)]:text-gray-400"
             />
           </div>
           
@@ -87,24 +106,31 @@ const ContactSection = () => {
             name="whatsapp"
             placeholder="WhatsApp number"
             required
-            className="p-3 border rounded-lg focus:ring-2 focus:ring-black outline-none font-lato text-gray-700 placeholder:text-gray-700 bg-white"
+            value={formData.whatsapp}
+            onChange={handleChange}
+            className="p-3 border rounded-lg focus:ring-2 focus:ring-black outline-none font-lato text-gray-700 placeholder:text-gray-400 bg-white"
           />
           
           <div className="relative">
             <select
               name="service"
               required
-              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-black outline-none font-lato text-gray-700 appearance-none bg-white pr-10"
-              defaultValue="Select Service"
+              value={formData.service}
+              onChange={handleChange}
+              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-black outline-none font-lato text-gray-400 appearance-none bg-white pr-10"
+              style={{ color: formData.service ? '#374151' : '#9CA3AF' }}
             >
-              <option value="Select Service">Select Service</option>
-              <option value="Wedding">Wedding</option>
-              <option value="Pre Wedding">Pre Wedding</option>
-              <option value="Anniversary">Anniversary</option>
-              <option value="Engagement">Engagement</option>
-              <option value="Corporate Event">Corporate Event</option>
-              <option value="Live streaming">Live Streaming</option>
-              <option value="Others">Others</option>
+              <option value="" disabled className="text-gray-400">Select Service</option>
+              <option value="Wedding" className="text-gray-700">Wedding</option>
+              <option value="Pre Wedding" className="text-gray-700">Pre Wedding</option>
+              <option value="Anniversary" className="text-gray-700">Anniversary</option>
+              <option value="Engagement" className="text-gray-700">Engagement</option>
+              <option value="Corporate Event" className="text-gray-700">Corporate Event</option>
+              <option value="Maternity" className="text-gray-700">Maternity</option>
+              <option value="Birthday" className="text-gray-700">Birthday</option>
+              <option value="Couple Shoot" className="text-gray-700">Couple Shoot</option>
+              <option value="Live Streaming" className="text-gray-700">Live Streaming</option>
+              <option value="Others" className="text-gray-700">Others</option>
             </select>
             <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
               <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -117,7 +143,9 @@ const ContactSection = () => {
             name="message"
             placeholder="Message"
             required
-            className="p-3 border rounded-lg h-32 focus:ring-2 focus:ring-black outline-none font-lato text-gray-700 placeholder:text-gray-700 bg-white"
+            value={formData.message}
+            onChange={handleChange}
+            className="p-3 border rounded-lg h-32 focus:ring-2 focus:ring-black outline-none font-lato text-gray-700 placeholder:text-gray-400 bg-white"
           ></textarea>
           
           <button 

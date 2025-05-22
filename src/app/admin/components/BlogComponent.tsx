@@ -84,21 +84,21 @@ const BlogComponent = () => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ ...cleaned, _id: editingId }),
         });
-        toast.success("Blog updated successfully!");
+        toast.success("service updated successfully!");
       } else {
         await fetch("/api/blogs/add", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(cleaned),
         });
-        toast.success("Blog added successfully!");
+        toast.success("service added successfully!");
       }
       setEditingId(null);
       setForm(emptyForm);
       fetchBlogs();
     } catch (error) {
-      console.error("Error saving blog:", error);
-      toast.error("Failed to save blog.");
+      console.error("Error saving service:", error);
+      toast.error("Failed to save service.");
     }
   };
 
@@ -110,7 +110,7 @@ const BlogComponent = () => {
   return (
     <div>
       <ToastContainer />
-      <h2 className="text-2xl font-semibold mb-4">{editingId ? "Edit Blog" : "Add Blog"}</h2>
+      <h2 className="text-2xl font-semibold mb-4">{editingId ? "Edit Service" : "Add Service"}</h2>
       <BlogForm
         form={form}
         setForm={setForm}

@@ -274,7 +274,8 @@ const Contact = () => {
                     value={formState.name}
                     onChange={handleChange}
                     required
-                    className="text-gray-700 placeholder:text-gray-700 w-full px-4 py-3 border-gray-200 rounded-lg focus:ring-0 focus:border-gray-400 transition-colors duration-300 bg-gray-50"                    placeholder="Your name"
+                    className="text-gray-900 placeholder:text-gray-400 w-full px-4 py-3 border-gray-200 rounded-lg focus:ring-0 focus:border-gray-400 transition-colors duration-300 bg-gray-50"
+                    placeholder="Your name"
                   />
                 </motion.div>
 
@@ -294,7 +295,8 @@ const Contact = () => {
                     value={formState.phone}
                     onChange={handleChange}
                     required
-                    className="text-gray-700 placeholder:text-gray-700 w-full px-4 py-3 border-gray-200 rounded-lg focus:ring-0 focus:border-gray-400 transition-colors duration-300 bg-gray-50"                    placeholder="Whatsapp number"
+                    className="text-gray-900 placeholder:text-gray-400 w-full px-4 py-3 border-gray-200 rounded-lg focus:ring-0 focus:border-gray-400 transition-colors duration-300 bg-gray-50"
+                    placeholder="Whatsapp number"
                     pattern="[0-9]{10}"
                   />
                 </motion.div>
@@ -316,10 +318,10 @@ const Contact = () => {
                   value={formState.date}
                   onChange={handleChange}
                   required
-                  className="text-gray-700 placeholder:text-gray-700 w-full px-4 py-3 border-gray-200 rounded-lg focus:ring-0 focus:border-gray-400 transition-colors duration-300 bg-gray-50"                />
+                  className="text-gray-900 placeholder:text-gray-400 w-full px-4 py-3 border-gray-200 rounded-lg focus:ring-0 focus:border-gray-400 transition-colors duration-300 bg-gray-50 [&:not(:valid)]:text-gray-400"
+                />
               </motion.div>
 
-              {/* Add Service Dropdown */}
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -335,15 +337,20 @@ const Contact = () => {
                   value={formState.service}
                   onChange={handleChange}
                   required
-                  className="text-gray-700 placeholder:text-gray-700 w-full px-4 py-3 border-gray-200 rounded-lg focus:ring-0 focus:border-gray-400 transition-colors duration-300 bg-gray-50 appearance-none"                >
-                  <option value="" disabled>Select a service</option>
-                  <option value="Wedding">Wedding</option>
-                  <option value="Pre Wedding">Pre Wedding</option>
-                  <option value="Anniversary">Anniversary</option>
-                  <option value="Engagement">Engagement</option>
-                  <option value="Corporate Event">Corporate Event</option>
-                  <option value="Live streaming">Live Streaming</option>
-                  <option value="Others">Others</option>
+                  className="text-gray-900 w-full px-4 py-3 border-gray-200 rounded-lg focus:ring-0 focus:border-gray-400 transition-colors duration-300 bg-gray-50 appearance-none"
+                  style={{ color: formState.service ? '#111827' : '#9CA3AF' }}
+                >
+                  <option value="" disabled className="text-gray-400">Select a service</option>
+                  <option value="Wedding" className="text-gray-900">Wedding</option>
+                  <option value="Pre Wedding" className="text-gray-900">Pre Wedding</option>
+                  <option value="Anniversary" className="text-gray-900">Anniversary</option>
+                  <option value="Engagement" className="text-gray-900">Engagement</option>
+                  <option value="Corporate Event" className="text-gray-900">Corporate Event</option>
+                  <option value="Maternity" className="text-gray-900">Maternity</option>
+                  <option value="Birthday" className="text-gray-900">Birthday</option>
+                  <option value="Couple Shoot" className="text-gray-900">Couple Shoot</option>
+                  <option value="Live Streaming" className="text-gray-900">Live Streaming</option>
+                  <option value="Others" className="text-gray-900">Others</option>
                 </select>
               </motion.div>
 
@@ -363,7 +370,8 @@ const Contact = () => {
                   onChange={handleChange}
                   required
                   rows={5}
-                  className="text-gray-700 placeholder:text-gray-700 w-full px-4 py-3 border-gray-200 rounded-lg focus:ring-0 focus:border-gray-400 transition-colors duration-300 bg-gray-50"                  placeholder="Tell me about your project..."
+                  className="text-gray-900 placeholder:text-gray-400 w-full px-4 py-3 border-gray-200 rounded-lg focus:ring-0 focus:border-gray-400 transition-colors duration-300 bg-gray-50"
+                  placeholder="Tell me about your project..."
                 ></textarea>
               </motion.div>
 

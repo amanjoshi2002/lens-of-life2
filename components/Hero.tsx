@@ -8,7 +8,7 @@ const Hero = () => {
   const slides = [
     {
       image: "/images/hero/cover1.jpg",
-      title: "Luxury in Capture",
+      title: "LUXURY IN CAPTURE",
       subtitle: "",
       text: "Crafting breathtaking memories of your beach wedding with refined elegance and artistry."
     },
@@ -19,7 +19,7 @@ const Hero = () => {
     },
     {
       image: "/images/hero/cover3.jpg",
-      title: "Cherished Moments",
+      title: "CHERISHED MOMENTS",
       subtitle: "",
       text: "Capturing your love’s reflection as the sun sets on a new chapter together."
     }
