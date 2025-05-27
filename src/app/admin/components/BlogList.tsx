@@ -29,7 +29,7 @@ const BlogList = ({
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md mt-6">
-      <h2 className="text-2xl font-semibold mb-4">Existing Blogs</h2>
+      <h2 className="text-2xl font-semibold mb-4">Existing Service</h2>
       <div className="flex gap-4 mb-4">
         <input
           type="text"

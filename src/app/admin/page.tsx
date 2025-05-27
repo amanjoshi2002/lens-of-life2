@@ -249,12 +249,7 @@ const AdminPage = () => {
           >
             Categories
           </button>
-          <button
-            className={`px-4 py-2 rounded ${activeTab === "subcategory" ? "bg-blue-500 text-white" : "bg-gray-200 text-black"}`}
-            onClick={() => setActiveTab("subcategory")}
-          >
-            Subcategories
-          </button>
+          
           <button
             className={`px-4 py-2 rounded ${activeTab === "testimonials" ? "bg-blue-500 text-white" : "bg-gray-200 text-black"}`}
             onClick={() => setActiveTab("testimonials")}

@@ -145,9 +145,11 @@ const PortfolioComponent = () => {
     }
   };
 
-  const filteredPortfolios = portfolios.filter((portfolio) => {
-    return selectedCategory === "" || portfolio.category._id === selectedCategory;
-  });
+  const filteredPortfolios = Array.isArray(portfolios) 
+    ? portfolios.filter((portfolio) => {
+        return selectedCategory === "" || portfolio.category._id === selectedCategory;
+      })
+    : [];
 
   return (
     <div>
@@ -227,6 +229,17 @@ const PortfolioComponent = () => {
             <div key={portfolio._id} className="border-b border-gray-200 py-4">
               <h3 className="text-xl font-medium">{portfolio.title}</h3>
               <p className="text-gray-600">{portfolio.category.name}</p>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mt-2">
+                {portfolio.photos.map((photo, idx) => (
+                  <div key={idx} className="relative aspect-square">
+                    <img 
+                      src={photo} 
+                      alt={`${portfolio.title} - ${idx + 1}`}
+                      className="w-full h-full object-cover rounded"
+                    />
+                  </div>
+                ))}
+              </div>
               <div className="flex gap-2 mt-2">
                 <button
                   onClick={() => handleEditPortfolio(portfolio)}
