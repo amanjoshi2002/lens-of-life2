@@ -10,7 +10,8 @@ export interface Blog {
   headPhotoLink: string;
   headPhotoLinks: string[];
   coupleName?: string;
-  weddingDate?: string; // ISO string or Date
+  weddingDate?: string;
+  location?: string; // <-- Added location field
   paragraphs: Paragraph[];
   subPhotos: string[];
   photos: string[];
@@ -23,7 +24,8 @@ export interface FormState {
   headPhotoLink: string;
   headPhotoLinks: string[];
   coupleName?: string;
-  weddingDate?: string; // ISO string or Date
+  weddingDate?: string;
+  location?: string; // <-- Added location field
   paragraphs: Paragraph[];
   subPhotos: string[];
   photos: string[];

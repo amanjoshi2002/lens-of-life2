@@ -5,11 +5,11 @@ export default async function handler(req, res) {
   await dbConnect();
 
   if (req.method === 'PUT') {
-    const { _id, category, title, headPhotoLink, headPhotoLinks, coupleName, weddingDate, paragraphs, subPhotos, photos, videos } = req.body;
+    const { _id, category, title, headPhotoLink, headPhotoLinks, coupleName, weddingDate, location, paragraphs, subPhotos, photos, videos } = req.body;
     try {
       const blog = await Blog.findByIdAndUpdate(
         _id,
-        { category, title, headPhotoLink, headPhotoLinks, coupleName, weddingDate, paragraphs, subPhotos, photos, videos },
+        { category, title, headPhotoLink, headPhotoLinks, coupleName, weddingDate, location, paragraphs, subPhotos, photos, videos },
         { new: true, runValidators: true }
       );
       if (!blog) {

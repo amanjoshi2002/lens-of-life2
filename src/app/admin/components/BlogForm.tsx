@@ -46,6 +46,13 @@ const BlogForm = ({ form, setForm, categories, onSave, onCancel, editing }: Prop
       <input name="headPhotoLink" value={form.headPhotoLink} onChange={handleChange} placeholder="Head Photo Link" className="border p-2 rounded text-black" />
       <input name="coupleName" value={form.coupleName || ""} onChange={handleChange} placeholder="Couple Name" className="border p-2 rounded text-black" />
       <input name="weddingDate" type="date" value={form.weddingDate ? form.weddingDate.slice(0,10) : ""} onChange={handleChange} placeholder="Wedding Date" className="border p-2 rounded text-black" />
+      <input
+        name="location"
+        value={form.location || ""}
+        onChange={handleChange}
+        placeholder="Location"
+        className="border p-2 rounded text-black"
+      />
 
     
       <label className="font-semibold">Paragraphs</label>

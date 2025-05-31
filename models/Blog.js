@@ -5,14 +5,12 @@ const { Schema } = mongoose;
 const blogSchema = new Schema({
   category: { type: String, required: true },
   title: { type: String, required: true },
-  headPhotoLink: { type: String, required: true }, // Keeping for backward compatibility
-  headPhotoLinks: [{ type: String }], // New field for multiple head photos
+  headPhotoLink: { type: String, required: true },
+  headPhotoLinks: [{ type: String }],
   date: { type: Date, default: Date.now },
-
-  // Add these two fields:
-  coupleName: { type: String }, // Name of the couple
-  weddingDate: { type: Date },  // Wedding date
-
+  coupleName: { type: String },
+  weddingDate: { type: Date },
+  location: { type: String }, // <-- Added location field
   paragraphs: [{ 
     heading: { type: String },
     content: { type: String }

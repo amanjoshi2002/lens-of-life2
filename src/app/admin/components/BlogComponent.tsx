@@ -12,6 +12,7 @@ const emptyForm: FormState = {
   headPhotoLinks: [""],
   coupleName: "",
   weddingDate: "",
+  location: "", // <-- Added location field
   paragraphs: [{ heading: "", content: "" }],
   subPhotos: [""],
   photos: [""],
@@ -52,6 +53,7 @@ const BlogComponent = () => {
       headPhotoLinks: blog.headPhotoLinks?.length ? blog.headPhotoLinks : [""],
       coupleName: blog.coupleName || "",
       weddingDate: blog.weddingDate || "",
+      location: blog.location || "", // <-- Added location field
       paragraphs: blog.paragraphs,
       subPhotos: blog.subPhotos,
       photos: blog.photos,

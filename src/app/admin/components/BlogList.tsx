@@ -56,6 +56,7 @@ const BlogList = ({
             <p className="text-gray-600">{blog.category}</p>
             {blog.coupleName && <p className="text-gray-700">Couple: {blog.coupleName}</p>}
             {blog.weddingDate && <p className="text-gray-700">Wedding Date: {blog.weddingDate.slice(0,10)}</p>}
+            {blog.location && <p className="text-gray-700">Location: {blog.location}</p>}
             <div className="grid grid-cols-2 gap-2 mb-4">
               <img src={blog.headPhotoLink} alt="Main Head Photo" className="mb-2" />
               {blog.headPhotoLinks?.map((link, i) => (
