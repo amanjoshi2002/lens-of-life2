@@ -7,18 +7,18 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 const Hero = () => {
   const slides = [
     {
-      image: "/images/hero/cover1.jpg",
+      image: "https://ik.imagekit.io/Lens0flife/home/cover1.jpg?updatedAt=1752766760263",
       title: "LUXURY IN CAPTURE",
       subtitle: "",
       text: "Crafting breathtaking memories of your beach wedding with refined elegance and artistry."
     },
     {
-      image: "/images/hero/cover2.jpg",
+      image: "https://ik.imagekit.io/Lens0flife/home/cover2.jpg?updatedAt=1752766760264",
       subtitle: "MOMENTS",
       text: "As your love story unfolds, We capture each golden moment, preserving every step you take towards forever."
     },
     {
-      image: "/images/hero/cover3.jpg",
+      image: "https://ik.imagekit.io/Lens0flife/home/cover3.jpg?updatedAt=1752766760237",
       title: "CHERISHED MOMENTS",
       subtitle: "",
       text: "Capturing your love’s reflection as the sun sets on a new chapter together."

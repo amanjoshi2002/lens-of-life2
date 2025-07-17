@@ -199,10 +199,10 @@ function PortfolioContent() {
                           isLarge ? 'h-[90vh]' : isWide ? 'h-[60vh]' : 'h-[70vh]'
                         }`}
                       >
-                        <div className="w-full h-full overflow-hidden">
+                        <div className="w-full h-full overflow-hidden bg-gray-100">
                           <img
                             alt={portfolio.title}
-                            className="w-full h-full object-cover transition-all duration-500 
+                            className="w-full h-full object-contain transition-all duration-500 
                                      hover:scale-105 z-10"                                       
                             src={photo}
                           />
