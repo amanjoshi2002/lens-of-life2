@@ -24,7 +24,7 @@ const defaultSlides: Slide[] = [
     subtitle: 'Stories, Tips, and Photography Insights'
   },
   {
-    image: '/images/services/Goan Wedding.jpg',
+    image: '/images/services/GOAN WEDDING.jpg',
     title: '',
     subtitle: 'Stories, Tips, and Photography Insights'
   },

@@ -29,7 +29,12 @@ function PortfolioContent() {
   const [selectedCategoryId, setSelectedCategoryId] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  // Add modal state
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
+  const [allPhotos, setAllPhotos] = useState<{url: string, title: string}[]>([]);
 
+  // Move all useEffect hooks to the top
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -68,6 +73,61 @@ function PortfolioContent() {
     fetchData();
   }, []);
 
+  // Filter portfolios based on selected category
+  const filteredPortfolios = selectedCategoryId 
+    ? portfolios.filter(portfolio => portfolio.category._id === selectedCategoryId)
+    : portfolios;
+
+  // Create flat array of all photos with metadata
+  useEffect(() => {
+    const photos = filteredPortfolios
+      .slice()
+      .reverse()
+      .flatMap((portfolio) =>
+        portfolio.photos.map((photo) => ({
+          url: photo,
+          title: portfolio.title
+        }))
+      );
+    setAllPhotos(photos);
+  }, [filteredPortfolios]);
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (!isModalOpen) return;
+      
+      if (e.key === 'Escape') {
+        closeModal();
+      } else if (e.key === 'ArrowRight') {
+        nextPhoto();
+      } else if (e.key === 'ArrowLeft') {
+        prevPhoto();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyPress);
+    return () => document.removeEventListener('keydown', handleKeyPress);
+  }, [isModalOpen, allPhotos.length]);
+
+  // Modal handlers
+  const openModal = (photoIndex: number) => {
+    setCurrentPhotoIndex(photoIndex);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const nextPhoto = () => {
+    setCurrentPhotoIndex((prev) => (prev + 1) % allPhotos.length);
+  };
+
+  const prevPhoto = () => {
+    setCurrentPhotoIndex((prev) => (prev - 1 + allPhotos.length) % allPhotos.length);
+  };
+
   // Modify the loading condition
   if (isLoading) {
     return <Loading />;
@@ -99,11 +159,6 @@ function PortfolioContent() {
   const handleCategoryClick = (categoryId: string) => {
     setSelectedCategoryId(categoryId);
   };
-
-  // Filter portfolios based on selected category
-  const filteredPortfolios = selectedCategoryId 
-    ? portfolios.filter(portfolio => portfolio.category._id === selectedCategoryId)
-    : portfolios;
 
   const heroSlides = [
     {
@@ -187,12 +242,20 @@ function PortfolioContent() {
               {filteredPortfolios
                 .slice()
                 .reverse()
-                .flatMap((portfolio) =>
-                  portfolio.photos.map((photo, index) => {
+                .flatMap((portfolio, portfolioIndex) =>
+                  portfolio.photos.map((photo, photoIndex) => {
+                    // Calculate the actual index in the flattened array
+                    const flatIndex = filteredPortfolios
+                      .slice()
+                      .reverse()
+                      .slice(0, portfolioIndex)
+                      .reduce((acc, p) => acc + p.photos.length, 0) + photoIndex;
+                    
                     return (
                       <div 
-                        key={`${portfolio._id}-${index}`} 
-                        className="break-inside-avoid overflow-hidden relative"
+                        key={`${portfolio._id}-${photoIndex}`} 
+                        className="break-inside-avoid overflow-hidden relative cursor-pointer"
+                        onClick={() => openModal(flatIndex)}
                       >
                         <div className="w-full overflow-hidden">
                           <img
@@ -224,6 +287,56 @@ function PortfolioContent() {
           </div>
         </div>
       </div>
+
+      {/* Photo Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50">
+          <div className="relative w-full h-full flex items-center justify-center p-4">
+            {/* Close button */}
+            <button
+              onClick={closeModal}
+              className="absolute top-4 right-4 text-white hover:text-gray-300 z-10"
+            >
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            {/* Previous button */}
+            <button
+              onClick={prevPhoto}
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 z-10"
+            >
+              <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+
+            {/* Next button */}
+            <button
+              onClick={nextPhoto}
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 z-10"
+            >
+              <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+
+            {/* Photo */}
+            <img
+              src={allPhotos[currentPhotoIndex]?.url}
+              alt={allPhotos[currentPhotoIndex]?.title}
+              className="max-w-full max-h-full object-contain"
+            />
+
+            {/* Photo counter */}
+            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white text-sm">
+              {currentPhotoIndex + 1} / {allPhotos.length}
+            </div>
+          </div>
+        </div>
+      )}
+
       <Footer />
     </>
   );
@@ -236,4 +349,3 @@ export default function PortfolioPage() {
     </Suspense>
   );
 }
-  
