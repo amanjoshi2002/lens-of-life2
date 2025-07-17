@@ -17,7 +17,7 @@ const Services = () => {
       title: "GOAN WEDDING",
       description:
         "We offer expert Goan wedding photography and cinematography, capturing the vibrant traditions, beachside beauty, and cultural charm that make weddings in Goa truly magical. From traditional rituals to modern celebrations, our team documents every moment with stunning detail, combining local expertise with artistic storytelling to preserve the essence of your special day in Goa.",
-      image: "/images/services/Goan Wedding.jpg",
+      image: "/images/services/GOAN WEDDING.jpg",
       category: "goan-wedding",
     },
     {
