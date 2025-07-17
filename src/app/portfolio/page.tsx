@@ -189,21 +189,16 @@ function PortfolioContent() {
                 .reverse()
                 .flatMap((portfolio) =>
                   portfolio.photos.map((photo, index) => {
-                    const isLarge = index % 5 === 0;
-                    const isWide = index % 7 === 3;
-                    
                     return (
                       <div 
                         key={`${portfolio._id}-${index}`} 
-                        className={`mb-0 break-inside-avoid overflow-hidden relative ${
-                          isLarge ? 'h-[90vh]' : isWide ? 'h-[60vh]' : 'h-[70vh]'
-                        }`}
+                        className="break-inside-avoid overflow-hidden relative"
                       >
-                        <div className="w-full h-full overflow-hidden bg-gray-100">
+                        <div className="w-full overflow-hidden">
                           <img
                             alt={portfolio.title}
-                            className="w-full h-full object-contain transition-all duration-500 
-                                     hover:scale-105 z-10"                                       
+                            className="w-full h-auto object-cover transition-all duration-500 
+                                     hover:scale-105 z-10 block"                                       
                             src={photo}
                           />
                         </div>
@@ -241,4 +236,4 @@ export default function PortfolioPage() {
     </Suspense>
   );
 }
-
+  
