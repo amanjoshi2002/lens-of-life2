@@ -26,7 +26,7 @@ function BlogContent() {
         return '/images/services/Conference and Events.jpg';
       default:
         // Default image if no category is selected
-        return '/images/services/Destination wedding.jpg';
+        return '/images/services/Conference and Events.jpg';
     }
   };
 
@@ -42,7 +42,7 @@ function BlogContent() {
       case 'live-events-and-conferencce':
         return 'Live Events and Conference';
       default:
-        return 'Our Services';
+        return 'Live Events and Conference';
     }
   };
 
