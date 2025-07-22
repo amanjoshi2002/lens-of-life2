@@ -19,7 +19,7 @@ function BlogContent() {
       case 'destination-wedding':
         return '/images/services/Destination wedding.jpg';
       case 'goan-wedding':
-        return '/images/services/Goan Wedding.jpg';
+        return '/images/services/GOAN WEDDING.jpg';
       case 'pre-wedding':
         return '/images/services/Pre wedding.jpg';
       case 'live-events-and-conferencce':
