@@ -90,10 +90,12 @@ const About = () => {
                 viewport={{ once: true }}
                 className="text-lg leading-relaxed text-neutral-700"
               >
-                Lens of Life Creations is more than just a photography service; it's a 
-                journey we take with you. We are honored to be part of your story, 
-                capturing memories that will last a lifetime. Your love, your moments, 
-                your story — let us help you tell it beautifully.
+                •	Wedding Photography & Videography in Goa
+•	Pre-Wedding Shoots & Save the Date Films
+•	Couple Portrait Sessions
+•	Destination Weddings in India
+•	Event & Lifestyle Photography
+Your wedding is a once-in-a-lifetime story — let us tell it beautifully. Contact Lens of Life Creations today to discuss your wedding photography and videography needs in Goa or beyond. Book early to secure your dates.
               </motion.p>
             </div>
           </div>
