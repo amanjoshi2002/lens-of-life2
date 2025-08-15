@@ -5,32 +5,33 @@ import Link from 'next/link';
 import { useRef } from 'react';
 
 const Services = () => {
-  const services = [
+ const services = [
     {
       title: "DESTINATION WEDDING",
       description:
-        "We are specialized in destination wedding photography and cinematography, capturing the magic of your love story in breathtaking locations worldwide. From intimate beach elopements to luxury international weddings, our expert team delivers cinematic videography, aerial drone footage, and authentic storytelling that reflect the beauty and culture of your chosen destination. We travel globally to turn your special day into timeless, visually stunning memories.",
+        " Capture the magic of your destination wedding in Goa with our expert wedding photography and wedding videography services. Specializing in cinematic wedding films, aerial drone wedding photography, and authentic storytelling, we transform your special day into timeless memories. Whether you're planning a romantic beach elopement, an intimate Goa destination wedding, or a grand luxury wedding in Goa, our experienced team delivers stunning visuals that reflect the beauty and culture of this tropical paradise. From breathtaking aerial drone footage over Goa’s pristine beaches to intimate moments captured amidst the vibrant landscapes and historic charm, we ensure every detail of your wedding is beautifully documented. Our goal is to craft a cinematic wedding experience that tells your unique love story, preserving every emotion and moment of your Goa destination wedding for years to come.",
       image: "/images/services/Destination wedding.jpg",
       category: "destination-wedding",
     },
     {
       title: "GOAN WEDDING",
       description:
-        "We offer expert Goan wedding photography and cinematography, capturing the vibrant traditions, beachside beauty, and cultural charm that make weddings in Goa truly magical. From traditional rituals to modern celebrations, our team documents every moment with stunning detail, combining local expertise with artistic storytelling to preserve the essence of your special day in Goa.",
+        " Capture the beauty and tradition of your Goan Catholic wedding with our expert wedding photography and wedding videography services. Specializing in cinematic wedding films, aerial drone wedding photography, and authentic storytelling, we document every precious moment of your special day. Whether you’re celebrating a traditional Goan Catholic church wedding, a beach elopement, or a lavish luxury wedding in Goa, our team creates stunning visuals that reflect the unique culture and charm of Goa. From beautiful aerial drone footage of the church and coastal landscapes to intimate moments captured in Goa’s historic venues, we ensure every detail is beautifully preserved. Our aim is to craft a cinematic wedding experience that tells your unique love story, capturing the emotion, faith, and heritage of your Goan Catholic wedding for generations to cherish.
+",
       image: "/images/services/GOAN WEDDING.jpg",
       category: "goan-wedding",
     },
     {
       title: "PRE-WEDDING",
       description:
-        "We specialize in pre-wedding photoshoots that capture the excitement, romance, and chemistry between you and your partner. Whether it's a scenic outdoor session or a stylish urban shoot, our personalized approach ensures every frame reflects your unique love story. From candid moments to cinematic poses, we create timeless visuals that set the perfect tone for your wedding day.",
+        " Capture the essence of your love story with our expert prewedding photography and prewedding videography services in stunning locations like Goa, Kerala, Manali, and Jaipur. Specializing in cinematic wedding films, aerial drone footage, and authentic storytelling, we bring your prewedding moments to life. Whether you're looking for a beachside prewedding shoot in Goa, a serene backwater prewedding shoot in Kerala, a majestic mountain prewedding shoot in Manali, or a royal prewedding shoot in Jaipur, our team captures every intimate moment against the backdrop of these iconic destinations. From breathtaking aerial drone photography to intimate, candid shots, we document the magic of your love in a way that reflects both the beauty of the location and your unique connection. Our goal is to create a cinematic prewedding experience that you'll cherish forever, ensuring that each moment in Goa, Kerala, Manali, or Jaipur is captured with perfection.",
       image: "/images/services/Pre wedding.jpg",
       category: "pre-wedding",
     },
     {
       title: "CONFERENCE AND EVENTS",
       description:
-        "We offer expert event and conference photography for corporate seminars, business conferences, trade shows, product launches, and social gatherings. Our professional team captures every key moment—candid audience reactions, dynamic speaker shots, and event highlights—with precision and creativity. We deliver high-quality, tailored visuals that reflect the energy and importance of your event.",
+        " Capture the essence of your corporate events, conferences, and special occasions with our expert event photography and event videography services. Specializing in cinematic event films, aerial drone footage, and dynamic storytelling, we bring your event to life with high-quality visuals. Whether you're hosting a corporate conference, a product launch, a seminar, or a large-scale corporate event, our team ensures every moment is documented with precision and creativity. From engaging conference photography to professional event videography, we specialize in creating compelling content that showcases the energy, key moments, and atmosphere of your event. Our team captures aerial drone shots for large outdoor events, as well as candid interactions, speeches, and performances, ensuring every important detail is preserved. Let us turn your conference or event into a cinematic experience, preserving the highlights and emotions of the day for your business or brand.",
       image: "/images/services/Conference and Events.jpg",
       category: "live-events-and-conference",
     },
