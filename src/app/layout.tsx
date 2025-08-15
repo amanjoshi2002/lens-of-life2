@@ -12,7 +12,7 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: 'Lens Of Life Creation',
-  description: 'Luxury portrait photography capturing life\'s most precious moments',
+  description: 'Lens of Life Creations – Goa’s leading wedding and portrait photography team, capturing candid, cinematic, and timeless moments. Specializing in weddings, pre-weddings, and luxury portraits across Goa and beyond.',
 };
 
 export default function RootLayout({
