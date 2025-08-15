@@ -90,12 +90,7 @@ const About = () => {
                 viewport={{ once: true }}
                 className="text-lg leading-relaxed text-neutral-700"
               >
-                •	Wedding Photography & Videography in Goa
-•	Pre-Wedding Shoots & Save the Date Films
-•	Couple Portrait Sessions
-•	Destination Weddings in India
-•	Event & Lifestyle Photography
-Your wedding is a once-in-a-lifetime story — let us tell it beautifully. Contact Lens of Life Creations today to discuss your wedding photography and videography needs in Goa or beyond. Book early to secure your dates.
+                Wedding Photography & Videography in Goa, Pre-Wedding Shoots & Save the Date Films, Couple Portrait Sessions, Destination Weddings in India, Event & Lifestyle Photography, Your wedding is a once-in-a-lifetime story — let us tell it beautifully. Contact Lens of Life Creations today to discuss your wedding photography and videography needs in Goa or beyond. Book early to secure your dates.
               </motion.p>
             </div>
           </div>
