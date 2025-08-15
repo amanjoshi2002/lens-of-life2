@@ -71,10 +71,7 @@ const About = () => {
                 Hello, I'm Glen Almeida, the proud founder of Lens of Life Creations. 
                 What started as a passion for photography has now grown into a mission 
                 to preserve the most precious moments of your life through the art of 
-                visual storytelling. At Lens of Life Creations, we specialize in wedding 
-                photography, pre-wedding shoots, candid moments, cinematic videography, 
-                and drone photography — offering a wide range of services to capture 
-                every aspect of your unique journey.
+                visual storytelling. At Lens of Life Creations, we specialize in luxury wedding photography, pre-wedding shoots, and cinematic videography across Goa and destination weddings in India. We believe every couple’s story is unique, and we capture it with candid moments, timeless elegance, and creative flair. From sun-kissed beaches to heritage venues, we turn your love story into unforgettable visual memories.
               </motion.p>
               <motion.p 
                 initial={{ opacity: 0, y: 20 }}
@@ -83,13 +80,8 @@ const About = () => {
                 viewport={{ once: true }}
                 className="text-lg leading-relaxed text-neutral-700"
               >
-                With years of experience and a keen eye for detail, I personally oversee 
-                every project, ensuring that every shot reflects the emotions, beauty, 
-                and essence of your story. We take pride in creating authentic, heartfelt, 
-                and cinematic images that not only showcase the beauty of the day but 
-                also the emotions, connections, and bonds shared with your loved ones. 
-                Every smile, every tear, every joyous moment — we ensure that no detail 
-                is ever missed.
+                With years of experience in Goa’s wedding and portrait photography industry, our team blends artistry, storytelling, and technical excellence to create images that speak from the heart. We cover traditional weddings, Catholic weddings, pre-wedding sessions, couple portraits, and destination celebrations. Our cinematic approach ensures every frame is full of life, emotion, and personality. Whether it’s a sunset beach proposal, a vibrant haldi ceremony, or an elegant church wedding, we capture every detail so you can relive your special day forever.
+
               </motion.p>
               <motion.p 
                 initial={{ opacity: 0, y: 20 }}
