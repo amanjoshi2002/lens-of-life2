@@ -65,7 +65,7 @@ function BlogContent() {
   return (
     <>
       <Navbar />
-      <div className="pt-[var(--navbar-height)]">
+      <div className="pt-16">
         <div className="relative w-full h-screen">
           <Image 
             src={getCategoryImage()}

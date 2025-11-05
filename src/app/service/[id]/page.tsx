@@ -84,10 +84,52 @@ export default function BlogPost() {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen">
-        {/* Hero Section */}
-        // For the head photo
-        <div className="w-full h-screen relative">
+  <div className="min-h-screen pt-16">
+  {/* Hero Section */}
+  {/* For the head photo */}
+        {/* Mobile Hero: full image width, auto height, no crop */}
+        <div className="md:hidden relative w-full bg-black">
+          <img
+            src={blog.headPhotoLink}
+            alt={blog.title}
+            className="w-full h-auto object-contain shadow-sm grayscale"
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).src = "/fallback-image.jpg";
+            }}
+          />
+          {/* Title Overlay */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/30">
+            <h1 className="text-3xl md:text-5xl font-bold text-white font-serif px-4 text-center mb-4">
+              {blog.title}
+            </h1>
+            {(blog.coupleName || blog.weddingDate) && (
+              <div className="mb-8">
+                {blog.coupleName && (
+                  <div className="text-lg md:text-xl font-semibold text-white text-center">
+                    {blog.coupleName}
+                  </div>
+                )}
+                {blog.weddingDate && (
+                  <div className="text-md md:text-lg text-white/90 text-center mt-1">
+                    Wedding Date: {new Date(blog.weddingDate).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </div>
+                )}
+              </div>
+            )}
+            <div className="text-white animate-bounce">
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        {/* Desktop Hero: full viewport height, cover */}
+        <div className="hidden md:block w-full h-screen relative bg-black">
           <div className="w-full h-full relative overflow-hidden group">
             <Image
               src={blog.headPhotoLink}
@@ -109,46 +151,44 @@ export default function BlogPost() {
               <h1 className="text-3xl md:text-5xl font-bold text-white font-serif px-4 text-center mb-4">
                 {blog.title}
               </h1>
-               {(blog.coupleName || blog.weddingDate) && (
-                 <div className="mb-8">
-                   {blog.coupleName && (
-                     <div className="text-lg md:text-xl font-semibold text-white text-center">
-                       {blog.coupleName}
-                     </div>
-                   )}
-                   {blog.weddingDate && (
-                     <div className="text-md md:text-lg text-white/90 text-center mt-1">
-                       Wedding Date: {new Date(blog.weddingDate).toLocaleDateString("en-US", {
-                         year: "numeric",
-                         month: "long",
-                         day: "numeric",
-                       })}
-                     </div>
-                   )}
-                 </div>
-               )}
-                {/* Scroll Down Indicator */}
-                <div className="text-white animate-bounce">
-                  <svg 
-                    className="w-8 h-8"
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24"
-                  >
-                    <path 
-                      strokeLinecap="round" 
-                      strokeLinejoin="round" 
-                      strokeWidth={2} 
-                      d="M19 14l-7 7m0 0l-7-7m7 7V3"
-                    />
-                  </svg>
+              {(blog.coupleName || blog.weddingDate) && (
+                <div className="mb-8">
+                  {blog.coupleName && (
+                    <div className="text-lg md:text-xl font-semibold text-white text-center">
+                      {blog.coupleName}
+                    </div>
+                  )}
+                  {blog.weddingDate && (
+                    <div className="text-md md:text-lg text-white/90 text-center mt-1">
+                      Wedding Date: {new Date(blog.weddingDate).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
+                    </div>
+                  )}
                 </div>
+              )}
+              {/* Scroll Down Indicator */}
+              <div className="text-white animate-bounce">
+                <svg 
+                  className="w-8 h-8"
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth={2} 
+                    d="M19 14l-7 7m0 0l-7-7m7 7V3"
+                  />
+                </svg>
               </div>
             </div>
-            {/* Couple Name and Wedding Date */}
-          
           </div>
         </div>
+        {/* Couple Name and Wedding Date */}
 
         {/* Rest of the content */}
         <div className="max-w-4xl mx-auto px-4 md:px-6 mt-20">
@@ -519,6 +559,7 @@ export default function BlogPost() {
             </div>
           )}
         </div>
+      </div>
       <Footer />
     </>
   );
