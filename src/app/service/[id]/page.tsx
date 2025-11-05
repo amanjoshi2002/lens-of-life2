@@ -92,7 +92,7 @@ export default function BlogPost() {
           <img
             src={blog.headPhotoLink}
             alt={blog.title}
-            className="w-full h-auto object-contain shadow-sm grayscale"
+            className="w-full h-auto object-contain shadow-sm"
             onError={(e) => {
               (e.currentTarget as HTMLImageElement).src = "/fallback-image.jpg";
             }}
