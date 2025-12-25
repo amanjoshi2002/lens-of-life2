@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, User } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
@@ -71,29 +71,29 @@ const Navbar = () => {
     >
       <nav className="container mx-auto px-4 py-4">
         <div className="hidden lg:flex justify-between items-center">
-          <div className="flex items-center space-x-8">
-            <Link 
-              href="/" 
-              className="text-white hover:text-gray-300 transition-colors duration-300 text-sm tracking-wider"
+          <div className="flex items-center space-x-4 lg:space-x-8">
+            <Link
+              href="/"
+              className="text-white hover:text-gray-300 transition-colors duration-300 text-xs lg:text-sm tracking-wider"
             >
               HOME
             </Link>
-            <Link 
+            <Link
               href="/portfolio" // Direct link to the portfolio page
-              className="text-white hover:text-gray-300 transition-colors duration-300 text-sm tracking-wider"
+              className="text-white hover:text-gray-300 transition-colors duration-300 text-xs lg:text-sm tracking-wider"
             >
               PORTFOLIO
             </Link>
-            <div 
+            <div
               className="relative group"
               onMouseEnter={() => setIsServicesOpen(true)}
               onMouseLeave={() => setIsServicesOpen(false)}
             >
-              <button 
-                className="flex items-center space-x-1 text-white hover:text-gray-300 transition-colors duration-300 text-sm tracking-wider"
+              <button
+                className="flex items-center space-x-1 text-white hover:text-gray-300 transition-colors duration-300 text-xs lg:text-sm tracking-wider"
               >
                 <span>SERVICES</span>
-                <ChevronDown className="w-4 h-4 transition-transform duration-300 group-hover:rotate-180" />
+                <ChevronDown className="w-3 h-3 lg:w-4 lg:h-4 transition-transform duration-300 group-hover:rotate-180" />
               </button>
               <AnimatePresence>
                 {isServicesOpen && (
@@ -120,9 +120,9 @@ const Navbar = () => {
                 )}
               </AnimatePresence>
             </div>
-            <Link 
-              href="/blog" 
-              className="text-white hover:text-gray-300 transition-colors duration-300 text-sm tracking-wider"
+            <Link
+              href="/blog"
+              className="text-white hover:text-gray-300 transition-colors duration-300 text-xs lg:text-sm tracking-wider"
             >
               BLOG
             </Link>
@@ -134,30 +134,42 @@ const Navbar = () => {
               transition={{ duration: 0.3 }}
               className="flex flex-col items-center"
             >
-              <span className="text-2xl font-light tracking-[0.2em] text-white">Lens Of Life</span>
-              <span className="text-xs tracking-[0.3em] text-gray-400">Creations</span>
+              <span className="text-lg lg:text-2xl font-light tracking-[0.2em] text-white">Lens Of Life</span>
+              <span className="text-[10px] lg:text-xs tracking-[0.3em] text-gray-400">Creations</span>
             </motion.div>
           </Link>
 
-          <div className="flex items-center space-x-8">
-            <Link 
-              href="/testimonials" 
-              className="text-white hover:text-gray-300 transition-colors duration-300 text-sm tracking-wider"
+          <div className="flex items-center space-x-3 lg:space-x-5">
+            <Link
+              href="/testimonials"
+              className="text-white hover:text-gray-300 transition-colors duration-300 text-xs lg:text-sm tracking-wider"
             >
               Testimonials
             </Link>
-            <Link 
-              href="/faq" 
-              className="text-white hover:text-gray-300 transition-colors duration-300 text-sm tracking-wider"
+            <Link
+              href="/faq"
+              className="text-white hover:text-gray-300 transition-colors duration-300 text-xs lg:text-sm tracking-wider"
             >
               FAQs
             </Link>
+            <Link
+              href="/book"
+              className="px-4 lg:px-6 py-1.5 lg:py-2 bg-white text-black hover:bg-gray-200 transition-all duration-300 text-xs lg:text-sm tracking-wider rounded-full"
+            >
+              BOOK NOW
+            </Link>
             <button
               onClick={handleContactClick}
-              className="px-6 py-2 border border-white text-white hover:bg-white hover:text-black transition-all duration-300 text-sm tracking-wider rounded-full"
+              className="px-4 lg:px-6 py-1.5 lg:py-2 border border-white text-white hover:bg-white hover:text-black transition-all duration-300 text-xs lg:text-sm tracking-wider rounded-full"
             >
               CONTACT
             </button>
+            <Link
+              href="/profile"
+              className="w-8 h-8 lg:w-9 lg:h-9 rounded-full border border-white text-white hover:bg-white hover:text-black transition-all duration-300 flex items-center justify-center"
+            >
+              <User className="w-4 h-4 lg:w-5 lg:h-5" />
+            </Link>
           </div>
         </div>
 
@@ -245,11 +257,17 @@ const Navbar = () => {
                 >
                   TESTIMONIALS
                 </Link>
-                <Link 
-                  href="/faq" 
+                <Link
+                  href="/faq"
                   className="text-white hover:text-gray-300 transition-colors duration-300 text-sm tracking-wider"
                 >
                   FAQs
+                </Link>
+                <Link
+                  href="/book"
+                  className="inline-block px-6 py-2 bg-white text-black hover:bg-gray-200 transition-all duration-300 text-sm tracking-wider rounded-full text-center"
+                >
+                  BOOK NOW
                 </Link>
                 <button
                   onClick={handleContactClick}
@@ -257,6 +275,12 @@ const Navbar = () => {
                 >
                   CONTACT
                 </button>
+                <Link
+                  href="/profile"
+                  className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-white text-white hover:bg-white hover:text-black transition-all duration-300"
+                >
+                  <User className="w-5 h-5" />
+                </Link>
               </div>
             </motion.div>
           )}
