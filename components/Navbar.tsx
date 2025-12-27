@@ -16,6 +16,7 @@ const Navbar = () => {
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
 
   const router = useRouter();
@@ -164,12 +165,38 @@ const Navbar = () => {
             >
               CONTACT
             </button>
-            <Link
-              href="/profile"
-              className="w-8 h-8 lg:w-9 lg:h-9 rounded-full border border-white text-white hover:bg-white hover:text-black transition-all duration-300 flex items-center justify-center"
-            >
-              <User className="w-4 h-4 lg:w-5 lg:h-5" />
-            </Link>
+            <div className="relative">
+              <button
+                onClick={() => setIsProfileOpen(!isProfileOpen)}
+                className="w-8 h-8 lg:w-9 lg:h-9 rounded-full border border-white text-white hover:bg-white hover:text-black transition-all duration-300 flex items-center justify-center"
+              >
+                <User className="w-4 h-4 lg:w-5 lg:h-5" />
+              </button>
+              <AnimatePresence>
+                {isProfileOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.3 }}
+                    className="absolute right-0 mt-3 w-48 bg-black/90 backdrop-blur-md border border-white/20 rounded-lg overflow-hidden shadow-xl"
+                  >
+                    <Link
+                      href="/auth/signin"
+                      className="block px-6 py-3 text-white hover:bg-white/10 transition-all text-sm tracking-wide border-b border-white/10"
+                    >
+                      Sign In
+                    </Link>
+                    <Link
+                      href="/auth/signup"
+                      className="block px-6 py-3 text-white hover:bg-white/10 transition-all text-sm tracking-wide"
+                    >
+                      Sign Up
+                    </Link>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         </div>
 
@@ -275,12 +302,20 @@ const Navbar = () => {
                 >
                   CONTACT
                 </button>
-                <Link
-                  href="/profile"
-                  className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-white text-white hover:bg-white hover:text-black transition-all duration-300"
-                >
-                  <User className="w-5 h-5" />
-                </Link>
+                <div className="flex gap-3">
+                  <Link
+                    href="/auth/signin"
+                    className="inline-block px-6 py-2 bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20 transition-all text-sm tracking-wider rounded-full text-center"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    href="/auth/signup"
+                    className="inline-block px-6 py-2 bg-white text-black hover:bg-gray-200 transition-all text-sm tracking-wider rounded-full text-center"
+                  >
+                    Sign Up
+                  </Link>
+                </div>
               </div>
             </motion.div>
           )}
